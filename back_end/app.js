@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 
 const path = require('path');
 const cron = require('node-cron');
-
+const actionController = require('./controllers/action');
+const actionRoutes = require('./routes/action');
 const actualiteRoutes = require('./routes/actualite');
 const actualiteController = require('./controllers/actualite');
 
@@ -33,11 +34,17 @@ const actualite = require('./models/Actualite');
 
 cron.schedule('* * * * *', () => {
     actualiteController.createActualite();
-    console.log("hi")
+    console.log(" saved actualite")
 }).start();
+// actionController.scrapeData();
 
-
+//Schedule the scraping function to run every min
+cron.schedule('0 0 * * *', () => {
+    actionController.scrapeData();
+    console.log("saved action");
+});
 app.use('/api/actualite', actualiteRoutes);
+app.use('/api/action', actionRoutes);
 
 
 
