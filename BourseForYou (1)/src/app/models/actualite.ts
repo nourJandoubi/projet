@@ -5,6 +5,7 @@ export class Actualite {
     public content: String,
     public link: string,
     public categories: Array<String>,
+    public showText:boolean,
     public _id?: string
   ) {}
 }
