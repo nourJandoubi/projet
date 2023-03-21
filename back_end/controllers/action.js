@@ -5,52 +5,55 @@ const Action=require('../models/Action');
 const app = require('../app')
 
 // Define the scraping function
+
+
 exports.scrapeData = async () => {
+  const baseUrl = 'https://www.boursier.com/actions/paris';
+  const data = [];
+
+  // Loop through the pages and scrape data
+  for (let pageNum = 1; pageNum <= 6; pageNum++) {
+    const url = `${baseUrl}?page=${pageNum}`;
+
     try {
-      const response = await axios.get('https://www.boursier.com/actions/paris');
+      const response = await axios.get(url);
       const $ = cheerio.load(response.data);
-      const data = [];
-  
-      // Extract data from table within section element with class attribute of 'grid-12'
+
       $('section.grid-12 table').each((index, table) => {
         $(table).find('tr').each(async (index, row) => {
           const rowData = [];
           $(row).find('td').each((index, column) => {
             const item = $(column).text().trim();
             rowData.push(item);
-            
           });
+
           // Create a new model instance and save it to the database
           const action = new Action({
-            nomBourse:"paris",
-            pubDate:new Date().toISOString(),
+            nomBourse: 'paris',
+            pubDate: new Date().toISOString(),
             nomEntreprise: rowData[0],
             cours: rowData[1],
             variation: rowData[2],
             ouv: rowData[3],
-           haut: rowData[4],
-           bas: rowData[5],
-           volume: rowData[6],
-            
+            haut: rowData[4],
+            bas: rowData[5],
+            volume: rowData[6],
           });
-          
+
           await action.save();
-         
+
           data.push(rowData);
         });
       });
-  
-      console.log(data);
     } catch (error) {
-      console.log(error);
+      console.log(`Error scraping page ${pageNum}: ${error.message}`);
     }
-  };
- 
+  }
 
-// // Schedule the scraping function to run every min
-// cron.schedule('* * * * *', () => {
-//   scrapeData();
-// });
+  console.log(data);
+};
+
+  
  
 exports.getOneAction = (req, res) => {
     Action.findOne({

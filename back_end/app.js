@@ -36,7 +36,7 @@ cron.schedule('* * * * *', () => {
     actualiteController.createActualite();
     console.log(" saved actualite")
 }).start();
-// actionController.scrapeData();
+ actionController.scrapeData();
 
 //Schedule the scraping function to run every min
 cron.schedule('0 0 * * *', () => {
