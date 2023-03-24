@@ -1,1 +1,15 @@
-<p>actualite-details works!</p>
+<app-header></app-header>
+<div class="container">
+    <div class="card text-center">
+        <div class="card-header" style="top: 30px; position: relative">
+          <h1 [innerHTML]="titre | highlightNumber" ></h1>  
+        </div>
+        <div class="card-body" style="top: 30px; position: relative">
+          <h3 [innerHTML]="description | highlightNumber" class="card-title" style="top: 30px; position: relative; color:#1a237e" ></h3>
+          <p [innerHTML]="resume | highlightNumber" class="card-text" style="top: 60px; position: relative ;font-size: 20px;;color: black;"></p>
+          
+        </div>
+      
+      </div>
+    
+  </div>

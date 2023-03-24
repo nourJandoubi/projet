@@ -26,6 +26,9 @@ export class ActualiteService {
   deleteActualite(id: string): Observable<any> {
     return this.http.delete(`${this.baseUrl}/${id}`);
   }
-  
+  postScrapedData(url: string): Observable<any> {
+    const body = { url: url }; // include url in request body
+    return this.http.post(`${this.baseUrl}scraping`, body); // send request with body
+  }
   
 }

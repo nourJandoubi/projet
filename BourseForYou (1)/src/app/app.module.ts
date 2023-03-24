@@ -14,6 +14,10 @@ import { FormsModule } from '@angular/forms';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { ActualiteDetailsComponent } from './components/actualite-details/actualite-details.component';
+import { HighlightNumberPipe } from './pipes/highlight-number.pipe';
+
+import { HighlightSignPipe } from './pipes/highlight-sign.pipe';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -22,7 +26,11 @@ import { ActualiteDetailsComponent } from './components/actualite-details/actual
     HomeComponent,
     SignInComponent,
     SignUpComponent,
-    ActualiteDetailsComponent
+    ActualiteDetailsComponent,
+    HighlightNumberPipe,
+  
+    HighlightSignPipe
+    
   ],
   imports: [
     BrowserModule,

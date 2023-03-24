@@ -1,25 +1,36 @@
 const Actualite = require('../models/Actualite');
+const request = require('request');
+const axios = require('axios');
+const cheerio = require('cheerio');
 const app = require('../app')
 
 const Parser = require('rss-parser');
 
 const parser = new Parser();
 
-// exports.createActualite = async () => {
+exports.scrapeDetailsActualite = (req, res) => {
+    const url = req.body.url;
+  console.log("url",url)
+    request(url, (error, response, html) => {
+      if (!error && response.statusCode === 200) {
+        const $ = cheerio.load(html); 
+        
+  
+        const titre = $('h1').text();
+        const description = $('section.sc-12b91rw-0.sc-6f8azg-0.eiyCex.idukIB p.sc-14kwckt-6.sc-14omazk-0.helKYV.gttJJb').text();
+        const resume = $('p.sc-14kwckt-6.dbPXmO').text();
+        
+  
+        res.send({titre: titre, description: description, resume: resume});
+      } else {
+        res.status(500).send('Error scraping data');
+      }
+    });
+  }
+  
 
-//     const feed = await parser.parseURL('https://services.lesechos.fr/rss/investir-marches-indices.xml');
-//     feed.items.forEach(element => {
-//         const actualite = new Actualite({
-
-//             ...element
-//         });
-//         actualite.save();
 
 
-//     });
-
-
-// };
 exports.createActualite = async () => {
     try {
         const feed = await parser.parseURL('https://services.lesechos.fr/rss/investir-marches-indices.xml');
@@ -29,7 +40,7 @@ exports.createActualite = async () => {
         const items = feed.items.map(item => ({
             ...item
         }));
-       
+
         await Promise.all(items.map(item =>
             Actualite.updateOne({ link: item.link }, item, { upsert: true }).exec()
         ));
