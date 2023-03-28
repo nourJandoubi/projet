@@ -50,7 +50,7 @@ exports.scrapeData = async () => {
     }
   }
 
-  console.log(data);
+ 
 };
 
   

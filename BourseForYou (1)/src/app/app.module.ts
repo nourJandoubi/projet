@@ -1,3 +1,5 @@
+import { SignUpComponent } from './account/sign-up/sign-up.component';
+import { ProfileComponent } from './components/profile/profile.component';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -14,8 +16,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { ActualiteDetailsComponent } from './components/actualite-details/actualite-details.component';
-import { ProfileComponent } from './components/profile/profile.component';
-import { SignUpComponent } from './account/sign-up/sign-up.component';
+import { HighlightNumberPipe } from './pipes/highlight-number.pipe';
+
+import { HighlightSignPipe } from './pipes/highlight-sign.pipe';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -26,6 +30,10 @@ import { SignUpComponent } from './account/sign-up/sign-up.component';
     ActualiteDetailsComponent,
     ProfileComponent,
     SignUpComponent,
+    ActualiteDetailsComponent,
+    HighlightNumberPipe,
+  
+    HighlightSignPipe
     
   ],
   imports: [
