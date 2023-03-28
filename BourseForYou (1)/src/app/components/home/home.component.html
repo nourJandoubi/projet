@@ -45,22 +45,22 @@
             <input type="text" [(ngModel)]="searchTermAction" placeholder="Rechercher..." (keyup)="onsearchTermActionChange($event)" />
 
             <div class="d-flex justify-content-between">
-              <h6 class="mb-2" style="text-decoration: underline">All</h6>
+              <h6 class="mb-2" style="text-decoration: underline">Tous</h6>
               <!--hedhy bech tzidha fonction bech ki yenzel 3la 7aref ihezou we ifalter bih el tableau eli louta-->
-              <a *ngFor="let i of alpha" href="" style="text-decoration: none">{{ i }}</a>
+              <button *ngFor="let i of alpha" class="btnAlpha" style="text-decoration: none" (click)="filterActionByLetter(i)">{{ i }}</button>
             </div>
           </div>
           <div class="table-responsive">
             <table class="table align-items-center">
               <thead>
                 <tr>
-                  <th scope="col">value</th>
-                  <th scope="col">cours</th>
-                  <th scope="col">variation</th>
-                  <th scope="col">ouv.</th>
-                  <th scope="col">haut</th>
-                  <th scope="col">bas</th>
-                  <th scope="col">volume</th>
+                  <th scope="col">Valeur</th>
+                  <th scope="col">Cours</th>
+                  <th scope="col">Variation</th>
+                  <th scope="col">Ouv.</th>
+                  <th scope="col">Haut</th>
+                  <th scope="col">Bas</th>
+                  <th scope="col">Volume</th>
                 </tr>
               </thead>
               <tbody>
@@ -119,7 +119,7 @@
       <div class="col-lg-4" style="height: 500px">
         <div class="card">
           <div class="card-header pb-0 p-3">
-            <h5 class="mb-1">NEWS <i class="fa fa-clock-o"></i></h5>
+            <h5 class="mb-1">Actualites <i class="fa fa-clock-o"></i></h5>
             <input type="text" [(ngModel)]="searchTermNews" placeholder="Rechercher..." (input)="onsearchTermNewsChange($event)" />
           </div>
 

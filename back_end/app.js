@@ -7,13 +7,18 @@ const actionController = require('./controllers/action');
 const actionRoutes = require('./routes/action');
 const actualiteRoutes = require('./routes/actualite');
 const actualiteController = require('./controllers/actualite');
-
-
+const userController=require('./controllers/user');
+const userRoutes=require('./routes/user');
+const actualite = require('./models/Actualite');
 
 const app = express();
 
 
-mongoose.connect('mongodb+srv://nour:nourJANDOUBI12345.@cluster0.0fu4qct.mongodb.net/test', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect('mongodb+srv://nour:nourJANDOUBI12345.@cluster0.0fu4qct.mongodb.net/test',
+ { 
+    useNewUrlParser: true, 
+    useUnifiedTopology: true 
+})
     .then(() => console.log('Connexion à MongoDB réussie !'))
     .catch(() => console.log('Connexion à MongoDB échouée !'));
 
@@ -29,8 +34,6 @@ app.use((req, res, next) => {
 });
 
 
-const actualite = require('./models/Actualite');
-
 
 cron.schedule('* * * * *', () => {
     actualiteController.createActualite();
@@ -45,6 +48,7 @@ cron.schedule('0 0 * * *', () => {
 });
 app.use('/api/actualite', actualiteRoutes);
 app.use('/api/action', actionRoutes);
+app.use('/api/user',userRoutes)
 
 
 

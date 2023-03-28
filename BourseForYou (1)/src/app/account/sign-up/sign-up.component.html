@@ -1,9 +1,14 @@
-  <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg position-absolute top-0 z-index-3 w-100 shadow-none my-3 navbar-transparent mt-4">
+ 
+ <!--SignUp html-->
+ <!-- Navbar -->
+ <nav class="navbar navbar-expand-lg position-absolute top-0 z-index-3 w-100 shadow-none my-3 navbar-transparent mt-4">
     <div class="container">
-      <a class="navbar-brand font-weight-bolder ms-lg-0 ms-3 text-white" href="../pages/dashboard.html">
-        Bourse For You
-      </a>
+        <a class="navbar-brand m-2 pt-3" routerLink="/home" target="_blank">
+            <img src="../assets/img/logo-ct-dark.png" class="navbar-brand-img " style="height: 38px;" alt="main_logo">
+            <span class="ms-2 font-weight-bold text-white">
+              Bourse Pour Toi
+             </span>
+          </a>
       <button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon mt-2">
           <span class="navbar-toggler-bar bar1"></span>
@@ -16,25 +21,20 @@
           <li class="nav-item">
             <a class="nav-link d-flex align-items-center me-2 " aria-current="page" routerLink="/home">
               <i class="fa fa-home opacity-6  me-1"></i>
-              Home
+              Accueil
             </a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link me-2" href="../pages/profile.html">
-              <i class="fa fa-user opacity-6  me-1"></i>
-              Profile
-            </a>
-          </li>
+          
           <li class="nav-item">
             <a class="nav-link me-2" routerLink="/signUp">
               <i class="fas fa-user-circle opacity-6  me-1"></i>
-              Sign Up
+              S'inscrire
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link me-2" routerLink="/signIn">
               <i class="fas fa-key opacity-6  me-1"></i>
-              Sign In
+              S'identifier
             </a>
           </li>
         </ul>
@@ -50,8 +50,7 @@
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-lg-5 text-center mx-auto">
-            <h1 class="text-white mb-2 mt-5">Welcome</h1>
-            <p class="text-lead text-white">Use these awesome forms to login or create new account in your project for free.</p>
+            <h1 class="text-white mb-4 mt-7">Soyez Les Bienvenus</h1>
           </div>
         </div>
       </div>
@@ -61,25 +60,34 @@
         <div class="col-xl-4 col-lg-5 col-md-7 mx-auto">
           <div class="card z-index-0">
             <div class="card-header text-center pt-2 pb-2">
-              <h5>Sign Up</h5>
+              <h5>S'inscrire</h5>
             </div>
           
             <div class="card-body">
-              <form role="form">
+              <form [formGroup]="UserFormGroup">
                 <div class="mb-3">
-                  <input type="text" class="form-control" placeholder="Name" aria-label="Name">
+                  <input type="text" class="form-control" placeholder="Nom" aria-label="Name" formControlName="name">
+                </div>
+                
+                <div class="mb-3">
+                  <input type="email" class="form-control" placeholder="Email" aria-label="Email" formControlName="email">
                 </div>
                 <div class="mb-3">
-                  <input type="email" class="form-control" placeholder="Email" aria-label="Email">
+                  <input type="password" class="form-control" placeholder="Mot de passe" aria-label="Password" formControlName="password">
                 </div>
-                <div class="mb-3">
-                  <input type="password" class="form-control" placeholder="Password" aria-label="Password">
-                </div>
-               
+                <!--<div *ngIf="password?.errors?.['minlength'] && password?.dirty"    class=" mb-3 alert alert-danger alert-dismissible fade show" role="alert">
+                    <span class="alert-icon"><i class="ni ni-like-2"></i></span>
+                    <span class="alert-text"><strong>Danger!</strong> This is a danger alert—check it out!</span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>-->
                 <div class="text-center">
-                  <button type="button" class="btn bg-gradient-dark w-100 my-4 mb-2">Sign up</button>
+                  <button type="button" class="btn bg-gradient-dark w-100 my-4 mb-2" (click)="signUp()">S'inscrire</button>
                 </div>
-                <p class="text-sm mt-3 mb-0">Already have an account? <a href="javascript:;" class="text-dark font-weight-bolder">Sign in</a></p>
+                <p class="text-sm mt-3 mb-0">Vous avez déjà un compte? 
+                    <a routerLink="/signIn" class="text-dark font-weight-bolder">Se connecter</a>
+                </p>
               </form>
             </div>
           </div>

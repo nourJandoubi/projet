@@ -25,6 +25,20 @@ export class HomeComponent implements OnInit {
   filteredItemsAction: Action[] = [];
 
   //filtrage
+ filterActionByLetter(letter:string)
+ {
+  console.log("letter",letter);
+  this.pageSliceAction= this.filteredItemsAction.filter((item)=>
+  
+  {if (typeof item.nomEntreprise === 'string' && item.nomEntreprise.startsWith(letter)) {
+   item.nomEntreprise.startsWith(letter);
+  } 
+    
+  });
+  this.pageSliceAction= this.pageSliceAction.slice(0,8);
+
+ }
+
   onsearchTermNewsChange(event: any) {
     this.searchTermNews = (event.target as HTMLInputElement).value;     
       let term = this.searchTermNews ? this.searchTermNews.toLowerCase() : '';
@@ -108,7 +122,7 @@ export class HomeComponent implements OnInit {
       
     }, 2000);
     setTimeout(() => {
-      this.actionService.getActualites().subscribe(data => {
+      this.actionService.getActions().subscribe(data => {
         this.actions = data;
         this.filteredItemsAction=data;
         this.pageSliceAction= data.slice(0,8);
