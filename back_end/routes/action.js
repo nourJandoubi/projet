@@ -3,8 +3,8 @@ const express = require('express');
 const router = express.Router();
 const actionController = require('../controllers/action');
 
-router.get('/', actionController.getAllActions);
-router.get('/:id', actionController.getOneAction);
+router.get('/:location/:pageNumber', actionController.getAllActions);
+router.get('/:bourse', actionController.getActionsParBourse);
 router.put('/:id', actionController.modifyAction);
 router.delete('/:id', actionController.deleteAction);
 

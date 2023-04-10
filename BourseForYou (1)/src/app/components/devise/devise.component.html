@@ -1,0 +1,89 @@
+<header class="container-fluid">
+  <app-header></app-header>
+</header>
+<main class="container">
+  <div class="card">
+    <div class="card-header">
+      <h2 class="text-primary">TAUX DE CONVERSION</h2>
+    </div>
+    <div class="card-body">
+      <select class="form-control mb-3" [(ngModel)]="selectedDevise" >
+        <option value="">Sélectionnez une devise</option>
+        <option *ngFor="let devise of nomDevises " [value]="devise">{{devise}} </option>
+      </select>
+
+      <div *ngIf="selectedDevise" class="my-4" >
+        <table class="table table-striped table-bordered ">
+          <thead class="bg-primary text-white">
+            <tr>
+              <th>Devise</th>
+              <th>Valeur</th>
+            </tr>
+          </thead>                      
+          <tbody>
+            <tr *ngFor="let valeur of convertDevise(selectedDevise)" class="hover-effect " style="color: black;" [routerLink]="['/devise',valeur.id,selectedDevise,valeur.devise]" >
+              <td> {{valeur.devise}}  <i [ngClass]="['iconeDevise', valeur.devise | iconeDevise ,'fa-flip-vertical', 'fa-spin']"  style="color: #e21d62;"></i></td>
+
+              <td >{{valeur.valeur| number:'1.3-3' }}</td>
+            </tr>
+          </tbody>
+        </table>
+        
+      </div>
+      <!-- Convertisseur de devises -->
+      <h2 class="text-primary">Convertisseur de devises</h2>
+      <div class="form-group">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-row align-items-center">
+              <div class="col-md-6">
+                <label for="from">De</label>
+                <select class="form-control" [(ngModel)]="selectedDeviseFrom">
+                  <option value="">Sélectionnez une devise</option>
+                  <option *ngFor="let devise of nomDevises " [value]="devise">{{devise}}</option>
+                </select>
+              </div>
+      
+              <div class="col-md-6">
+                <label for="to">Vers</label>
+                <select class="form-control" [(ngModel)]="selectedDeviseTo">
+                  <option value="">Sélectionnez une devise</option>
+                  <option *ngFor="let devise of nomDevises " [value]="devise">{{devise}}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+      
+          <div class="col-md-6">
+            <div class="form-row align-items-center">
+              <div class="col-md-6">
+                <label for="amount">Montant</label>
+                <input type="number" class="form-control" id="amount" [(ngModel)]="montant">
+              </div>
+      
+              <div class="col-md-6">
+                <label for="result">Résultat</label>
+                <input type="text" class="form-control" id="result" [(ngModel)]="resultat" disabled>
+              </div>
+            </div>
+            
+              
+              
+              
+            
+          </div>
+        </div>
+        <div class="row text-center">
+          <div class="col-md-3 offset-md-3">
+            <button class="btn btn-primary mt-3 btn-sm" (click)="convertFromTo()">Convertir </button>
+          </div>
+        </div>
+      </div>
+      
+      
+      
+      
+   </div>
+  </div>
+  
+</main>

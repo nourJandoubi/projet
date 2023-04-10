@@ -1,0 +1,112 @@
+<div class="card">
+    <div class="card-header pb-0 p-3" >
+     <!-- <input type="text" [(ngModel)]="searchTermAction" placeholder="Rechercher..." (keyup)="onsearchTermActionChange($event)" /> --> 
+     <!-- navbar de bourse  -->
+  
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link "  (click)="navigateToPlace('paris')" >Paris</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link"   (click)="navigateToPlace('new-york')"  >New York</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link"   (click)="navigateToPlace('amsterdam')" >Amsterdam</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link"   (click)="navigateToPlace('bruxelles')"  >Bruxelles</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link"   (click)="navigateToPlace('lisbonne')"  >Lisbonne</a>
+  </li>
+</ul>
+
+<ul></ul>
+<!-- abcd partie -->
+<div class="d-flex justify-content-between">
+  <h6 class="mb-2" style="text-decoration: underline">All</h6>
+  <!--hedhy bech tzidha fonction bech ki yenzel 3la 7aref ihezou we ifalter bih el tableau eli louta-->
+  <a *ngFor="let i of alpha" href="" style="text-decoration: none">{{ i }}</a>
+</div>
+<!-- fin abcd partie -->
+<div class="tab-content">
+  <div class="tab-pane fade show active">
+    <div class="table-responsive">
+      <table class="table align-items-center">
+        <thead>
+          <tr>
+            <th scope="col">value</th>
+            <th scope="col">cours</th>
+            <th scope="col">variation</th>
+            <th scope="col">ouv.</th>
+            <th scope="col">haut</th>
+            <th scope="col">bas</th>
+            <th scope="col">volume</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let t of actionsFiltreParBousre">
+            <td class="w-30">
+              <div class="d-flex px-2 py-1 align-items-center">
+                {{ t.nomEntreprise }}
+              </div>
+            </td>
+            <td class="w-30">
+              <div class="d-flex px-2 py-1 align-items-center">
+                {{ t.cours }}
+              </div>
+            </td>
+            <td class="w-30">
+              <div class="d-flex px-2 py-1 align-items-center" [innerHTML]="t.variation | highlightSign" >
+              
+              </div>
+            </td>
+            <td class="w-30">
+              <div class="d-flex px-2 py-1 align-items-center">
+                {{ t.ouv }}
+              </div>
+            </td>
+            <td class="w-30">
+              <div class="d-flex px-2 py-1 align-items-center">
+                {{ t.haut }}
+              </div>
+            </td>
+            <td class="w-30">
+              <div class="d-flex px-2 py-1 align-items-center">
+                {{ t.bas }}
+              </div>
+            </td>
+            <td class="w-30">
+              <div class="d-flex px-2 py-1 align-items-center">
+                {{ t.volume }}
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <mat-paginator
+        [length]="pagination"
+        [pageSize]="10" 
+        aria-label="Select page"
+        (page)="onPageChangeAction($event)"
+      >
+      </mat-paginator>
+      <!-- <div>
+         <button (click)="previousPage()" [disabled]="currentPage == 1">Previous</button>
+         <button (click)="nextPage()" [disabled]="currentPage == totalPages">Next</button>
+         <span>{{ currentPage }} / {{ totalPages }}</span>
+       </div> -->
+    </div>
+  </div>
+</div>
+<!-- fin navbar -->
+
+     
+     
+     <!-- fin navbar -->
+     
+    
+   </div>
+   
+   
+ </div>
