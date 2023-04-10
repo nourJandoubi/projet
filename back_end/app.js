@@ -8,17 +8,15 @@ const actionController = require('./controllers/action');
 const actionRoutes = require('./routes/action');
 const actualiteRoutes = require('./routes/actualite');
 const actualiteController = require('./controllers/actualite');
-const deviseRoutes = require('./routes/devise');
-const deviseController = require('./controllers/devise');
 
 
 
 const app = express();
 
 
-mongoose.connect('mongodb+srv://nour:nourJANDOUBI12345.@cluster0.0fu4qct.mongodb.net/test?retryWrites=true&w=majority&connectTimeoutMS=90000', { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log('Connexion à MongoDB réussie !'))
-  .catch(() => console.log('Connexion à MongoDB échouée !'));
+mongoose.connect('mongodb+srv://nour:nourJANDOUBI12345.@cluster0.0fu4qct.mongodb.net/test', { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => console.log('Connexion à MongoDB réussie !'))
+    .catch(() => console.log('Connexion à MongoDB échouée !'));
 
 
 
@@ -31,8 +29,6 @@ app.use((req, res, next) => {
   next();
 });
 
-
-const actualite = require('./models/Actualite');
 
 
 cron.schedule('* * * * *', () => {
@@ -55,5 +51,7 @@ cron.schedule('* * * * *', () => {
 
 app.use('/api/actualite', actualiteRoutes);
 app.use('/api/action', actionRoutes);
-app.use('/api/devise',deviseRoutes );
+
+
+
 module.exports = app;

@@ -1,10 +1,26 @@
-import { Component } from '@angular/core';
+import { AuthentificationService } from 'src/app/services/authentification.service';
+import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit{
+  isLogedIn: boolean;
+  constructor( private authentificationService: AuthentificationService,
+    private router: Router)
+  {}
+  ngOnInit(): void {
+    this.isLogedIn =
+      localStorage.getItem('TOKEN') != null &&
+      localStorage.getItem('TOKEN') != 'undefined';
+    }
+    deconnexion() {
+      this.authentificationService.logOut();
+      this.router.navigateByUrl('/signIn');
+      this.ngOnInit();
+    }
 
 }
