@@ -1,6 +1,6 @@
 import { SignUpComponent } from './account/sign-up/sign-up.component';
 import { ProfileComponent } from './components/profile/profile.component';
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
@@ -17,8 +17,19 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { ActualiteDetailsComponent } from './components/actualite-details/actualite-details.component';
 import { HighlightNumberPipe } from './pipes/highlight-number.pipe';
-
+import {MatDialogModule} from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { HighlightSignPipe } from './pipes/highlight-sign.pipe';
+import { MatMenuModule } from '@angular/material/menu';
+import {MatTabsModule} from '@angular/material/tabs';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { MatSelectModule } from '@angular/material/select';
+import { ToastModule } from 'primeng/toast';
+import { TooltipModule } from 'primeng/tooltip';
+import { DropdownModule } from 'primeng/dropdown';
+import { InputTextModule } from 'primeng/inputtext';
+import { PaginatorModule } from 'primeng/paginator';
+import { MessagesModule } from 'primeng/messages';
 
 @NgModule({
   declarations: [
@@ -33,7 +44,8 @@ import { HighlightSignPipe } from './pipes/highlight-sign.pipe';
     ActualiteDetailsComponent,
     HighlightNumberPipe,
   
-    HighlightSignPipe
+    HighlightSignPipe,
+        
     
   ],
   imports: [
@@ -45,10 +57,25 @@ import { HighlightSignPipe } from './pipes/highlight-sign.pipe';
     MatPaginatorModule,
     MatTooltipModule,
     ReactiveFormsModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatDialogModule,
+    MatMenuModule,
+    MatTabsModule,
+    FontAwesomeModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    ToastModule,
+    TooltipModule,
+    DropdownModule,
+    InputTextModule,
+    PaginatorModule,
+    MessagesModule
+    
     
   ],
-  providers: [],
+  providers: [], 
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+
   bootstrap: [AppComponent]
 })
 export class AppModule { }

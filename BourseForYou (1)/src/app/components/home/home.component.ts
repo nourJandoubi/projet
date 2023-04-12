@@ -3,42 +3,72 @@ import { Action } from 'src/app/models/action';
 import { Actualite } from 'src/app/models/actualite';
 import { ActionService } from 'src/app/services/action.service';
 import { ActualiteService } from 'src/app/services/actualite.service';
-
+import { faSignOut,faClockRotateLeft } from '@fortawesome/free-solid-svg-icons';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
+  faSignOut=faSignOut;
+  faClockRotateLeft=faClockRotateLeft;
   constructor(public actualiteService: ActualiteService,public actionService: ActionService) {}
+  //tableay d'alphabitique
   alpha = Array(26)
     .fill(0)
     .map((x, i) => String.fromCharCode(i + 65));
+
+
   actualites: Actualite[] = [];
   actions: Action[] = [];
-  pageSliceNews: Actualite[] = [];//pageSliceNews des actualites
-  searchTermNews="";//search term des actualites
-  filteredItemsNews: Actualite[] = []; //filtred items des actualites apres utiliser le search term
-
-  pageSliceAction: Action[] = [];//pageSliceNews des actualites
-  searchTermAction="";//search term des actualites
+  pageSliceNews: Actualite[] = [];
+  searchTermNews="";
+  filteredItemsNews: Actualite[] = [];
+  pageSliceAction: Action[] = [];
+  searchTermAction="";
   filteredItemsAction: Action[] = [];
 
+
+  first: number = 0;
+
+  rows: number = 4;
+  
+  onPageChange(event) {
+      this.first = event.first;
+      this.rows = event.rows;
+  }
+  
+
+
+
+
+
   //filtrage
+  All()
+  {
+    this.filteredItemsAction=this.pageSliceAction=this.actions;
+      this.pageSliceAction= this.pageSliceAction.slice(0,8);
+
+  }
  filterActionByLetter(letter:string)
  {
   console.log("letter",letter);
-  this.pageSliceAction= this.filteredItemsAction.filter((item)=>
+  this.pageSliceAction=this.filteredItemsAction= this.actions.filter((item)=>
   
-  {if (typeof item.nomEntreprise === 'string' && item.nomEntreprise.startsWith(letter)) {
-   item.nomEntreprise.startsWith(letter);
-  } 
+    {
+      if (typeof item.nomEntreprise === 'string' && item.nomEntreprise.startsWith(letter)) {
+        return item
+        } 
+        return null;
     
   });
+  console.log('page slice',this.pageSliceAction)
   this.pageSliceAction= this.pageSliceAction.slice(0,8);
 
  }
 
+
+//rechercher
   onsearchTermNewsChange(event: any) {
     this.searchTermNews = (event.target as HTMLInputElement).value;     
       let term = this.searchTermNews ? this.searchTermNews.toLowerCase() : '';
@@ -82,9 +112,10 @@ export class HomeComponent implements OnInit {
 
   //Pagination
   onPageChangeNews(event) {
-  
-    const startIndex = event.pageIndex * event.pageSize;
-    let endIndex = startIndex + event.pageSize;
+    this.first = event.first;
+    this.rows = event.rows;
+    const startIndex = event.first * event.rows;
+    let endIndex = startIndex + event.rows;
     if (endIndex > this.filteredItemsNews.length) {
       endIndex = this.filteredItemsNews.length;
     }
@@ -92,8 +123,8 @@ export class HomeComponent implements OnInit {
   }
   onPageChangeAction(event) {
   
-    const startIndex = event.pageIndex * event.pageSize;
-    let endIndex = startIndex + event.pageSize;
+    const startIndex = event.first * event.rows;
+    let endIndex = startIndex + event.rows;
     if (endIndex > this.filteredItemsAction.length) 
     {
       endIndex = this.filteredItemsAction.length;
@@ -111,12 +142,6 @@ export class HomeComponent implements OnInit {
         this.actualites = data;
         this.filteredItemsNews=data;
         this.pageSliceNews= data.slice(0,4);
-
-   
-        for(let i=0; i<this.actualites.length; i++) {
-      
-          this.actualites[i].showText = false;
-        }
         
       });
       

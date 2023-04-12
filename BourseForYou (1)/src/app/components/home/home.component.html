@@ -1,128 +1,99 @@
 <app-header></app-header>
 
-<div class="main-content position-relative border-radius-lg container-fluid py-4 row">
+<div class="main-content position-relative  border-radius-lg container-fluid py-4 row">
   <div class="col-2"></div>
   <div class="col">
     <div class="row mt-4">
-      <div class="col-lg-8 mb-lg-0 mb-4">
-        <!--<div class="container mb-3">
-                            <div class="row">
-                            <div class="col-md-4">
-                                <select class="form-select" aria-label="Select 1">
-                                <option selected>Select 1</option>
-                                <option value="1">Option 1</option>
-                                <option value="2">Option 2</option>
-                                <option value="3">Option 3</option>
-                                </select>
-                            </div>
-                            <div class="col-md-4">
-                                <select class="form-select" aria-label="Select 2">
-                                <option selected>Select 2</option>
-                                <option value="1">Option 1</option>
-                                <option value="2">Option 2</option>
-                                <option value="3">Option 3</option>
-                                </select>
-                            </div>
-                            <div class="col-md-4">
-                                <select class="form-select" aria-label="Select 3">
-                                <option selected>Select 3</option>
-                                <option value="1">Option 1</option>
-                                <option value="2">Option 2</option>
-                                <option value="3">Option 3</option>
-                                </select>
-                            </div>
-                            </div>
-                        </div>-->
-
-        <!--<select class="form-control col-3 pb-2 mb-2" name="choices-button" id="choices-button" placeholder="Departure">
-          <option value="Choice 1" selected="">Brazil</option>
-          <option value="Choice 2">Bucharest</option>
-          <option value="Choice 3">London</option>
-          <option value="Choice 4">USA</option>
-        </select>-->
-        <div class="card">
-          <div class="card-header pb-0 p-3">
-            <input type="text" [(ngModel)]="searchTermAction" placeholder="Rechercher..." (keyup)="onsearchTermActionChange($event)" />
-
-            <div class="d-flex justify-content-between">
-              <h6 class="mb-2" style="text-decoration: underline">Tous</h6>
-              <!--hedhy bech tzidha fonction bech ki yenzel 3la 7aref ihezou we ifalter bih el tableau eli louta-->
+      <div class="col-lg-7 mb-lg-0 mb-4">
+        <div class="card"> 
+            <div class=" pb-0 p-3 d-flex justify-content-between mt-2">
+              <button class="mb-2" (click)="All()"class="btnAlpha"  style="text-decoration: none"> 
+               <strong>Tous</strong> </button>
               <button *ngFor="let i of alpha" class="btnAlpha" style="text-decoration: none" (click)="filterActionByLetter(i)">{{ i }}</button>
-            </div>
-          </div>
-          <div class="table-responsive">
-            <table class="table align-items-center">
+            </div>    
+          <div class="table-responsive mt-2">
+            <table class="table align-items-center align-middle table-hover">
               <thead>
-                <tr>
-                  <th scope="col">Valeur</th>
-                  <th scope="col">Cours</th>
-                  <th scope="col">Variation</th>
-                  <th scope="col">Ouv.</th>
-                  <th scope="col">Haut</th>
-                  <th scope="col">Bas</th>
-                  <th scope="col">Volume</th>
+                <tr class="bg-light ">
+                  <th scope="col" class="border-right">Valeur</th>
+                  <th scope="col"class="border-right">Cours</th>
+                  <th scope="col"class="border-right">Variation</th>
+                  <th scope="col"class="border-right">Ouv.</th>
+                  <th scope="col"class="border-right">Haut</th>
+                  <th scope="col"class="border-right">Bas</th>
+                  <th scope="col"class="border-right">Volume</th>
                 </tr>
               </thead>
               <tbody>
                 <tr *ngFor="let t of pageSliceAction">
-                  <td class="w-30">
-                    <div class="d-flex px-2 py-1 align-items-center">
+                  <td class="d-flex align-items-center ">
+                    
                       {{ t.nomEntreprise }}
-                    </div>
+                    
                   </td>
                   <td class="w-30">
-                    <div class="d-flex px-2 py-1 align-items-center">
+                    <div class="  align-items-center" >
                       {{ t.cours }}
                     </div>
                   </td>
                   <td class="w-30">
-                    <div class="d-flex px-2 py-1 align-items-center" [innerHTML]="t.variation | highlightSign" >
-                    
+                    <div class="align-items-center" [innerHTML]="t.variation | highlightSign" >
                     </div>
                   </td>
                   <td class="w-30">
-                    <div class="d-flex px-2 py-1 align-items-center">
+                    <div class="align-items-center">
                       {{ t.ouv }}
                     </div>
                   </td>
                   <td class="w-30">
-                    <div class="d-flex px-2 py-1 align-items-center">
+                    <div class="align-items-center">
                       {{ t.haut }}
                     </div>
                   </td>
                   <td class="w-30">
-                    <div class="d-flex px-2 py-1 align-items-center">
+                    <div class="align-items-center">
                       {{ t.bas }}
                     </div>
                   </td>
                   <td class="w-30">
-                    <div class="d-flex px-2 py-1 align-items-center">
+                    <div class="align-items-center">
                       {{ t.volume }}
                     </div>
                   </td>
                 </tr>
               </tbody>
             </table>
-            <mat-paginator
+            <!--<mat-paginator
               [length]="filteredItemsAction.length"
               [pageSize]="8"
-              [pageSizeOptions]="[5, 10, 25, 100]"
-              aria-label="Select page"
               (page)="onPageChangeAction($event)"
             >
-            </mat-paginator>
+            </mat-paginator>-->
+            
+            <div class="d-flex align-items-center text-xs">
+              <p-paginator (onPageChange)="onPageChangeAction($event)" [first]="first" [rows]="rows" [totalRecords]="filteredItemsAction.length/8" [rowsPerPageOptions]="[8, 10, 12]"></p-paginator>
+              
+            </div>
           </div>
         </div>
       </div>
 
       <!--News-->
-      <div class="col-lg-4" style="height: 500px">
+      <div class="col-lg-5 " >
         <div class="card">
-          <div class="card-header pb-0 p-3">
-            <h5 class="mb-1">Actualites <i class="fa fa-clock-o"></i></h5>
-            <input type="text" [(ngModel)]="searchTermNews" placeholder="Rechercher..." (input)="onsearchTermNewsChange($event)" />
+          <div class=" pb-0 p-3">
+          <div style="text-align: center;">
+              <h5>Actualites   <fa-icon [icon]="faClockRotateLeft"></fa-icon></h5>
+             
+            <span class="p-input-icon-left">
+                <i class="pi pi-search"></i>
+                <input type="text" pInputText [(ngModel)]="searchTermNews" placeholder="Rechercher..." (input)="onsearchTermNewsChange($event)"  />
+            </span>
+            
           </div>
 
+        
+          </div>
           <div class="card-body p-3">
             <ul class="list-group">
               <li
@@ -132,18 +103,11 @@
                 <div class="d-flex align-items-center" *ngIf="filteredItemsNews.length !== 0">
                   <div class="d-flex flex-column">
                     <span class="text-xs">{{ actualite.pubDate | date: 'shortTime' }}</span>
-
                     <h6 class="mb-1 text-dark text-sm">{{ actualite.title }}</h6>
-
-                    <div style="height: 15px; overflow: hidden">
-                      <p (mouseover)="actualite.showText = true" (mouseleave)="actualite.showText = false">
-                        <span class="text-xs">{{ actualite.content }}</span>
-                      </p>
-                    </div>
-
-                    <div *ngIf="actualite.showText" class="text-container">
-                      <span class="text-xs">{{ actualite.content }}</span>
-                    </div>
+                   
+                      <p class="text-xs" style="height: 32px; overflow: hidden" type="text" pTooltip="{{ actualite.content }}" class="text-xs" >{{ actualite.content }}</p>
+                   
+                   
                   </div>
                   <div class="d-flex">
                     <button class="btn btn-link btn-icon-only btn-rounded btn-sm text-dark icon-move-right my-auto" [routerLink]="['/home',actualite._id]">
@@ -152,18 +116,23 @@
                   </div>
                 </div>
               </li>
-
               <div class="d-flex align-items-center" *ngIf="filteredItemsNews.length == 0">
                 <h5>Pas de resultat</h5>
               </div>
-              <mat-paginator
+              <!--<mat-paginator
                 [length]="filteredItemsNews.length"
                 [pageSize]="4"
-                [pageSizeOptions]="[5, 10, 25, 100]"
                 aria-label="Select page"
                 (page)="onPageChangeNews($event)"
               >
-              </mat-paginator>
+              </mat-paginator>-->
+              
+                <div class="d-flex align-items-center ">
+                  <p-paginator class="ms-5" [first]="first" [rows]="rows" [totalRecords]="filteredItemsNews.length/4" (onPageChange)="onPageChangeNews($event)" [showJumpToPageDropdown]="true" [showPageLinks]="false"></p-paginator>
+
+                </div>
+                
+
             </ul>
           </div>
         </div>
@@ -171,4 +140,3 @@
     </div>
   </div>
 </div>
-<app-footer></app-footer>
