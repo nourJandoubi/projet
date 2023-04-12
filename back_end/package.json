@@ -18,8 +18,13 @@
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^7.0.1",
     "node-cron": "^3.0.2",
+    "nodemailer": "^6.9.1",
     "nodemon": "^2.0.21",
     "request": "^2.88.2",
     "rss-parser": "^3.12.0"
+  },
+  "devDependencies": {
+    "mocha": "^10.2.0",
+    "sinon": "^15.0.3"
   }
 }

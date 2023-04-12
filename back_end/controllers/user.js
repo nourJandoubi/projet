@@ -17,11 +17,15 @@ const authUser = asyncHandler(async (req, res) => {
       success: true,
       user: newUser,
       token: 'Bearer ' + generateToken(user._id),
-    })
+    }),()=>{
+      done();
+    }
   } else {
     res.json({
       success: false,
-    })
+    }),()=>{
+      done();
+    }
   }
 })
 //mail validator
@@ -55,12 +59,16 @@ const registerUser = asyncHandler(async (req, res) => {
     res.status(201).json({
       success: true,
       user: newUser,
-      token: 'Bearer' + generateToken(user._id),
-    })
+      token: 'Bearer ' + generateToken(user._id),
+    }),()=>{
+      done();
+    }
   } else {
     res.json({
       success: false,
-    })
+    }),()=>{
+      done();
+    }
   }
 })
 
@@ -81,44 +89,51 @@ const getUserProfile = asyncHandler(async (req, res) => {
   }
 })
 
-
 const updateUser = asyncHandler(async (req, res) => {
-  
-  //new ObjectId("6372e61fd1833a13aae50944")
-  // console.log(req.user.__type)
-
-    const user = await Employeur.findById(req.user._id.valueOf())
-    console.log(user);
+  console.log('req body modif',req.body)
+    const user = await User.findById(req.user._id)    
     if (user) {
       user.email = req.body.email||user.email,
       user.password= req.body.password || user.password,
-      user.name = req.body.name || user.name
-    }
-      const updatedUser = await user.save();
+      user.name = req.body.name || user.name,
+      user.lastName = req.body.lastName||user.lastName,
+      user.country = req.body.country||user.country
+      console.log('user',user)
+    } 
+      const updatedUser = await user.save();    
       if (updatedUser) {
         res.status(200).json({
           _id: user._id,
-          type: user.__type,
-          token: generateToken(user._id),
+          token: 'Bearer ' + generateToken(user._id),
+          success:true,
         })
       }
       else {
         res.status(404)
         throw new Error('Something went wrong')
-   
     } 
-
   }
-
-
 )
 
-
-
-
+const verifPassword = asyncHandler(async (req, res) => {
+  const  email  = req.body.email
+  const password = req.body.password
+  const user = await User.findOne({ email })
+  if (user && (await user.matchPassword(password))) {
+    let { password, ...newUser } = user.toObject()
+    res.json({
+      success: true,
+    })
+  } else {
+    res.json({
+      success: false,
+    })
+  }
+});
 
 module.exports={   authUser,
   registerUser,
   updateUser,
-  getUserProfile
+  getUserProfile,
+  verifPassword
 }
