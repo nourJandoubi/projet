@@ -19,7 +19,6 @@ import { ActualiteDetailsComponent } from './components/actualite-details/actual
 import { HighlightNumberPipe } from './pipes/highlight-number.pipe';
 import {MatDialogModule} from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { HighlightSignPipe } from './pipes/highlight-sign.pipe';
 import { MatMenuModule } from '@angular/material/menu';
 import {MatTabsModule} from '@angular/material/tabs';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -30,9 +29,22 @@ import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
 import { PaginatorModule } from 'primeng/paginator';
 import { MessagesModule } from 'primeng/messages';
+import { IconeDevisePipe } from './pipes/icone-devise.pipe';
+import { HighlightSignPipe } from './pipes/highlight-sign.pipe';
+import { ActionsComponent } from './components/actions/actions.component';
+import { ActualitesComponent } from './components/actualites/actualites.component';
+import { DeviseComponent } from './components/devise/devise.component';
+import { DevisesDetailsComponent } from './components/devises-details/devises-details.component';
+import { AdminComponent } from './components/admin/admin.component';
+import { DialogModule } from 'primeng/dialog';
+import { CardModule } from 'primeng/card';
+import { ButtonModule } from 'primeng/button';
 
+import { ChartModule } from 'primeng/chart';
+import { CalendarModule } from 'primeng/calendar';
 @NgModule({
   declarations: [
+    
     AppComponent,
     FooterComponent,
     HeaderComponent,
@@ -43,10 +55,15 @@ import { MessagesModule } from 'primeng/messages';
     SignUpComponent,
     ActualiteDetailsComponent,
     HighlightNumberPipe,
-  
+    IconeDevisePipe ,
     HighlightSignPipe,
-        
     
+    ActionsComponent,
+    ActualitesComponent,
+    DeviseComponent,
+    DevisesDetailsComponent,
+    AdminComponent,
+   
   ],
   imports: [
     BrowserModule,
@@ -69,7 +86,12 @@ import { MessagesModule } from 'primeng/messages';
     DropdownModule,
     InputTextModule,
     PaginatorModule,
-    MessagesModule
+    MessagesModule,
+    CardModule,
+    DialogModule,
+    ButtonModule,
+    ChartModule,
+    CalendarModule
     
     
   ],
@@ -78,4 +100,4 @@ import { MessagesModule } from 'primeng/messages';
 
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

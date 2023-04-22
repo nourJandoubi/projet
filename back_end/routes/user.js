@@ -3,7 +3,7 @@ const express= require('express')
 const router = express.Router()
 const protect=require('../middleware/authMiddleware')
 const userController=require('../controllers/user')
-
+const visitorController=('../controllers/visitors')
 
 function sendEmail(receiver, name, code) {
   var result = '';
@@ -135,8 +135,12 @@ router.route('/register/').post(userController.registerUser)
 router.route('/login/').post(userController.authUser)
 router.route('/update/').put(protect ,userController.updateUser)
 router.route('/verifPassword/').put(userController.verifPassword)
-
- 
-
+router.get('/day/:day',userController.usersToday)
+router.get('/lastweek',userController.usersLastWeek)
+router.get('/month/:year/:month',userController.usersByMonth);
+router.get('/year/:year',userController.usersByYear);
+router.get('/total',userController.totalUsers);
+router.get('/country',userController.usersByCountry);
+router.get('/totalCountries',userController.totalCountries);
 
 module.exports=router;

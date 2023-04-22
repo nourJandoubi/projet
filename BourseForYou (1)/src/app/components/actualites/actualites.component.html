@@ -1,0 +1,56 @@
+<div class="card">
+  <div class=" pb-0 p-3">
+  <div style="text-align: center;">
+      <h5>Actualites   <fa-icon [icon]="faClockRotateLeft"></fa-icon></h5>
+     
+    <span class="p-input-icon-left">
+        <i class="pi pi-search"></i>
+        <input type="text" pInputText [(ngModel)]="searchTermNews" placeholder="Rechercher..." (input)="onsearchTermNewsChange($event)"  />
+    </span>
+    
+  </div>
+
+
+  </div>
+  <div class="card-body p-3">
+    <ul class="list-group">
+      <li
+        class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg"
+        *ngFor="let actualite of pageSliceNews"
+      >
+        <div class="d-flex align-items-center" *ngIf="filteredItemsNews.length !== 0">
+          <div class="d-flex flex-column">
+            <span class="text-xs">{{ actualite.pubDate | date: 'shortTime' }}</span>
+            <h6 class="mb-1 text-dark text-sm">{{ actualite.title }}</h6>
+           
+              <p class="text-xs" style="height: 32px; overflow: hidden" type="text" pTooltip="{{ actualite.content }}" class="text-xs" >{{ actualite.content }}</p>
+           
+           
+          </div>
+          <div class="d-flex">
+            <button class="btn btn-link btn-icon-only btn-rounded btn-sm text-dark icon-move-right my-auto" [routerLink]="['/home',actualite._id]">
+              <i class="ni ni-bold-right" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+      </li>
+      <div class="d-flex align-items-center" *ngIf="filteredItemsNews.length == 0">
+        <h5>Pas de resultat</h5>
+      </div>
+      <!--<mat-paginator
+        [length]="filteredItemsNews.length"
+        [pageSize]="4"
+        aria-label="Select page"
+        (page)="onPageChangeNews($event)"
+      >
+      </mat-paginator>-->
+      
+        <div class="d-flex align-items-center ">
+          <p-paginator class="ms-5" [first]="first" [rows]="rows" [totalRecords]="filteredItemsNews.length/4" (onPageChange)="onPageChangeNews($event)" [showJumpToPageDropdown]="true" [showPageLinks]="false"></p-paginator>
+
+        </div>
+        
+
+    </ul>
+  </div>
+</div>

@@ -26,6 +26,10 @@ const userSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    registeredAt: {
+      type: Date,
+      required: true,
+    }
   
   },
   

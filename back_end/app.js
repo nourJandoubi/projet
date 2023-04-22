@@ -1,24 +1,27 @@
 const express = require('express');
 const mongoose = require('mongoose');
-
+const session = require('express-session');
+const MongoDBStore = require('connect-mongodb-session')(session);
+const Action = require('./models/Action');
 const path = require('path');
 const cron = require('node-cron');
 const actionController = require('./controllers/action');
 const actionRoutes = require('./routes/action');
+const userRoutes = require('./routes/user');
+const visiteRoutes=require('./routes/visite');
 const actualiteRoutes = require('./routes/actualite');
 const actualiteController = require('./controllers/actualite');
-const userController=require('./controllers/user');
-const userRoutes=require('./routes/user');
-const actualite = require('./models/Actualite');
+const userController = require('./controllers/user');
+const visitorsMiddleware = require('./middleware/visitorsMiddleware');
+
 
 const app = express();
+app.use(visitorsMiddleware);
 
-
-mongoose.connect('mongodb+srv://nour:nourJANDOUBI12345.@cluster0.0fu4qct.mongodb.net/test',
- { 
-    useNewUrlParser: true, 
-    useUnifiedTopology: true 
-})
+// Connexion à la base de données MongoDB
+mongoose.connect('mongodb+srv://nour:nourJANDOUBI12345.@cluster0.0fu4qct.mongodb.net/test', 
+{ useNewUrlParser: true, 
+  useUnifiedTopology: true })
     .then(() => console.log('Connexion à MongoDB réussie !'))
     .catch(() => console.log('Connexion à MongoDB échouée !'));
 
@@ -37,21 +40,27 @@ app.use((req, res, next) => {
 
 
 cron.schedule('* * * * *', () => {
-    actualiteController.createActualite();
-    console.log(" saved actualite")
+  actualiteController.createActualite();
+  console.log(" saved actualite")
 }).start();
- actionController.scrapeData();
 
-//Schedule the scraping function to run every min
-cron.schedule('0 0 * * *', () => {
-    actionController.scrapeData();
-    console.log("saved action");
-});
-app.use('/api/actualite', actualiteRoutes);
-app.use('/api/action', actionRoutes);
-app.use('/api/user',userRoutes)
+cron.schedule('* * * * *', () => {
+  deviseController.createDevise()
+  console.log(" saved devise")
+}).start();
 
+
+actionController.scrapeData();
+
+ 
+ 
+  
+
+
+app.use('/api/actualite',actualiteRoutes);
+app.use('/api/action',actionRoutes);
+app.use('/api/user',userRoutes);
+app.use('/api/visitors',visiteRoutes);
 
 
 module.exports = app;
-

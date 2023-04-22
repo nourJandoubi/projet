@@ -1,0 +1,51 @@
+.nav-link {
+    cursor: pointer;
+  }
+
+  .text-container {
+    background-color: #f2f2f2;
+    border: 1px solid #ddd;
+    padding: 5px;
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+  }
+  .btnAlpha {
+    border: none;
+    background: none;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+  }
+ 
+  table {
+    width: 135%;
+    text-align: center; /* centre le texte horizontalement */
+    vertical-align: middle; /* centre le texte verticalement */
+  }
+  
+  table tbody tr th, table tbody tr td {
+    /*padding: 5px;*/
+       text-align: center; /* centre le texte horizontalement */
+    vertical-align: middle; /* centre le texte verticalement */
+  
+    /***white-space: nowrap; /* empêche le texte de se couper automatiquement */
+    /**overflow: hidden; /* cache le texte qui dépasse de la cellule */
+    /**text-overflow: ellipsis; /* ajoute des ellipses à la fin du texte caché */
+  }
+/*td{
+  white-space: wrap;
+  display: flex;
+  flex-wrap: wrap;
+}*/
+
+.custom-paginator {
+  font-size: 5px; /* Modifier selon vos besoins */
+  padding: 5px; /* Modifier selon vos besoins */
+}
+.border-right {
+  border-right: 1px solid lightblue;
+}
