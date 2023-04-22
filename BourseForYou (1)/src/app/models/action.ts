@@ -7,7 +7,7 @@ export class Action {
       public variation:string,
       public ouv:string,
       public haut:string,
-      public bas:string,
+      public bas:string,      
       public volume:string,
       public _id?: string
     ) {}

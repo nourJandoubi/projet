@@ -11,9 +11,9 @@ export class ActionService {
   private baseUrl = 'http://localhost:3000/api/action/';
   
   constructor(private http: HttpClient) { }
-  getActions(location:string,pageNumber:any): Observable<any> {
+  getActions(nomBourse:string,pageNumber:any): Observable<any> {
 
-    return this.http.get(`${this.baseUrl}/${location}/${pageNumber}`);
+    return this.http.get(`${this.baseUrl}/${nomBourse}`);
   }
  
   getActionsParBourse(bourse:string): Observable<any> {

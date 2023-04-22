@@ -1,96 +1,64 @@
-import { Component, createNgModule } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { clearConfigCache } from 'prettier';
-import { Action } from 'src/app/models/action';
-import { Actualite } from 'src/app/models/actualite';
+
 import { ActionService } from 'src/app/services/action.service';
-import { ActualiteService } from 'src/app/services/actualite.service';
+import { Action } from 'src/app/models/action';
 
 @Component({
   selector: 'app-actions',
   templateUrl: './actions.component.html',
-  styleUrls: ['./actions.component.css'],
+  styleUrls: ['./actions.component.css']
 })
 export class ActionsComponent {
-  constructor(public actionService: ActionService, private route: ActivatedRoute, private router: Router) {}
-  //a->z
-  alpha = Array(26)
-    .fill(0)
-    .map((x, i) => String.fromCharCode(i + 65));
+  constructor(
+    public actionService: ActionService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {}
+
+  alpha = Array(26).fill(0).map((x, i) => String.fromCharCode(i + 65));
 
   actions: Action[] = [];
-  location: string;
-  pageNumber: any;
-  pagination: any;
-  pageSliceAction: Action[] = []; //pageSliceNews des action
-  searchTermAction = ''; //search term des actions
-  filteredItemsAction: Action[] = [];
-  actionsFiltreParBousre: Action[] = [];
+  nomBourse: string;
+  actionsFiltreParBourse: any[] = [];
+  pageSize = 10;
+  pageIndex = 0;
+  length = 0;
 
-  //recherche par  nom entreprise
-  onsearchTermActionChange(event: any) {
-    this.searchTermAction = (event.target as HTMLInputElement).value;
-    let term = this.searchTermAction ? this.searchTermAction.toLowerCase() : '';
-
-    if (term.trim() !== '') {
-      this.filteredItemsAction = this.actions.filter(item => {
-        if (typeof item.nomEntreprise === 'string') {
-          this.pageSliceAction = this.filteredItemsAction.slice(0, 8);
-          return item.nomEntreprise.toLowerCase().includes(term);
-        }
-        return false;
-      });
-    }
-    this.pageSliceAction = this.filteredItemsAction;
-    this.pageSliceAction = this.pageSliceAction.slice(0, 10);
-  }
-
-  selectBourse(location: string, pageNumber: any): void {
-    
-    this.actionService.getActions(location, pageNumber).subscribe(data => {
-      this.actionsFiltreParBousre = data.products;
-      this.pagination = data.pages;
-      console.log(this.actionsFiltreParBousre);
-
-      // Filtrer et paginer les données ici
-    });
-  }
-
-  // Pagination
-
-  onPageChangeAction(event) {
-    const startIndex = event.pageIndex * event.pageSize;
-
-    let endIndex = startIndex + event.pageSize;
-    if (this.location == undefined) {
-      const route = '/home/paris/' + (event.pageIndex + 1);
-      this.router.navigate([route]);
-      this.ngOnInit();
-    } else {
-      const route = '/home/' + this.location + '/' + (event.pageIndex + 1);
-      this.router.navigate([route]);
-      this.ngOnInit();
-    }
-
-    if (endIndex > this.filteredItemsAction.length) {
-      endIndex = this.filteredItemsAction.length;
-    }
-  }
-  navigateToPlace(location: string) {
-    const route = '/home/' + location + '/' + 1;
-    this.router.navigate([route]);
-    this.ngOnInit();
-  }
   ngOnInit(): void {
     this.route.params.subscribe(params => {
-      this.location = params['location'];
+      this.nomBourse = params['nomBourse'];
 
-      this.pageNumber = params['pageNumber'];
+      if (!this.nomBourse ) {
+        this.nomBourse = 'paris';
+      }
+
+      this.selectBourse(this.nomBourse);
     });
-    if (this.pageNumber == undefined && this.location == undefined) {
-      this.selectBourse('paris', 1);
-    } else {
-      this.selectBourse(this.location, this.pageNumber);
-    }
   }
+
+  selectBourse(nomBourse: string): void {
+    this.actionService.getActionsParBourse(nomBourse).subscribe(data => {
+      this.actions = data;
+  
+      this.actionsFiltreParBourse = this.actions.slice(0, this.pageSize);
+  
+      this.length = this.actions.length;
+    });
+  }
+  
+
+  navigateToPlace(nomBourse: string): void {
+    const route = `/home/${nomBourse}`;
+    this.router.navigate([route]);
+  }
+
+  onPageChange(event): void {
+  this.pageIndex = event.pageIndex;
+  const startIndex = this.pageIndex * this.pageSize;
+  const endIndex = startIndex + this.pageSize;
+  this.actionsFiltreParBourse = this.actions.slice(startIndex, endIndex);
+}
+
+  
 }

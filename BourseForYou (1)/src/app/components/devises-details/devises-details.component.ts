@@ -24,115 +24,113 @@ export class DevisesDetailsComponent {
   valueRecherche=0
   dates = [];
   valuess = [];
-  dataReady: boolean = false;
-@ViewChild('myChart', {static: false}) myChart: ElementRef;
+
+@ViewChild('myChart', { static: true }) myCanvas: ElementRef<HTMLCanvasElement>;
+
   
   deviseId:any
   deviseChoisi:any
   constructor(private route: ActivatedRoute,public deviseService: DeviseService ){}
 
   ngOnInit(): void {
-    this.loadData();
+   
+      this.route.params.subscribe(params => {
+        this.deviseId = params['id'];
+        this.deviseChoisi=params['devise'];
+        this.selectedDevise =params['selectedDevise'];
+       
+        
+       
+      });
+      this.deviseService.getDevises().subscribe((data) => {
+        this.devises = data;
+        
+        
+        for (let i = 0; i < this.devises.length; i++) {
+          const match = this.devises[i].title.match(/([\d.]+) ([A-Z]+) = ([\d.]+) ([A-Z]+) (\d{4}-\d{2}-\d{2})/);
+    
+          if (match) {
+            const value = {
+              valeur : parseFloat(match[1]),
+              devise : match[2],
+              un :parseFloat (match[3]),
+              euro : match[4],
+              date : match[5],
+            };
+         
+            this.values.push(value);
+            
+            this.deviseList["EUR"].push({devise:value.devise,valeur:value.valeur,date:value.date})
+            
+          } 
+          
+         
+         
+        }
+        this.values.push({valeur :1,devise : "EUR",un :1,euro : "EUR"})
+        this.deviseList["EUR"].push({devise:"EUR",valeur:1})
+       
+    
+        for (let i = 0; i < this.values.length; i++) {
+          const dollar = 1 / this.values[0].valeur;
+          const resDollar = dollar * this.values[i].valeur;
+          const nomDevise=this.values[i].devise
+          if(this.values[i].devise!=="USD")
+          {this.deviseList["USD"].push({devise:nomDevise,valeur:resDollar,date:this.values[i].date});}
+    
+          //jpy
+          const jpy = 1 / this.values[1].valeur;
+          const resjpy = jpy * this.values[i].valeur;
+          if(this.values[i].devise!=="JPY")
+          {this.deviseList["JPY"].push({devise:nomDevise,valeur:resjpy,date:this.values[i].date});}
+    
+          //try
+          const trye = 1 / this.values[3].valeur;
+          const restry = trye * this.values[i].valeur;
+          if(this.values[i].devise!=="TRY")
+          {this.deviseList["TRY"].push({devise:nomDevise,valeur:restry,date:this.values[i].date});}
+    
+          //cad
+          const cad = 1 / this.values[2].valeur;
+          const rescad = cad * this.values[i].valeur;
+          if(this.values[i].devise!=="CAD")
+         { this.deviseList["CAD"].push({devise:nomDevise,valeur:rescad,date:this.values[i].date});}
+         
+        };
+       
+    
+        let DevisesFiltres = this.deviseList[this.selectedDevise].filter(objet => objet.devise === this.deviseChoisi);
+      
+    
+        // afficher les objets filtrés
+        
+      
+        for (let i = 0; i < DevisesFiltres.length; i++) {
+          
+          if (DevisesFiltres[i]) {
+            this.dates.push(DevisesFiltres[i].date);
+            this.dates.sort((a: Date, b: Date) => Date.parse(a.toString()) - Date.parse(b.toString()));
+            this.valuess.push(DevisesFiltres[i].valeur);
+          }
+        }
+        console.log(this.valuess)
+        
+      });
+      
+    
    
   }
 
 ngAfterViewInit() {
- 
-  this.generateChart();
-  
-  }
 
+  const ctx = this.myCanvas.nativeElement.getContext('2d');
 
-
-
-
-
-
-  loadData() {
-    this.route.params.subscribe(params => {
-      this.deviseId = params['id'];
-      this.deviseChoisi=params['devise'];
-      this.selectedDevise =params['selectedDevise'];
-      
-     
-    });
-    this.deviseService.getDevises().subscribe((data) => {
-      this.devises = data;
-       console.log(this.deviseList[this.selectedDevise]);
-      
-      for (let i = 0; i < this.devises.length; i++) {
-        const match = this.devises[i].title.match(/([\d.]+) ([A-Z]+) = ([\d.]+) ([A-Z]+) (\d{4}-\d{2}-\d{2})/);
-  
-        if (match) {
-          const value = {
-            valeur : parseFloat(match[1]),
-            devise : match[2],
-            un :parseFloat (match[3]),
-            euro : match[4],
-            date : match[5],
-          };
-         
-          this.values.push(value);
-          
-          this.deviseList["EUR"].push({devise:value.devise,valeur:value.valeur,date:value.date})
-        } 
-       
-       
-      }
-      this.values.push({valeur :1,devise : "EUR",un :1,euro : "EUR"})
-      this.deviseList["EUR"].push({devise:"EUR",valeur:1})
-     
-  
-      for (let i = 0; i < this.values.length; i++) {
-        const dollar = 1 / this.values[0].valeur;
-        const resDollar = dollar * this.values[i].valeur;
-        const nomDevise=this.values[i].devise
-        this.deviseList["USD"].push({devise:nomDevise,valeur:resDollar,date:this.values[i].date});
-  
-        //jpy
-        const jpy = 1 / this.values[1].valeur;
-        const resjpy = jpy * this.values[i].valeur;
-        this.deviseList["JPY"].push({devise:nomDevise,valeur:resjpy});
-  
-        //try
-        const trye = 1 / this.values[3].valeur;
-        const restry = trye * this.values[i].valeur;
-        this.deviseList["TRY"].push({devise:nomDevise,valeur:restry});
-  
-        //cad
-        const cad = 1 / this.values[2].valeur;
-        const rescad = cad * this.values[i].valeur;
-        this.deviseList["CAD"].push({devise:nomDevise,valeur:rescad});
-      };
-  
-      let DevisesFiltres = this.deviseList[this.selectedDevise].filter(objet => objet.devise === this.deviseChoisi);
-  
-      // afficher les objets filtrés
-      console.log(DevisesFiltres);
-    
-      for (let i = 0; i < this.values.length; i++) {
-        const devisesFiltres = DevisesFiltres[i];
-        if (devisesFiltres) {
-          this.dates.push(devisesFiltres.date);
-          this.dates.sort((a: Date, b: Date) => Date.parse(a.toString()) - Date.parse(b.toString()));
-          this.valuess.push(devisesFiltres.valeur);
-        }
-      }
-      
-    });
-    this.dataReady = true;
-  }
-  generateChart() {
-    // check if data is ready
-    if (!this.dataReady) {
-      return;
-    }
   
     const chartData = {
       labels: this.dates,
       datasets: [
         {
-          label: `${this.selectedDeviseTo} to ${this.deviseChoisi}`,
+          label: `${this.selectedDevise} to ${this.deviseChoisi}`,
           data: this.valuess,
           backgroundColor: '#3F51B5',
           borderColor: '#3F51B5',
@@ -156,7 +154,7 @@ ngAfterViewInit() {
           display: true,
           title: {
             display: true,
-            text: `Exchange rate (${this.selectedDeviseTo} to ${this.deviseChoisi})`,
+            text: `Exchange rate (${this.selectedDevise} to ${this.deviseChoisi})`,
           },
         },
       },
@@ -166,12 +164,23 @@ ngAfterViewInit() {
     
     
     // Create chart
-    const lineChart = new Chart(this.myChart.nativeElement, {
-      type: 'line',
-      data: chartData,
-      options: chartOptions,
-    });
-   
+    setTimeout(() => {
+      const myChart = new Chart(this.myCanvas.nativeElement, {
+        type: 'line',
+        data: chartData,
+        options: chartOptions,
+      });
+    }, 500);
+  }
 
   }    
-}  
+
+
+
+
+
+
+
+ 
+  
+ 

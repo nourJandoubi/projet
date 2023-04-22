@@ -25,6 +25,7 @@ import { DeviseComponent } from './components/devise/devise.component';
 import { DevisesDetailsComponent } from './components/devises-details/devises-details.component';
 
 
+
 @NgModule({
   declarations: [
     
@@ -45,6 +46,7 @@ import { DevisesDetailsComponent } from './components/devises-details/devises-de
     ActualitesComponent,
     DeviseComponent,
     DevisesDetailsComponent,
+ 
    
   ],
   imports: [

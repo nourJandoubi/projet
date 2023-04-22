@@ -18,7 +18,7 @@ const routes: Routes = [
   {path:"signUp",component:SignUpComponent},
   {path:"home",component:HomeComponent},
   {path:"home",component:ActionsComponent},
-  {path: 'home/:location/:pageNumber', component:HomeComponent},
+  {path: 'home/:nomBourse', component:HomeComponent},
   {path: 'home/:id', component:ActualiteDetailsComponent},
   {path:"profile",
    component:ProfileComponent,
