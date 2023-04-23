@@ -397,6 +397,7 @@ this.usersMonth(this.selectedYearUM,this.selectedMonthUM)
        this.visitorService.getTotalVisitors().subscribe((response: any) => {
         this.totalVisitors=response;
       });
+      console.log('tooo',this.totalVisitors)
 //----------------Users-------------------------//  
     this.adminService.getTotalUsers().subscribe((response: any) => {
         this.totalUsers=response.count;

@@ -29,7 +29,7 @@ export class DeviseComponent {
 
   constructor(private route: ActivatedRoute, public deviseService: DeviseService) {}
   convertDevise(devise: string) {
-    console.log(this.deviseList[devise])  ;
+   
       return this.deviseList[devise] ;
      
     }
@@ -53,7 +53,7 @@ export class DeviseComponent {
   ngOnInit(): void {
     this.deviseService.getDevisesParDate().subscribe((data) => {
       this.devises = data;
-      // console.log(this.deviseList[this.selectedDeviseFrom]);
+     
       
       for (let i = 0; i < this.devises.length; i++) {
         const match = this.devises[i].title.match(/([\d.]+) ([A-Z]+) = ([\d.]+) ([A-Z]+) (\d{4}-\d{2}-\d{2})/);
@@ -98,6 +98,7 @@ export class DeviseComponent {
         const cad = 1 / this.values[2].valeur;
         const rescad = cad * this.values[i].valeur;
         this.deviseList["CAD"].push({id:uuidv4(),devise:nomDevise,valeur:rescad});
+        console.log(this.deviseList["CAD"])
       };
 
      

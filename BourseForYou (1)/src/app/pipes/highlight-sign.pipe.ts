@@ -6,6 +6,9 @@ export class HighlightSignPipe implements PipeTransform {
   constructor(private sanitizer: DomSanitizer) {}
 
   transform(value: string): SafeHtml {
+    if (!value) {
+      return '';
+    }
     let color: string = '';
     if (value.startsWith('-')) {
       color = 'red';
@@ -14,6 +17,4 @@ export class HighlightSignPipe implements PipeTransform {
     }
     return this.sanitizer.bypassSecurityTrustHtml(`<span style="color:${color}; font-weight:bold">${value}</span>`);
   }
-  
-  
 }

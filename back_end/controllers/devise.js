@@ -9,25 +9,7 @@ const { resolveTxt } = require('dns/promises');
 
 const parser = new Parser();
 
-// exports.scrapeDetailsDevise = (req, res) => {
-//     const url = req.body.url;
-//   console.log("url",url)
-//     request(url, (error, response, html) => {
-//       if (!error && response.statusCode === 200) {
-//         const $ = cheerio.load(html); 
-        
-  
-//         const titre = $('h1').text();
-//         const description = $('section.sc-12b91rw-0.sc-6f8azg-0.eiyCex.idukIB p.sc-14kwckt-6.sc-14omazk-0.helKYV.gttJJb').text();
-//         const resume = $('p.sc-14kwckt-6.dbPXmO').text();
-        
-  
-//         res.send({titre: titre, description: description, resume: resume});
-//       } else {
-//         res.status(500).send('Error scraping data');
-//       }
-//     });
-//   }
+
   
 exports.createDevise = async () => {
   try {
@@ -120,24 +102,53 @@ exports.deleteDevise = (req, res) => {
         }
     );
 };
-exports.getDevisesParDate = (req, res) => {
-    const currentDate = new Date();
-const startOfDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 0, 0, 0); // début de la journée
-const yesterday = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() - 4);
+// exports.getDevisesParDate = (req, res) => {
+//     const currentDate = new Date();
+// const startOfDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 0, 0, 0); // début de la journée
+// const yesterday = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() - 1);
 
-Devise.find({ isoDate: { $gte: yesterday.toISOString(), $lte: startOfDay.toISOString() } })
-  .then((devises) => {
-    if (devises.length === 0) {
-      res.status(404).json({ message: "Aucune devise trouvée pour la journée en cours ou la journée précédente" });
-    } else {
-      res.status(200).json(devises);
+// Devise.find({ isoDate: { $gte: yesterday.toISOString(), $lte: startOfDay.toISOString() } })
+//   .then((devises) => {
+//     if (devises.length === 0) {
+//       res.status(404).json({ message: "Aucune devise trouvée pour la journée en cours ou la journée précédente" });
+//     } else {
+//       res.status(200).json(devises);
+//     }
+//   })
+//   .catch((error) => {
+//     res.status(400).json({ error: error });
+//   });
+
+//   };
+exports.getDevisesParDate = async (req, res) => {
+    try {
+      // Récupérer la liste des dates de devises
+      const dates = await Devise.distinct("isoDate");
+      
+      // Trier les dates par ordre décroissant
+      dates.sort((a, b) => new Date(b) - new Date(a));
+      
+      // Parcourir les dates pour trouver la première date avec des devises
+      let devises = null;
+      for (const date of dates) {
+        devises = await Devise.find({ isoDate: date });
+        if (devises.length > 0) {
+          break;
+        }
+      }
+      
+      // Si aucune devise n'a été trouvée, renvoyer une erreur 404
+      if (devises === null || devises.length === 0) {
+        res.status(404).json({ message: "Aucune devise trouvée" });
+      } else {
+        res.status(200).json(devises);
+      }
+    } catch (error) {
+      res.status(500).json({ error: "Erreur lors de la récupération des devises" });
     }
-  })
-  .catch((error) => {
-    res.status(400).json({ error: error });
-  });
-
   };
+  
+  
   exports.getAllDevises = (req, res) => {
     Devise.find().then(
         (devises) => {

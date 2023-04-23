@@ -8,7 +8,7 @@
     <a class="nav-link "[ngClass]="{'active': currentLink === 'paris'}"  (click)="navigateToPlace('paris')" >Paris</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link " [ngClass]="{'active': currentLink === 'new-york'}"  (click)="navigateToPlace('new-york')"  >New York</a>
+    <a class="nav-link"   (click)="navigateToPlace('new-york')"  >NYSE</a>
   </li>
   <li class="nav-item">
     <a class="nav-link"[ngClass]="{'active': currentLink === 'amsterdam'}"   (click)="navigateToPlace('amsterdam')" >Amsterdam</a>
@@ -16,9 +16,7 @@
   <li class="nav-item">
     <a class="nav-link"[ngClass]="{'active': currentLink === 'bruxelles'}"   (click)="navigateToPlace('bruxelles')"  >Bruxelles</a>
   </li>
-  <li class="nav-item">
-    <a class="nav-link"[ngClass]="{'active': currentLink === 'lisbonne'}"   (click)="navigateToPlace('lisbonne')"  >Lisbonne</a>
-  </li>
+  
 </ul>
 
 <ul></ul>
@@ -45,73 +43,57 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let t of actionsFiltreParBousre">
+          <tr *ngFor="let t of actionsFiltreParBourse" >
+            <ng-container *ngIf="t.entreprise !== null">
             <td class="w-30">
-              <div class="d-flex px-2 py-1 align-items-center">
-                {{ t.nomEntreprise }}
+              <div class="d-flex px-2 py-1 align-items-center" >
+                {{ t.action.nomEntreprise }}
               </div>
             </td>
             <td class="w-30">
               <div class="align-items-center">
-                {{ t.cours }}
+                {{ t.action.cours }}
               </div>
             </td>
             <td class="w-30">
-              <div class="align-items-center" [innerHTML]="t.variation | highlightSign" >
+              <div class=" align-items-center" [innerHTML]="t.action.variation | highlightSign" >
               
               </div>
             </td>
             <td class="w-30">
               <div class="align-items-center">
-                {{ t.ouv }}
+                {{ t.action.ouv }}
               </div>
             </td>
             <td class="w-30">
               <div class="align-items-center">
-                {{ t.haut }}
+                {{ t.action.haut }}
               </div>
             </td>
             <td class="w-30">
               <div class="align-items-center">
-                {{ t.bas }}
+                {{ t.action.bas }}
               </div>
             </td>
             <td class="w-30">
               <div class="align-items-center">
-                {{ t.volume }}
+                {{ t.action.volume }}
               </div>
             </td>
+          </ng-container>
           </tr>
         </tbody>
       </table>
-      <mat-paginator
-        [length]="pagination"
-        [pageSize]="10" 
-        aria-label="Select page"
-        (page)="onPageChangeAction($event)"
-        
-      >
-      </mat-paginator>
-      <!--
-          <div class="d-flex align-items-center text-xs">
-              <p-paginator (onPageChange)="onPageChangeAction($event)" [first]="first" [rows]="rows" [totalRecords]="filteredItemsAction.length/8" [rowsPerPageOptions]="[8, 10, 12]"></p-paginator>
-              
-            </div>
-      -->
-      <!-- <div>
-         <button (click)="previousPage()" [disabled]="currentPage == 1">Previous</button>
-         <button (click)="nextPage()" [disabled]="currentPage == totalPages">Next</button>
-         <span>{{ currentPage }} / {{ totalPages }}</span>
-       </div> -->
+      <mat-paginator [pageSize]="pageSize"
+      [pageIndex]="pageIndex"
+      [length]="length"
+      (page)="onPageChange($event)">
+</mat-paginator>
+     
     </div>
   </div>
 </div>
-<!-- fin navbar -->
 
-     
-     
-     <!-- fin navbar -->
-     
     
    </div>
    

@@ -13,17 +13,18 @@ const actualiteRoutes = require('./routes/actualite');
 const actualiteController = require('./controllers/actualite');
 const userController = require('./controllers/user');
 const visitorsMiddleware = require('./middleware/visitorsMiddleware');
+const deviseRoutes=require('./routes/devise');
+const deviseController=require('./controllers/devise');
+
 
 
 const app = express();
 app.use(visitorsMiddleware);
 
-// Connexion à la base de données MongoDB
-mongoose.connect('mongodb+srv://nour:nourJANDOUBI12345.@cluster0.0fu4qct.mongodb.net/test', 
-{ useNewUrlParser: true, 
-  useUnifiedTopology: true })
-    .then(() => console.log('Connexion à MongoDB réussie !'))
-    .catch(() => console.log('Connexion à MongoDB échouée !'));
+
+mongoose.connect('mongodb+srv://nour:nourJANDOUBI12345.@cluster0.0fu4qct.mongodb.net/test', { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => console.log('Connexion to MongoDB successful!'))
+    .catch(() => console.log('Connection to MongoDB failed!'));
 
 
 
@@ -36,6 +37,29 @@ app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
     next();
 });
+// Serve static files with the correct MIME type
+app.use(express.static('public', {
+  setHeaders: (res, path) => {
+    if (path.match(/\.css$/)) {
+      res.setHeader('Content-Type', 'text/css');
+    }
+  }
+}));
+app.use('/path/to/font-awesome', express.static('path/to/font-awesome', {
+  setHeaders: (res, path) => {
+    if (path.endsWith('.css')) {
+      res.setHeader('Content-Type', 'text/css');
+    }
+  }
+}));
+
+
+
+
+require('dotenv').config();
+
+const archiveFilePath = process.env.ARCHIVE_FILE_PATH;
+console.log('archiveFilePath:', archiveFilePath);
 
 
 
@@ -49,8 +73,17 @@ cron.schedule('* * * * *', () => {
   console.log(" saved devise")
 }).start();
 
+cron.schedule('* * * * *', () => {
+  actionController.createAction();
+  actionController.archiveData();
+ 
+  console.log(" saved action")
 
-actionController.scrapeData();
+}).start();
+
+
+
+
 
  
  
@@ -61,6 +94,8 @@ app.use('/api/actualite',actualiteRoutes);
 app.use('/api/action',actionRoutes);
 app.use('/api/user',userRoutes);
 app.use('/api/visitors',visiteRoutes);
+app.use('/api/devise',deviseRoutes)
+
 
 
 module.exports = app;

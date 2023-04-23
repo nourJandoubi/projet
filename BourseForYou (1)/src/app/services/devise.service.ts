@@ -15,7 +15,7 @@ export class DeviseService {
     return this.http.get(`${this.baseUrl}`);
   }
   getDevisesParDate(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/D`);
+    return this.http.get(`${this.baseUrl}D`);
   }
   getoneDevise(id:string): Observable<any> {
     return this.http.get(`${this.baseUrl}/${id}`);
