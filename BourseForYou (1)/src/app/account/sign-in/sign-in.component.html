@@ -5,7 +5,7 @@
         <nav class="navbar navbar-expand-lg blur border-radius-lg top-0 z-index-3 shadow position-absolute mt-4 py-2 start-0 end-0 mx-4">
           <div class="container-fluid">
           
-              <a class="navbar-brand m-2 pt-3" routerLink="/home" target="_blank">
+              <a class="navbar-brand m-2 pt-3" routerLink="/home" routerLinkActive="active"target="_blank">
                 <img src="../assets/img/logo-ct-dark.png" class="navbar-brand-img " style="height: 38px;" alt="main_logo">
                 <span class="ms-2 font-weight-bold">
                   Bourse Pour Toi
@@ -15,20 +15,20 @@
             <div class="collapse navbar-collapse me-5" id="navigation">
               <ul class="navbar-nav mx-auto">
                 <li class="nav-item">
-                  <a class="nav-link d-flex align-items-center me-2 active" aria-current="page" routerLink="/home">
+                  <a class="nav-link d-flex align-items-center me-2 active" routerLinkActive="active" aria-current="page" routerLink="/home">
                     <i class="fa fa-home opacity-6 text-dark me-1"></i>
                     Accueil
                   </a>
                 </li>
                
                 <li class="nav-item">
-                  <a class="nav-link me-2" routerLink="/signUp">
+                  <a class="nav-link me-2" routerLink="/signUp" routerLinkActive="active">
                     <i class="fas fa-user-circle opacity-6 text-dark me-1"></i>
                     S'inscrire
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link me-2" routerLink="/signIn">
+                  <a class="nav-link me-2" routerLink="/signIn" routerLinkActive="active">
                     <i class="fas fa-key opacity-6 text-dark me-1"></i>
                     S'identifier
                   </a>
@@ -55,27 +55,75 @@
                   </p>
                 </div>
                 <div class="card-body">
+                  
+
                   <form [formGroup]="userFormGroup">
-                    <div class="mb-3">
-                      <input type="email" class="form-control form-control-lg" placeholder="Email" aria-label="Email" formControlName="email">
+                    <div class="mb-3 pt-3">
+                     
+                    <span class="p-float-label">
+                      <input type="email" id="float-input" pInputText class="form-control form-control"  aria-label="Email" formControlName="email" name="email">
+                      <label for="float-input">Email *</label>
+                      </span>
+                      <div *ngIf="email.invalid  && email.touched"   
+                            class="mb-3 alert alert-danger alert-dismissible fade show" 
+                            role="alert">
+                      
+                          <div *ngIf="email.errors?.['required']">Le champ email est obligatoire.</div>
+                          <div *ngIf="email.errors?.['pattern']">L'adresse email n'est pas valide.</div>
+                      
+                          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                          </button>
+                      </div>
+                    
                     </div>
-                    <div class="mb-3">
-                      <input type="email" class="form-control form-control-lg" placeholder="Mot de passe" aria-label="Password" formControlName="password">
+                    
+                    
+                    <div class="mb-3 pt-3">
+                      
+                      <div class="password-wrapper">
+                        <span class="p-float-label">
+                          <input [type]=motdepasse id="float" pInputText class="form-control "  aria-label="Password" formControlName="password" name="password">
+                          <label for="float-input">Mot de passe *</label>
+                          </span>
+                       
+                        <span [hidden]="eye" (click)="eyes()">
+                          <i class="fa fa-eye password-toggle-icon" aria-hidden="true" ></i>
+                        </span>
+                        <span [hidden]="!eye" (click)="eyes()">
+                          <i class="fa fa-eye-slash password-toggle-icon" aria-hidden="true"></i>
+                        </span>
+                      </div>
+                      <div *ngIf="password.invalid  && password.dirty"   
+                            class="mb-3 alert alert-danger alert-dismissible fade show" 
+                            role="alert">
+                      
+                            <div *ngIf="password.errors?.['required']">Le mot de passe est obligatoire.</div>
+                            <div *ngIf="password.errors?.['minlength'] || password.errors?.['pattern']">Le mot de passe doit comporter au moins 6 caractères et au moins une lettre et un chiffre.</div>
+                        
+                      
+                          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                          </button>
+                      </div>
+                    
                     </div>
-                    <div >
-                     <p>Mot de passe oublier</p>
+                    <div>
+                     <a class="small text-muted" routerLink="/retrouverMail" routerLinkActive="active">Mot de passe oublier</a>
                     </div>
                     <div class="text-center">
-                      <button type="button" class="btn btn-lg btn-primary btn-lg w-100 mt-4 mb-0" (click)="login()">
+                      <button type="button" class="btn btn-lg btn-primary btn-lg w-100 mt-4 mb-0" (click)="login()" [disabled]="userFormGroup.invalid">
                         Connecter
                       </button>
                     </div>
+                    
                   </form>
                 </div>
+                
                 <div class="card-footer text-center pt-1 px-lg-2 px-1">
                   <p class="mb-1 text-sm mx-auto">
                     Vous n'avez pas de compte ?
-                    <a routerLink="/signUp" class="text-primary text-gradient font-weight-bold"> S'inscrire</a>
+                    <a routerLink="/signUp" mat-stroked-button routerLinkActive="active" class="text-primary text-gradient font-weight-bold"> S'inscrire</a>
                   </p>
                 </div>
               </div>
@@ -92,5 +140,13 @@
           </div>
         </div>
       </div>
+      <div class="card">
+        <p-toast></p-toast>
+        <button type="button" pButton pRipple (click)="show()" label="Show" class="p-button-success">shooow</button>
+    </div>
+      
     </section>
   </main>
+
+  
+  

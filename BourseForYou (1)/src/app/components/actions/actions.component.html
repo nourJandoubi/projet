@@ -5,41 +5,41 @@
   
 <ul class="nav nav-tabs">
   <li class="nav-item">
-    <a class="nav-link "  (click)="navigateToPlace('paris')" >Paris</a>
+    <a class="nav-link "[ngClass]="{'active': currentLink === 'paris'}"  (click)="navigateToPlace('paris')" >Paris</a>
   </li>
   <li class="nav-item">
     <a class="nav-link"   (click)="navigateToPlace('new-york')"  >NYSE</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link"   (click)="navigateToPlace('amsterdam')" >Amsterdam</a>
+    <a class="nav-link"[ngClass]="{'active': currentLink === 'amsterdam'}"   (click)="navigateToPlace('amsterdam')" >Amsterdam</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link"   (click)="navigateToPlace('bruxelles')"  >Bruxelles</a>
+    <a class="nav-link"[ngClass]="{'active': currentLink === 'bruxelles'}"   (click)="navigateToPlace('bruxelles')"  >Bruxelles</a>
   </li>
   
 </ul>
 
 <ul></ul>
 <!-- abcd partie -->
-<div class="d-flex justify-content-between">
-  <h6 class="mb-2" style="text-decoration: underline">All</h6>
-  <!--hedhy bech tzidha fonction bech ki yenzel 3la 7aref ihezou we ifalter bih el tableau eli louta-->
-  <a *ngFor="let i of alpha" href="" style="text-decoration: none">{{ i }}</a>
-</div>
+<div class=" pb-0 p-3 d-flex justify-content-between mt-2">
+  <button class="mb-2" (click)="All()"class="btnAlpha"  style="text-decoration: none"> 
+   <strong>Tous</strong> </button>
+  <button *ngFor="let i of alpha" class="btnAlpha" style="text-decoration: none" (click)="filterActionByLetter(i)">{{ i }}</button>
+</div> 
 <!-- fin abcd partie -->
 <div class="tab-content">
   <div class="tab-pane fade show active">
-    <div class="table-responsive">
-      <table class="table align-items-center">
+    <div class="table-responsive mt-2">
+      <table class="table align-items-center align-middle table-hover">
         <thead>
-          <tr>
-            <th scope="col">value</th>
-            <th scope="col">cours</th>
-            <th scope="col">variation</th>
-            <th scope="col">ouv.</th>
-            <th scope="col">haut</th>
-            <th scope="col">bas</th>
-            <th scope="col">volume</th>
+          <tr class="bg-light ">
+            <th scope="col" >Valeur</th>
+            <th scope="col">Cours</th>
+            <th scope="col">Variation</th>
+            <th scope="col">Ouv.</th>
+            <th scope="col">Haut</th>
+            <th scope="col">Bas</th>
+            <th scope="col">Volume</th>
           </tr>
         </thead>
         <tbody>
@@ -51,32 +51,32 @@
               </div>
             </td>
             <td class="w-30">
-              <div class="d-flex px-2 py-1 align-items-center">
+              <div class="align-items-center">
                 {{ t.action.cours }}
               </div>
             </td>
             <td class="w-30">
-              <div class="d-flex px-2 py-1 align-items-center" [innerHTML]="t.action.variation | highlightSign" >
+              <div class=" align-items-center" [innerHTML]="t.action.variation | highlightSign" >
               
               </div>
             </td>
             <td class="w-30">
-              <div class="d-flex px-2 py-1 align-items-center">
+              <div class="align-items-center">
                 {{ t.action.ouv }}
               </div>
             </td>
             <td class="w-30">
-              <div class="d-flex px-2 py-1 align-items-center">
+              <div class="align-items-center">
                 {{ t.action.haut }}
               </div>
             </td>
             <td class="w-30">
-              <div class="d-flex px-2 py-1 align-items-center">
+              <div class="align-items-center">
                 {{ t.action.bas }}
               </div>
             </td>
             <td class="w-30">
-              <div class="d-flex px-2 py-1 align-items-center">
+              <div class="align-items-center">
                 {{ t.action.volume }}
               </div>
             </td>

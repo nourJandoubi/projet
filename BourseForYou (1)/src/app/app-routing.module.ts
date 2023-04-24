@@ -1,3 +1,5 @@
+import { AdminGuardService } from './services/admin-guard.service';
+import { AdminComponent } from './components/admin/admin.component';
 import { SignUpComponent } from './account/sign-up/sign-up.component';
 import { HomeComponent } from './components/home/home.component';
 import { SignInComponent } from './account/sign-in/sign-in.component';
@@ -25,6 +27,10 @@ const routes: Routes = [
   {path:"profile",
    component:ProfileComponent,
    canActivate:[AuthGuardService]
+  },
+  {path:"admin",
+  component:AdminComponent,
+  canActivate:[AdminGuardService]
 },
   {path:'',redirectTo:'home',pathMatch:'full'},
 ];

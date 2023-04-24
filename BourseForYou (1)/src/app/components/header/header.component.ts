@@ -1,6 +1,7 @@
 import { AuthentificationService } from 'src/app/services/authentification.service';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
+import { faSignOut } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-header',
@@ -9,6 +10,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit{
   isLogedIn: boolean;
+  faSignOut=faSignOut;
   constructor( private authentificationService: AuthentificationService,
     private router: Router)
   {}
@@ -18,7 +20,9 @@ export class HeaderComponent implements OnInit{
       localStorage.getItem('TOKEN') != 'undefined';
     }
     deconnexion() {
-      this.authentificationService.logOut();
+      //this.authentificationService.logOut();
+      localStorage.clear();
+
       this.router.navigateByUrl('/signIn');
       this.ngOnInit();
     }

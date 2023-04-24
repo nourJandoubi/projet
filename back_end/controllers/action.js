@@ -121,10 +121,10 @@ exports.archiveData = async () => {
   }
 
   // Write the archived actions to the file
-  fs.appendFile(process.env.ARCHIVE_FILE_PATH, JSON.stringify(buffer), (err) => {
+  /*fs.appendFile(process.env.ARCHIVE_FILE_PATH, JSON.stringify(buffer), (err) => {
     if (err) throw err;
     console.log(`Archived ${buffer.length} actions.`);
-  });
+  });*/
 };
 
 exports.getActionsParBourse = async (req, res) => {
