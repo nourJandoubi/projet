@@ -27,6 +27,8 @@ export class AuthentificationService {
     return this.http.post(`${this.baseUrl}register/`, user).pipe(
       map((auth: any) => {
         if (auth.success) {
+          localStorage.setItem('status', 'investor');
+
           localStorage.setItem('TOKEN', auth.token);
           localStorage.setItem('currentUser', JSON.stringify(auth.user));
           this.currentUserSubject = new BehaviorSubject<any>(auth.user);
@@ -60,8 +62,8 @@ export class AuthentificationService {
             localStorage.setItem('currentUser', JSON.stringify(auth.user));
             this.currentUserSubject = new BehaviorSubject<any>(auth.user);
             // console.log('current subject',this.currentUserSubject);
-            0;
-            return auth.success;
+            
+            return auth;
           } else {
           }
         }),
@@ -71,15 +73,6 @@ export class AuthentificationService {
         })
       );
   }
- isAdmin()
- { 
-  const status = localStorage.getItem('status');
-
-  if(status=='admin')
-  return true;
-  else
-  return false;
- }
   logOut() {
     localStorage.clear();
   }

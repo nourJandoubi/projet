@@ -65,17 +65,16 @@ export class SignInComponent implements OnInit{
   login() {
     let status:boolean;
 
-    status=this.authentificationService.isAdmin()
-    console.log('sign in login status',status)
     this.authentificationService
       .signin(this.userFormGroup.value)
       .subscribe((res) => {
         if (res) {
+          console.log('resss',res)
           this.show();
           //this.openSnackBar();
           
 
-           if(status)
+           if(res.status=='admin')
            this.router.navigate(['/admin']);
            else
             this.router.navigate(['/profile']);
@@ -84,6 +83,7 @@ export class SignInComponent implements OnInit{
           this.errorSnackBar('error');
         }
       });
+ 
   }
   togglePassword(passwordInput: HTMLInputElement): void {
     const toggleButton = document.querySelector('.toggle-password');

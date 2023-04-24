@@ -146,10 +146,14 @@ export class ProfileComponent implements OnInit {
         return true;
       }
    }
-  deconnexion() {
-    this.authentificationService.logOut();
-    this.ngOnInit();
+   deconnexion() {
+    //this.authentificationService.logOut();
+    localStorage.clear();
+
+    this.router.navigateByUrl('/signIn');
+    //this.ngOnInit();
   }
+
  
  updateInfo()
   { this.authentificationService.updateUser(this.userForm.value).subscribe(

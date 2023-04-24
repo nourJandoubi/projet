@@ -12,7 +12,10 @@ export class AdminGuardService {
     private router: Router
   ) {}
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    if (this.authentificationService.isAdmin()) {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    const status = currentUser.status;
+
+    if (status=='admin') {
       return true;
     } else {
       this.router.navigateByUrl('/login');
