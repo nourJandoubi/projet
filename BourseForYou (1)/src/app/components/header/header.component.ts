@@ -20,7 +20,9 @@ export class HeaderComponent implements OnInit{
       localStorage.getItem('TOKEN') != 'undefined';
     }
     deconnexion() {
-      this.authentificationService.logOut();
+      //this.authentificationService.logOut();
+      localStorage.clear();
+
       this.router.navigateByUrl('/signIn');
       this.ngOnInit();
     }

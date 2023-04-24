@@ -1,10 +1,10 @@
 import { AuthentificationService } from './../../services/authentification.service';
-import { Component } from '@angular/core';
-import { faSignOut,faDirections,faSitemap } from '@fortawesome/free-solid-svg-icons';
+import { Component, ViewChild, ElementRef } from '@angular/core';
+import { faSignOut,faDirections } from '@fortawesome/free-solid-svg-icons';
 import { VisitorsService } from 'src/app/services/visitors.service';
 import { AdminService } from 'src/app/services/admin.service';
 import { forkJoin } from 'rxjs';
-import {Chart} from 'chart.js';
+import Chart from 'chart.js/auto';
 
 
 @Component({
@@ -15,14 +15,35 @@ import {Chart} from 'chart.js';
 export class AdminComponent {
   faDirections=faDirections;
   faSignOut=faSignOut;
+  @ViewChild('myChart', { static: true }) myCanvas: ElementRef<HTMLCanvasElement>;
+    today: string;
+    day:string="";
+    typeSelect=[
+        {name:'jour'},
+        {name:'mois'},
+        {name:'annee'},
+    ];
 
-//visitors
-  //visitorsByDay:number;
- // visitorsByLastWeek:number; 9bal matna7iha thabet behc testa3mel fonction ta3 lastweek wela
-  //visitorsByMonth:number;
-  //visitorsByYear:number;
+    todaydate = new Date();
+    months: any[] = [
+        {name: 'Janvier', value: 1},
+        {name: 'Février', value: 2},
+        {name: 'Mars', value: 3},
+        {name: 'Avril', value: 4},
+        {name: 'Mai', value: 5},
+        {name: 'Juin', value: 6},
+        {name: 'Juillet', value: 7},
+        {name: 'Août', value: 8},
+        {name: 'Septembre', value: 9},
+        {name: 'Octobre', value: 10},
+        {name: 'Novembre', value: 11},
+        {name: 'Décembre', value: 12}
+      ];
+      years: number[] = [];
+  
+
+//Visitors
   visibleV:boolean;
-
   totalVisitors:number;
   tabVisitorsByMonth:any[]=[];
   tabVisitorsByYear:any[]=[];
@@ -36,13 +57,15 @@ export class AdminComponent {
   showChartDay = true;
   showChartMonth = false;
   showChartYear = false;
-//users
-  //usersByDay:number;
-  //usersByLastWeek:number;
-  //usersByMonth:number;
-  //usersByYear:number;
-  visibleU:boolean;
+  selectedYearVM = this.todaydate.getFullYear();
+  selectedYearVY:number = this.todaydate.getFullYear();
+  selectedMonthVM = this.todaydate.getMonth() + 1;
 
+  labelVisitorsByMonth:any[]=[]
+  dataVisitorsByMonth:any[]=[]
+//users
+  
+  visibleU:boolean;
   totalUsers:number;
   tabUsersByMonth:any[]=[];
   tabUsersByYear:any[]=[];
@@ -56,111 +79,84 @@ export class AdminComponent {
   showChartDayU = true;
   showChartMonthU = false;
   showChartYearU = false;
+  selectedYearUM = this.todaydate.getFullYear();
+  selectedYearUY:number = this.todaydate.getFullYear();
+  selectedMonthUM = this.todaydate.getMonth() + 1;
 //country
-visibleC:boolean;
-
+  visibleC:boolean;
   totalCountries:number;
   tabCountry:any[]=[];
 
 
-  
-
-    today: string;
-    day:string="";
-    typeSelect=[
-        {name:'jour'},
-        {name:'mois'},
-        {name:'annee'},
-    ];
 
     basicData:any;
     basicOptions:any;
    
 
-  //select month and year 
-  todaydate = new Date();
-  selectedYearVM = this.todaydate.getFullYear();
-  selectedYearVY:number = this.todaydate.getFullYear();
+  constructor(
+    private authentificationService:AuthentificationService,
+    public visitorService:VisitorsService,
+    public adminService:AdminService)
+    {     }
 
-  selectedMonthVM = this.todaydate.getMonth() + 1;
-
-  selectedYearUM = this.todaydate.getFullYear();
-  selectedYearUY:number = this.todaydate.getFullYear();
-
-  selectedMonthUM = this.todaydate.getMonth() + 1;
-    years: number[] = [];
-    months: any[] = [
-      {name: 'Janvier', value: 1},
-      {name: 'Février', value: 2},
-      {name: 'Mars', value: 3},
-      {name: 'Avril', value: 4},
-      {name: 'Mai', value: 5},
-      {name: 'Juin', value: 6},
-      {name: 'Juillet', value: 7},
-      {name: 'Août', value: 8},
-      {name: 'Septembre', value: 9},
-      {name: 'Octobre', value: 10},
-      {name: 'Novembre', value: 11},
-      {name: 'Décembre', value: 12}
-    ];
-
-  
-  onOptionSelected()
-   {
-        if (this.selectedOption === 'jour')
-        {
-                this.showChartDay = true;
-                this.showChartMonth = false;
-                this.showChartYear = false;
-        } 
-        else 
-            if (this.selectedOption === 'mois') 
-            {
-                    this.showChartDay = false;
-                    this.showChartMonth = true;
-                    this.showChartYear = false;
-                } 
-            else 
-                    if (this.selectedOption === 'annee') 
-                    {
-                        this.showChartDay = false;
-                        this.showChartMonth = false;
-                        this.showChartYear = true;
-                    } 
-   }
-  changeDate(type:any)
+deconnexion() {
+        this.authentificationService.logOut();
+        this.ngOnInit();
+      }
+showDialog(type:any)
+      { if(type=='visiteur')
+        this.visibleV=true;
+        if(type=='investisseur')
+        this.visibleU=true;  
+      }
+onOptionSelected()
   {
-    if(type=='visitor')
-   { 
-        this.visitorsDay(this.day)
-        this.totalTextDayV=true;
+       if (this.selectedOption === 'jour')
+       {
+               this.showChartDay = true;
+               this.showChartMonth = false;
+               this.showChartYear = false;
+       } 
+       else 
+           if (this.selectedOption === 'mois') 
+           {
+                   this.showChartDay = false;
+                   this.showChartMonth = true;
+                   this.showChartYear = false;
+               } 
+           else 
+                   if (this.selectedOption === 'annee') 
+                   {
+                       this.showChartDay = false;
+                       this.showChartMonth = false;
+                       this.showChartYear = true;
+                   } 
+  }
+changeDate(type:any)
+ {
+   if(type=='visitor')
+  { 
+       this.visitorsDay(this.day)
+       this.totalTextDayV=true;
+  }
+   if(type=='user')
+   {
+       this.usersDay(this.day)
+       this.totalTextDayU=true;
    }
-    if(type=='user')
-    {
-        this.usersDay(this.day)
-        this.totalTextDayU=true;
-    }
-  }
-  
-
-  constructor(private authentificationService:AuthentificationService,public visitorService:VisitorsService,public adminService:AdminService){
-
-  }
-  deconnexion() {
-    this.authentificationService.logOut();
-    this.ngOnInit();
-  }
-
-  showDialog(type:any)
-  { if(type=='visiteur')
-    this.visibleV=true;
-    if(type=='investisseur')
-    this.visibleU=true;  
-  }
-
-
-
-
+ }
+visitorsDay(day:any)
+ {
+     this.visitorService.getVisitorsByDay(day).subscribe((responses: any) =>
+     {
+         this.totalDayV= responses.total;
+         console.log('total day',this.totalDayV)
+         if(this.totalDayV==undefined)
+         {
+           this.totalDayV=0;
+         }
+     });
+ }
 visitorsYear(year: any) 
 {
   for (let i = 0; i < 12; i++) 
@@ -193,22 +189,32 @@ visitorsMonth(year:any,month:any)
 
     for (let i = 0; i < d; i++) {
       const day = year + '-' + month + '-' + (i+1);
+      this.labelVisitorsByMonth.push(day);
+      this.labelVisitorsByMonth.sort((a: Date, b: Date) => Date.parse(a.toString()) - Date.parse(b.toString()));
+
       promises.push(
         this.visitorService.getVisitorsByDay(day).toPromise()
           .then((response: any) => {
             if (response.total == undefined) {
               this.tabVisitorsByMonth[day] = 0;
+              this.dataVisitorsByMonth.push(0);
             } else {
               this.tabVisitorsByMonth[day] = response.total;
+              this.dataVisitorsByMonth.push(response.total);
+
             }
           })
       );
+
       /*Promise.all(promises).then(() => {
         console.log('tabb', this.tabVisitorsByMonth[day]);
         
       });*/
       
     }
+    console.log('label dateee',this.labelVisitorsByMonth);
+    console.log('dataaa dateee',this.dataVisitorsByMonth);
+
      
     this.visitorService.getVisitorsByMonth(year,month).subscribe((response)=>
     {
@@ -218,18 +224,63 @@ visitorsMonth(year:any,month:any)
     
    
 }
-visitorsDay(day:any)
-{
-    this.visitorService.getVisitorsByDay(day).subscribe((responses: any) =>
-    {
-        this.totalDayV= responses.total;
-        console.log('total day',this.totalDayV)
-        if(this.totalDayV==undefined)
-        {
-          this.totalDayV=0;
-        }
-    });
-}
+
+ngAfterViewInit() {
+console.log('label ng',this.labelVisitorsByMonth);
+console.log('data ng',this.dataVisitorsByMonth);
+       
+console.log('ctx')
+
+    
+const ctx = this.myCanvas.nativeElement.getContext('2d');
+const chartData = {
+    labels: this.labelVisitorsByMonth,
+    datasets: [
+      {
+        label: `to 2023 `,
+        data: this.dataVisitorsByMonth,
+        backgroundColor: '#3F51B5',
+        borderColor: '#3F51B5',
+        borderWidth: 1,
+        fill: true,
+      },
+    ],
+  };
+  
+  const chartOptions = {
+    responsive: true,
+    scales: {
+      x: {
+        display: true,
+        title: {
+          display: true,
+          text: 'Date',
+        },
+      },
+      y: {
+        display: true,
+        title: {
+          display: true,
+          text: `Exchange rate (azzz to )`,
+        },
+      },
+    },
+  };
+
+      
+      // Create chart
+      setTimeout(() => {  
+     
+        const myChart = new Chart(ctx, {
+          type: 'line',
+          data: chartData,
+          options: chartOptions,
+        });
+      }, 500);
+    }
+  
+
+
 usersDay(day:any)
 {
     this.adminService.getUsersByDay(day).subscribe((responses:any)=>
@@ -297,24 +348,12 @@ usersYear(year:any)
         this.totalYearU=response.total;
     });
 }
-
-
-/*visitorsLastweek()
-{
-    this.visitorService.getVisitorsByLastWeek().subscribe((response: any) => {
-        this.visitorsByLastWeek=response;
-        console.log('last weeeek',this.visitorsByLastWeek)
-  
-      });
-}*/
-
 updateDays(type:any)
 {  if(type=='visitor')
     this.visitorsMonth(this.selectedYearVM,this.selectedMonthVM)
     if(type=='user')
     this.usersMonth(this.selectedYearUM,this.selectedMonthUM)
 }
-
 updateYear(type:any)
 {   if(type=='visitor')
     this.visitorsYear(this.selectedYearVY)
@@ -322,7 +361,7 @@ updateYear(type:any)
     this.usersYear(this.selectedYearUY)
 }
 
-  ngOnInit() {
+ngOnInit() {
     //hedhy bech ya3mel biha el max ta3 el calendrier
     const now = new Date();
     this.today = now.toISOString().substring(0, 10);
@@ -397,7 +436,6 @@ this.usersMonth(this.selectedYearUM,this.selectedMonthUM)
        this.visitorService.getTotalVisitors().subscribe((response: any) => {
         this.totalVisitors=response;
       });
-      console.log('tooo',this.totalVisitors)
 //----------------Users-------------------------//  
     this.adminService.getTotalUsers().subscribe((response: any) => {
         this.totalUsers=response.count;
@@ -406,10 +444,6 @@ this.usersMonth(this.selectedYearUM,this.selectedMonthUM)
     this.adminService.getCountry().subscribe((response:any)=>{
         this.tabCountry=response;
       });
-
-
-    
-
     this.adminService.getTotalCountries().subscribe((response:any)=>{
         this.totalCountries=response;
     });

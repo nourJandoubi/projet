@@ -9,6 +9,7 @@ export class AuthentificationService {
   behaviourSubject: Observable<any>;
   currentUserSubject: BehaviorSubject<any>;
   authToken: any;
+  status:string='investor';
 
   private baseUrl = 'http://localhost:3000/api/user/';
   constructor(private http: HttpClient) {
@@ -42,16 +43,23 @@ export class AuthentificationService {
   }
 
   signin(user: any): Observable<any> {
+    localStorage.clear();
+
     let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http
       .post(`${this.baseUrl}login`, user, { headers: headers })
       .pipe(
         map((auth: any) => {
           if (auth.success) {
+            if(auth.status=='admin')
+            {
+              localStorage.setItem('status', auth.status);
+              this.status=auth.status;
+            }
             localStorage.setItem('TOKEN', auth.token);
             localStorage.setItem('currentUser', JSON.stringify(auth.user));
             this.currentUserSubject = new BehaviorSubject<any>(auth.user);
-            console.log('current subject',this.currentUserSubject);
+            // console.log('current subject',this.currentUserSubject);
             0;
             return auth.success;
           } else {
@@ -63,7 +71,15 @@ export class AuthentificationService {
         })
       );
   }
+ isAdmin()
+ { 
+  const status = localStorage.getItem('status');
 
+  if(status=='admin')
+  return true;
+  else
+  return false;
+ }
   logOut() {
     localStorage.clear();
   }

@@ -25,7 +25,6 @@ export class AdminService {
   getUsersByYear(year:any):Observable<any>
   {
     return this.http.get(`${this.baseUrl}year/${year}`)
-
   }
   getTotalUsers():Observable<any>
   {

@@ -51,6 +51,19 @@ export class DevisesDetailsComponent {
     
           if (match) {
             const value = {
+
+
+
+
+
+
+
+
+
+
+
+
+              
               valeur : parseFloat(match[1]),
               devise : match[2],
               un :parseFloat (match[3]),

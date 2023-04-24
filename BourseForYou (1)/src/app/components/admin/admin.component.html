@@ -36,7 +36,7 @@
       </div>
 
 <div class="row">
-    <div class="col-1" >      <canvas id="myChart">chat</canvas>
+    <div class="col-1" >      
     </div>
     <div class="col-10">
         <div class="row mt-4 ">
@@ -77,9 +77,10 @@
                                     <option *ngFor="let month of months" [value]="month.value">{{month.name}}</option>
                                   </select>
                                   <h3 *ngIf="totalTextMonthV"class="mt-2">Total Visiteurs : {{totalMonthV}}</h3>
+                                  <canvas #myChart></canvas>
 
                                
-                                <p-chart  type="bar" [data]="basicData" [options]="basicOptions"></p-chart>
+                                <!--<p-chart  type="bar" [data]="basicData" [options]="basicOptions"></p-chart>-->
                                </div>
                             <!--  Visitors By Year  -->
                                <div *ngIf="showChartYear" class="mt-2">

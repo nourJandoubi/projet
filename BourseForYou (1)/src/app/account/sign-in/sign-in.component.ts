@@ -1,3 +1,5 @@
+import { AdminService } from 'src/app/services/admin.service';
+import { AdminGuardService } from './../../services/admin-guard.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
@@ -25,7 +27,8 @@ export class SignInComponent implements OnInit{
     private authentificationService: AuthentificationService,
     private _snackBar: MatSnackBar,
     private router: Router,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private adminService:AdminService
   ) {}
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
@@ -60,13 +63,21 @@ export class SignInComponent implements OnInit{
     
   }
   login() {
+    let status:boolean;
+
+    status=this.authentificationService.isAdmin()
+    console.log('sign in login status',status)
     this.authentificationService
       .signin(this.userFormGroup.value)
       .subscribe((res) => {
         if (res) {
           this.show();
           //this.openSnackBar();
-        
+          
+
+           if(status)
+           this.router.navigate(['/admin']);
+           else
             this.router.navigate(['/profile']);
         
         } else {

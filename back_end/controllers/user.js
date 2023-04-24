@@ -16,6 +16,7 @@ exports.authUser = asyncHandler(async (req, res) => {
     res.json({
       success: true,
       user: newUser,
+      status:user.status,
       token: 'Bearer ' + generateToken(user._id),
     }),()=>{
       done();
@@ -42,7 +43,7 @@ exports.registerUser = asyncHandler(async (req, res) => {
   const user = await User.create({
     ...req.body,
     registeredAt: Date.now(), // Ajoute la date d'inscription
-
+    status:'investsor'
   })
   if (user) {
     let { password, ...newUser } = user.toObject()
