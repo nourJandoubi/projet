@@ -35,6 +35,7 @@ import { ActionsComponent } from './components/actions/actions.component';
 import { ActualitesComponent } from './components/actualites/actualites.component';
 import { DeviseComponent } from './components/devise/devise.component';
 import { DevisesDetailsComponent } from './components/devises-details/devises-details.component';
+import { AccueilComponent } from './components/accueil/accueil.component';
 import { AdminComponent } from './components/admin/admin.component';
 import { DialogModule } from 'primeng/dialog';
 import { CardModule } from 'primeng/card';
@@ -62,6 +63,8 @@ import { CalendarModule } from 'primeng/calendar';
     ActualitesComponent,
     DeviseComponent,
     DevisesDetailsComponent,
+    AccueilComponent,
+ 
     AdminComponent,
    
   ],

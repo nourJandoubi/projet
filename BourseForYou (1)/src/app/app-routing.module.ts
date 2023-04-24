@@ -11,11 +11,13 @@ import { AuthGuardService } from './services/auth-guard.service';
 import { DeviseComponent } from './components/devise/devise.component';
 import { ActionsComponent } from './components/actions/actions.component';
 import { DevisesDetailsComponent } from './components/devises-details/devises-details.component';
+import { AccueilComponent } from './components/accueil/accueil.component';
 
 const routes: Routes = [
 
   {path:"signIn",component:SignInComponent},
   {path:"devise",component:DeviseComponent},
+  {path:"accueil",component:AccueilComponent},
   {path: 'devise/:id/:selectedDevise/:devise', component:DevisesDetailsComponent},
   {path:"signUp",component:SignUpComponent},
   {path:"home",component:HomeComponent},

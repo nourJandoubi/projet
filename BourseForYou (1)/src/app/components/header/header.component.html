@@ -2,7 +2,7 @@
   <aside class="sidenav bg-white navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl mt-2 mb-5 fixed-start ms-1 " id="sidenav-main">
     <div class="sidenav-header">
       <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
-      <a class="navbar-brand m-0" routerLink="/home" target="_blank" routerLinkActive="active">
+      <a class="navbar-brand m-0" routerLink="/accueil" >
         <img src="../assets/img/logo-ct-dark.png" class="navbar-brand-img h-100" alt="main_logo">
         <span class="ms-1 font-weight-bold">
           Bourse Pour Toi
@@ -78,19 +78,19 @@
     <!-- Navbar -->
     <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl " id="navbarBlur" data-scroll="false">
       <div class="container-fluid py-1 px-3">
-       
+       <img [src]=""/>
         <div class="collapse navbar-collapse mt-sm-0 mt-4 me-md-0 me-sm-4 " id="navbar">
           <div class="ms-md-auto pe-md-3 d-flex align-items-center">
            <ul class="navbar-nav  justify-content-end">
             <!--Home-->
-            <li class="nav-item d-flex align-items-center">
-              <a routerLink="/home" routerLinkActive="active" class="nav-link text-white font-weight-bold px-0">
+            <!-- <li class="nav-item d-flex align-items-center">
+              <a routerLink="/home" class="nav-link text-white font-weight-bold px-0">
                 <i class="fa fa-home me-sm-1"></i>
                 <span class="d-sm-inline d-none">Accueil</span>
               </a>
-            </li>
+            </li> -->
            <!--Sign In Sign Up-->
-            <li class="nav-item dropdown px-3 pe-2 d-flex align-items-center">
+            <!-- <li class="nav-item dropdown px-3 pe-2 d-flex align-items-center">
               <a href="javascript:;" class="nav-link text-white p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="fa fa-user me-sm-1"></i>
                 <span class="d-sm-inline d-none">Compte</span>
@@ -131,7 +131,11 @@
                 </li>
                
               </ul>
-            </li>      
+            </li> -->
+           
+            
+
+            
           </ul>
           </div> 
         </div>

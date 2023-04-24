@@ -15,7 +15,7 @@ import Chart from 'chart.js/auto';
 export class AdminComponent {
   faDirections=faDirections;
   faSignOut=faSignOut;
-  @ViewChild('myChart', { static: true }) myCanvas: ElementRef<HTMLCanvasElement>;
+  @ViewChild('myCanvas') myCanvas: ElementRef<HTMLCanvasElement>;
     today: string;
     day:string="";
     typeSelect=[
@@ -224,63 +224,6 @@ visitorsMonth(year:any,month:any)
     
    
 }
-
-ngAfterViewInit() {
-console.log('label ng',this.labelVisitorsByMonth);
-console.log('data ng',this.dataVisitorsByMonth);
-       
-console.log('ctx')
-
-    
-const ctx = this.myCanvas.nativeElement.getContext('2d');
-const chartData = {
-    labels: this.labelVisitorsByMonth,
-    datasets: [
-      {
-        label: `to 2023 `,
-        data: this.dataVisitorsByMonth,
-        backgroundColor: '#3F51B5',
-        borderColor: '#3F51B5',
-        borderWidth: 1,
-        fill: true,
-      },
-    ],
-  };
-  
-  const chartOptions = {
-    responsive: true,
-    scales: {
-      x: {
-        display: true,
-        title: {
-          display: true,
-          text: 'Date',
-        },
-      },
-      y: {
-        display: true,
-        title: {
-          display: true,
-          text: `Exchange rate (azzz to )`,
-        },
-      },
-    },
-  };
-
-      
-      // Create chart
-      setTimeout(() => {  
-     
-        const myChart = new Chart(ctx, {
-          type: 'line',
-          data: chartData,
-          options: chartOptions,
-        });
-      }, 500);
-    }
-  
-
-
 usersDay(day:any)
 {
     this.adminService.getUsersByDay(day).subscribe((responses:any)=>
@@ -360,68 +303,67 @@ updateYear(type:any)
     if(type=='user')
     this.usersYear(this.selectedYearUY)
 }
-
 ngOnInit() {
-    //hedhy bech ya3mel biha el max ta3 el calendrier
-    const now = new Date();
-    this.today = now.toISOString().substring(0, 10);
-  //pour remplir tableau years
-    const year = new Date().getFullYear();
-    for (let i = year - 40; i <= year; i++) {
-      this.years.push(i);
-    }
-    
+  //hedhy bech ya3mel biha el max ta3 el calendrier
+  const now = new Date();
+  this.today = now.toISOString().substring(0, 10);
+//pour remplir tableau years
+  const year = new Date().getFullYear();
+  for (let i = year - 40; i <= year; i++) {
+    this.years.push(i);
+  }
+  
 
 
 //partie chart
-      const documentStyle = getComputedStyle(document.documentElement);
-      const textColor = documentStyle.getPropertyValue('--text-color');
-      const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
-      const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
+    const documentStyle = getComputedStyle(document.documentElement);
+    const textColor = documentStyle.getPropertyValue('--text-color');
+    const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
+    const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
 
-      this.basicData = {
-          labels: ['Q1', 'Q2', 'Q3', 'Q4'],
-          datasets: [
-              {
-                  label: 'Sales',
-                  data: [540, 325, 702, 620],
-                  backgroundColor: ['rgba(255, 159, 64, 0.2)', 'rgba(75, 192, 192, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(153, 102, 255, 0.2)'],
-                  borderColor: ['rgb(255, 159, 64)', 'rgb(75, 192, 192)', 'rgb(54, 162, 235)', 'rgb(153, 102, 255)'],
-                  borderWidth: 1
-              }
-          ]
-      };
+    this.basicData = {
+        labels: ['Q1', 'Q2', 'Q3', 'Q4'],
+        datasets: [
+            {
+                label: 'Sales',
+                data: [540, 325, 702, 620],
+                backgroundColor: ['rgba(255, 159, 64, 0.2)', 'rgba(75, 192, 192, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(153, 102, 255, 0.2)'],
+                borderColor: ['rgb(255, 159, 64)', 'rgb(75, 192, 192)', 'rgb(54, 162, 235)', 'rgb(153, 102, 255)'],
+                borderWidth: 1
+            }
+        ]
+    };
 
-      this.basicOptions = {
-          plugins: {
-              legend: {
-                  labels: {
-                      color: textColor
-                  }
-              }
-          },
-          scales: {
-              y: {
-                  beginAtZero: true,
-                  ticks: {
-                      color: textColorSecondary
-                  },
-                  grid: {
-                      color: surfaceBorder,
-                      drawBorder: false
-                  }
-              },
-              x: {
-                  ticks: {
-                      color: textColorSecondary
-                  },
-                  grid: {
-                      color: surfaceBorder,
-                      drawBorder: false
-                  }
-              }
-          }
-      };
+    this.basicOptions = {
+        plugins: {
+            legend: {
+                labels: {
+                    color: textColor
+                }
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    color: textColorSecondary
+                },
+                grid: {
+                    color: surfaceBorder,
+                    drawBorder: false
+                }
+            },
+            x: {
+                ticks: {
+                    color: textColorSecondary
+                },
+                grid: {
+                    color: surfaceBorder,
+                    drawBorder: false
+                }
+            }
+        }
+    };
 //end partie chart
 
 
@@ -433,20 +375,79 @@ this.usersMonth(this.selectedYearUM,this.selectedMonthUM)
 
 
 //---------------Visitors---------------------------------//  
-       this.visitorService.getTotalVisitors().subscribe((response: any) => {
-        this.totalVisitors=response;
-      });
+     this.visitorService.getTotalVisitors().subscribe((response: any) => {
+      this.totalVisitors=response;
+    });
 //----------------Users-------------------------//  
-    this.adminService.getTotalUsers().subscribe((response: any) => {
-        this.totalUsers=response.count;
-    });
+  this.adminService.getTotalUsers().subscribe((response: any) => {
+      this.totalUsers=response.count;
+  });
 //-----------Country-------------------
-    this.adminService.getCountry().subscribe((response:any)=>{
-        this.tabCountry=response;
-      });
-    this.adminService.getTotalCountries().subscribe((response:any)=>{
-        this.totalCountries=response;
+  this.adminService.getCountry().subscribe((response:any)=>{
+      this.tabCountry=response;
     });
-  }
+  this.adminService.getTotalCountries().subscribe((response:any)=>{
+      this.totalCountries=response;
+  });
+}
+
+ngAfterViewInit() {
+// console.log('label ng',this.labelVisitorsByMonth);
+// console.log('data ng',this.dataVisitorsByMonth);
+setTimeout(() => {   
+  const ctx = this.myCanvas.nativeElement.getContext('2d');
+    
+
+const chartData = {
+    labels: this.labelVisitorsByMonth,
+    datasets: [
+      {
+        label: `to 2023 `,
+        data: this.dataVisitorsByMonth,
+        backgroundColor: '#3F51B5',
+        borderColor: '#3F51B5',
+        borderWidth: 1,
+        fill: true,
+      },
+    ],
+  };
+  
+  const chartOptions = {
+    responsive: true,
+    scales: {
+      x: {
+        display: true,
+        title: {
+          display: true,
+          text: 'Date',
+        },
+      },
+      y: {
+        display: true,
+        title: {
+          display: true,
+          text: `Exchange rate (azzz to )`,
+        },
+      },
+    },
+  };
+
+      
+      // Create chart
+     
+        const myChart = new Chart(ctx, {
+          type: 'line',
+          data: chartData,
+          options: chartOptions,
+        });
+      }, 50);
+  
+    }
+  
+
+
+
+
+
 }
 
