@@ -23,6 +23,7 @@ import { ActionsComponent } from './components/actions/actions.component';
 import { ActualitesComponent } from './components/actualites/actualites.component';
 import { DeviseComponent } from './components/devise/devise.component';
 import { DevisesDetailsComponent } from './components/devises-details/devises-details.component';
+import { AccueilComponent } from './components/accueil/accueil.component';
 
 
 
@@ -46,6 +47,7 @@ import { DevisesDetailsComponent } from './components/devises-details/devises-de
     ActualitesComponent,
     DeviseComponent,
     DevisesDetailsComponent,
+    AccueilComponent,
  
    
   ],

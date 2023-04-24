@@ -170,7 +170,7 @@ ngAfterViewInit() {
         data: chartData,
         options: chartOptions,
       });
-    }, 500);
+    }, 1000);
   }
 
   }    
