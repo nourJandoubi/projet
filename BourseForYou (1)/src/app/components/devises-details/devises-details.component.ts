@@ -125,9 +125,8 @@ export class DevisesDetailsComponent {
 
 ngAfterViewInit() {
 
-  const ctx = this.myCanvas.nativeElement.getContext('2d');
-
-  
+  setTimeout(() => {   
+    const ctx = this.myCanvas.nativeElement.getContext('2d');
     const chartData = {
       labels: this.dates,
       datasets: [
@@ -166,13 +165,13 @@ ngAfterViewInit() {
     
     
     // Create chart
-    setTimeout(() => {
-      const myChart = new Chart(this.myCanvas.nativeElement, {
-        type: 'line',
-        data: chartData,
-        options: chartOptions,
-      });
-    }, 1000);
+    const myChart = new Chart(ctx, {
+      type: 'line',
+      data: chartData,
+      options: chartOptions,
+    });
+  },2000);
+
   }
 
   }    

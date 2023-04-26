@@ -53,6 +53,7 @@ export class DeviseComponent {
   ngOnInit(): void {
     this.deviseService.getDevisesParDate().subscribe((data) => {
       this.devises = data;
+      console.log(this.devises);
      
       
       for (let i = 0; i < this.devises.length; i++) {
@@ -66,17 +67,18 @@ export class DeviseComponent {
             euro : match[4],
             date : match[5],
           };
-         
+        
           this.values.push(value);
           
           this.deviseList["EUR"].push({id:uuidv4(),devise:value.devise,valeur:value.valeur})
+          console.log("eur",this.deviseList["EUR"])
         } 
        
        
       }
       this.values.push({valeur :1,devise : "EUR",un :1,euro : "EUR"})
       this.deviseList["EUR"].push({id:uuidv4(),devise:"EUR",valeur:1})
-     
+     console.log("values",this.values)
 
       for (let i = 0; i < this.values.length; i++) {
         const dollar = 1 / this.values[0].valeur;
@@ -100,7 +102,7 @@ export class DeviseComponent {
         this.deviseList["CAD"].push({id:uuidv4(),devise:nomDevise,valeur:rescad});
         console.log(this.deviseList["CAD"])
       };
-
+      console.log("usd",this.deviseList["USD"])
      
       
     });

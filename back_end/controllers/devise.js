@@ -105,7 +105,7 @@ exports.deleteDevise = (req, res) => {
 // exports.getDevisesParDate = (req, res) => {
 //     const currentDate = new Date();
 // const startOfDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 0, 0, 0); // début de la journée
-// const yesterday = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() - 1);
+// const yesterday = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() - 3);
 
 // Devise.find({ isoDate: { $gte: yesterday.toISOString(), $lte: startOfDay.toISOString() } })
 //   .then((devises) => {

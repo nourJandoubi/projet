@@ -33,11 +33,14 @@ export class ActualiteDetailsComponent {
       this.actualites = data;
       this.lienActualite=this.actualites.link;
       console.log(this.lienActualite);
+      
       this.actualiteService.postScrapedData(this.lienActualite).subscribe(data=>{
+        console.log(data)
        this.titre=data.titre;
-       
+
        this.description=data.description;
        this.resume=data.resume;
+       
       }
         )
       

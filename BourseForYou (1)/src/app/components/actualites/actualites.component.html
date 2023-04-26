@@ -29,7 +29,7 @@
           </div>
           <div class="d-flex">
             <button class="btn btn-link btn-icon-only btn-rounded btn-sm text-dark icon-move-right my-auto" [routerLink]="['/home',actualite._id]">
-              <i class="ni ni-bold-right" aria-hidden="true"></i>
+              <i class="ni ni-bold-right " style="color: black;" aria-hidden="true"></i>
             </button>
           </div>
         </div>
@@ -37,13 +37,7 @@
       <div class="d-flex align-items-center" *ngIf="filteredItemsNews.length == 0">
         <h5>Pas de resultat</h5>
       </div>
-      <!--<mat-paginator
-        [length]="filteredItemsNews.length"
-        [pageSize]="4"
-        aria-label="Select page"
-        (page)="onPageChangeNews($event)"
-      >
-      </mat-paginator>-->
+      
       
         <div class="d-flex align-items-center ">
           <p-paginator class="ms-5" [first]="first" [rows]="rows" [totalRecords]="filteredItemsNews.length/4" (onPageChange)="onPageChangeNews($event)" [showJumpToPageDropdown]="true" [showPageLinks]="false"></p-paginator>
