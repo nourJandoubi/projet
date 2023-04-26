@@ -22,8 +22,7 @@
       </div>
     </div>
   </nav>
-
-  <canvas #myCanvas></canvas>
+ 
   <main class="main-content  mt-0">
     <div class="page-header align-items-start min-vh-50 pt-5 pb-11 m-3 border-radius-lg" style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/signup-cover.jpg'); background-position: top;">
         <span class="mask bg-gradient-dark opacity-6"></span>
@@ -51,10 +50,15 @@
                         <div class="  col-3 icons">
                            <i class="pi pi-users icon-center"></i>
                         </div>
-                      </div>
+                      </div>                      
+                      <span class="small-box-footer" routerLink="/visitor" icon="pi pi-external-link" >
+                        Plus d'information <fa-icon [icon]="faDirections"></fa-icon>
+                      </span>
                       
-                       <span class="small-box-footer" (click)="showDialog('visiteur')" icon="pi pi-external-link" >Plus d'information <fa-icon [icon]="faDirections"></fa-icon></span>
-                       <p-dialog header="Header" [style]="{width:'50vw',height:'300px'}" [(visible)]="visibleV" [style]="{width: '50vw'}">
+                       <!--<span class="small-box-footer" (click)="showDialog('visiteur')" icon="pi pi-external-link" >Plus d'information <fa-icon [icon]="faDirections"></fa-icon></span>
+                       <p-dialog header="Header" [style]="{width:'80vw',height:'500px'}" [(visible)]="visibleV" >
+
+
                               <select pInputText name="type" id="type"  [(ngModel)]="selectedOption" (ngModelChange)="onOptionSelected()">
                                 <option value="jour">jour</option>
                                 <option value="mois">Mois</option>
@@ -62,14 +66,12 @@
                               </select>
                               
                           
-                            <!--  Visitors By Day  -->
                                <div *ngIf="showChartDay" class="mt-2">
                                 <input type="date" pInputText name="date" max="{{ today | date: 'yyyy-MM-dd' }}" [(ngModel)]="day" (change)="changeDate('visitor')">
                                 <h3 *ngIf="totalTextDayV"class="mt-2">Total Visiteurs : {{totalDayV}}</h3>
                                </div>
 
 
-                            <!--  Visitors By Month  -->
                                <div *ngIf="showChartMonth" class="mt-2">
                                 <select name="year"pInputText [(ngModel)]="selectedYearVM" (ngModelChange)="updateDays('visitor')">
                                     <option *ngFor="let year of years" [value]="year">{{year}}</option>
@@ -82,9 +84,7 @@
                                  
 
                                
-                                <!--<p-chart  type="bar" [data]="basicData" [options]="basicOptions"></p-chart>-->
                                </div>
-                            <!--  Visitors By Year  -->
                                <div *ngIf="showChartYear" class="mt-2">
                                 <select name="year"pInputText [(ngModel)]="selectedYearVY" (ngModelChange)="updateYear('visitor')">
                                     <option *ngFor="let year of years" [value]="year">{{year}}</option>
@@ -92,7 +92,7 @@
                                 <h3 *ngIf="totalTextYearV"class="mt-2">Total Visiteurs : {{totalYearV}}</h3>
 
                             </div>
-                       </p-dialog>
+                       </p-dialog>-->
 
                          
                         
@@ -110,8 +110,10 @@
                         <i class="fas fa-user-check icon-center"></i>
                      </div>
                    </div>
-                   
-                   <span class="small-box-footer" (click)="showDialog('investisseur')" icon="pi pi-external-link" >Plus d'information <fa-icon [icon]="faDirections"></fa-icon></span>
+                   <span class="small-box-footer" routerLink="/investor" icon="pi pi-external-link" >
+                    Plus d'information <fa-icon [icon]="faDirections"></fa-icon>
+                  </span>
+                   <!--<span class="small-box-footer" (click)="showDialog('investisseur')" icon="pi pi-external-link" >Plus d'information <fa-icon [icon]="faDirections"></fa-icon></span>
                    <p-dialog header="Header" [style]="{width:'50vw',height:'300px'}" [(visible)]="visibleU" [style]="{width: '50vw'}">
                     <select pInputText name="type" id="type"  [(ngModel)]="selectedOption" (ngModelChange)="onOptionSelected()">
                             <option value="jour">jour</option>
@@ -120,14 +122,12 @@
                           </select>
                           
                       
-                        <!--  Visitors By Day  -->
                            <div *ngIf="showChartDay" class="mt-2">
                             <input type="date" pInputText name="date" max="{{ today | date: 'yyyy-MM-dd' }}" [(ngModel)]="day" (change)="changeDate('user')">
                             <h3 *ngIf="totalTextDayU"class="mt-2">Total Investisseurs : {{totalDayU}}</h3>
                            </div>
 
 
-                        <!--  Visitors By Month  -->
                            <div *ngIf="showChartMonth" class="mt-2">
                             <select name="year"pInputText [(ngModel)]="selectedYearUM" (ngModelChange)="updateDays('user')">
                                 <option *ngFor="let year of years" [value]="year">{{year}}</option>
@@ -140,7 +140,6 @@
                            
                             <p-chart  type="bar" [data]="basicData" [options]="basicOptions"></p-chart>
                            </div>
-                        <!--  Visitors By Year  -->
                            <div *ngIf="showChartYear" class="mt-2">
                             <select name="year"pInputText [(ngModel)]="selectedYearUY" (ngModelChange)="updateYear('user')">
                                 <option *ngFor="let year of years" [value]="year">{{year}}</option>
@@ -148,7 +147,7 @@
                             <h3 *ngIf="totalTextYearU"class="mt-2">Total Investisseurs : {{totalYearU}}</h3>
 
                         </div>
-                   </p-dialog>
+                   </p-dialog>-->
                 </div>
 
             </div>
@@ -164,8 +163,9 @@
                         </div>
                      
                         </div>
-                      
-                       <a href="#" class="small-box-footer">Plus d'information <fa-icon [icon]="faDirections"></fa-icon></a>
+                        <span class="small-box-footer" routerLink="/country" icon="pi pi-external-link" >
+                            Plus d'information <fa-icon [icon]="faDirections"></fa-icon>
+                          </span>
    
                 </div>
 
@@ -206,58 +206,5 @@
 
 </div>
 
-<!--<section class="content">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-lg-3 col-6">
-                <div class="small-box bg-info">
-                    <div class="inner">
-                        <h3>150</h3>
-                        <p>New Orders</p>
-                    </div>
-                    <div class="icon">
-                        <i class="fab fa-accessible-icon" style="color: black;"></i>
 
-                    </div>
-                    <a href="#" class="small-box-footer">More Info</a>
-
-                </div>
-
-            </div>
-            <div class="col-lg-3 col-6">
-                <div class="small-box bg-success">
-                    <div class="inner">
-                        <h3>150</h3>
-                        <p>New Orders</p>
-                    </div>
-                    <div class="icon">
-                        <i class="fab fa-42-group"></i>
-
-                    </div>
-                    <a href="#" class="small-box-footer">More Info</a>
-
-                </div>
-
-            </div>
-            <div class="col-lg-3 col-6">
-                <div class="small-box bg-warning">
-                    <div class="inner">
-                        <h3>150</h3>
-                        <p>New Orders</p>
-                    </div>
-                    <div class="icon">
-                        <i class="ion ion-bag"></i>
-
-                    </div>
-                    <a href="#" class="small-box-footer">More Info</a>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>-->
 </main>

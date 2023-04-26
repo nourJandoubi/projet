@@ -141,7 +141,7 @@ exports.usersToday =async (req, res, next) => {
   User.find({ registeredAt:  { $gte: today, $lte: tomorrow }}).exec()
   .then((users) => {
     const total = users.reduce((acc, user) => acc +1, 0);
-    res.send(`${total}`);
+    res.send({total});
   })
   .catch((err) => {
     return next(err);
@@ -157,7 +157,7 @@ exports.usersLastWeek = async (req, res, next) => {
       const users = await User.find({ registeredAt: { $gte: lastWeek, $lte: today } }).then((userss) => {
       
         const total = userss.reduce((acc, user) => acc + 1, 0);
-        res.send({total});
+        res.send({total,userss});
       })
     } catch (err) {
       return next(err);
@@ -220,7 +220,10 @@ exports.usersByCountry = (req, res, next) => {
     { $group: { _id: "$country", count: { $sum: 1 } } },
     { $sort: { count: -1 } }
   ]).then((result) => {
-    res.send({result});
+    const usersByCountry = result.map((item) => {
+      return { country: item._id, count: item.count };
+    });
+    res.send({ usersByCountry });
   }).catch((err) => next(err));
 };
 exports.totalCountries = (req, res, next) => {

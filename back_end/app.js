@@ -1,7 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const session = require('express-session');
-const MongoDBStore = require('connect-mongodb-session')(session);
+
 const Action = require('./models/Action');
 const path = require('path');
 const cron = require('node-cron');

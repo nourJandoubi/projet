@@ -46,7 +46,9 @@ exports.visitorsLastWeek = async (req, res, next) => {
     try {
       const visites = await Visite.find({ date: { $gte: lastWeek, $lte: today } }).exec();
       const total = visites.reduce((acc, visite) => acc + visite.count, 0);
-      res.send({total});
+      console.log('visites',visites)
+      console.log('total',total)
+      res.send({total,visites});
     } catch (err) {
       return next(err);
     }

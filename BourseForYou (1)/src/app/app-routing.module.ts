@@ -1,3 +1,6 @@
+import { CountryComponent } from './admin/country/country.component';
+import { InvestorComponent } from './admin/investor/investor.component';
+import { VisitorComponent } from './admin/visitor/visitor.component';
 import { AdminGuardService } from './services/admin-guard.service';
 import { AdminComponent } from './components/admin/admin.component';
 import { SignUpComponent } from './account/sign-up/sign-up.component';
@@ -24,6 +27,9 @@ const routes: Routes = [
   {path:"home",component:ActionsComponent},
   {path: 'home/:nomBourse', component:HomeComponent},
   {path: 'home/:id', component:ActualiteDetailsComponent},
+  {path:'visitor',component:VisitorComponent},
+  {path:'investor',component:InvestorComponent},
+  {path:'country',component:CountryComponent},
   {path:"profile",
    component:ProfileComponent,
    canActivate:[AuthGuardService]
