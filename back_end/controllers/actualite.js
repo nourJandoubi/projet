@@ -10,23 +10,22 @@ const parser = new Parser();
 
 exports.scrapeDetailsActualite = (req, res) => {
     const url = req.body.url;
-  console.log("url",url)
+    console.log("url", url);
     request(url, (error, response, html) => {
       if (!error && response.statusCode === 200) {
-        const $ = cheerio.load(html); 
-        
+        const $ = cheerio.load(html);
   
         const titre = $('h1').text();
-        const description = $('section.sc-12b91rw-0.sc-6f8azg-0.eiyCex.idukIB p.sc-14kwckt-6.sc-14omazk-0.helKYV.gttJJb').text();
-        const resume = $('p.sc-14kwckt-6.dbPXmO').text();
-        
+        const description = $('.sc-14omazk-0').text();
+        const resume = $('p.sc-14kwckt-6.sc-14omazk-0.sc-1ji9l2r-0.jeWPZm.dQHQSy.fKyVcA').text();
   
-        res.send({titre: titre, description: description, resume: resume});
+        console.log(description);
+        res.send({ titre: titre, description: description, resume: resume });
       } else {
         res.status(500).send('Error scraping data');
       }
     });
-  }
+  };
   
 
 

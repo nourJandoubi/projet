@@ -21,7 +21,8 @@ const routes: Routes = [
   {path:"signIn",component:SignInComponent},
   {path:"devise",component:DeviseComponent},
   {path:"accueil",component:AccueilComponent},
-  {path: 'devise/:id/:selectedDevise/:devise', component:DevisesDetailsComponent},
+  {path:'devise/:id/:selectedDevise/:devise', component:DevisesDetailsComponent},
+  {path:'home/:id', component:ActualiteDetailsComponent},
   {path:"signUp",component:SignUpComponent},
   {path:"home",component:HomeComponent},
   {path:"home",component:ActionsComponent},
@@ -38,7 +39,7 @@ const routes: Routes = [
   component:AdminComponent,
   canActivate:[AdminGuardService]
 },
-  {path:'',redirectTo:'home',pathMatch:'full'},
+  {path:'',redirectTo:'accueil',pathMatch:'full'},
 ];
 
 @NgModule({
