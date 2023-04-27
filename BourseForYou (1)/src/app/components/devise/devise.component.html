@@ -1,14 +1,12 @@
-<header class="container-fluid">
   <app-header></app-header>
-</header>
-<main class="container">
-  <div class="card">
+
+<main class="container mb-5">
+  <div class="card  ">
     <div class="card-header">
       <h2 class="text-primary">TAUX DE CONVERSION</h2>
     </div>
-    <div class="card-body">
-      <select class="form-control mb-3" [(ngModel)]="selectedDevise" >
-        <option value="">Sélectionnez une devise</option>
+    <div class="card-body ">
+      <select class="form-control mb-2" [(ngModel)]="selectedDevise" >
         <option *ngFor="let devise of nomDevises " [value]="devise">{{devise}} </option>
       </select>
 
@@ -73,17 +71,19 @@
             
           </div>
         </div>
-        <div class="row text-center">
-          <div class="col-md-3 offset-md-3">
-            <button class="btn btn-primary mt-3 btn-sm" (click)="convertFromTo()">Convertir </button>
-          </div>
-        </div>
+        
       </div>
       
-      
+      <div class="row text-center">
+        <div class="col-md-3 offset-md-3">
+          <button class="btn btn-primary mt-3 btn-sm" (click)="convertFromTo()">Convertir </button>
+        </div>
+      </div>
       
       
    </div>
   </div>
   
 </main>
+<app-footer></app-footer>
+

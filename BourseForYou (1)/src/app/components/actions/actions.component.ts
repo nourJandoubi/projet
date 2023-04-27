@@ -40,14 +40,21 @@ export class ActionsComponent {
 
   }
  filterActionByLetter(letter:string)
- {
+ { console.log('letter',letter)
+ console.log('action f',this.actionsFiltreParBourse)
+ console.log('action',this.actions)
+
   this.actionsFiltreParBousre= this.actions.filter((item)=>
   
-    {
-      if (typeof item.nomEntreprise === 'string' && item.nomEntreprise.startsWith(letter)) {
+    {console.log('item',item)
+      if (typeof item.nomEntreprise === 'string' && item.nomEntreprise.startsWith(letter))
+       { 
         return item
         } 
-        return null;
+        else
+        {    console.log('nulll')
+              return false;
+        }
     
   });
   this.pagination=this.actionsFiltreParBousre.length;
@@ -69,6 +76,14 @@ export class ActionsComponent {
     this.route.params.subscribe(params => {
       this.nomBourse = params['nomBourse'];
 
+
+      
+       console.log('nnnn',this.actions['action']);
+
+      }
+    );
+  
+    
   /*selectBourse(location: string, pageNumber: any): void {
     
     this.actionService.getActions(location, pageNumber).subscribe(data => {
@@ -84,8 +99,8 @@ export class ActionsComponent {
       }
 
       this.selectBourse(this.nomBourse);
-    });
-  }
+    }
+  
 
   selectBourse(nomBourse: string): void {
     this.actionService.getActionsParBourse(nomBourse).subscribe(data => {

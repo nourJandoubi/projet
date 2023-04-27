@@ -1,4 +1,5 @@
 export class Action {
+    [x: string]: any;
     constructor(
       public nomBourse: string,
       public pubDate: Date,

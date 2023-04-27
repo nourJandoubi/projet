@@ -21,15 +21,15 @@
         <div class="d-flex align-items-center" *ngIf="filteredItemsNews.length !== 0">
           <div class="d-flex flex-column">
             <span class="text-xs">{{ actualite.pubDate | date: 'shortTime' }}</span>
-            <h6 class="mb-1 text-dark text-sm">{{ actualite.title }}</h6>
+            <h5 class="mb-1 " style="color: rgb(0,38,65);">{{ actualite.title }}</h5>
            
-              <p class="text-xs" style="height: 32px; overflow: hidden" type="text" pTooltip="{{ actualite.content }}" class="text-xs" >{{ actualite.content }}</p>
+              <p class="text-xs" style="height: 30px; overflow: hidden" type="text" pTooltip="{{ actualite.content }}" class="text-xs" >{{ actualite.content }}</p>
            
            
           </div>
           <div class="d-flex">
             <button class="btn btn-link btn-icon-only btn-rounded btn-sm text-dark icon-move-right my-auto" [routerLink]="['/home',actualite._id]">
-              <i class="ni ni-bold-right " style="color: black;" aria-hidden="true"></i>
+              <i class="ni ni-bold-right " style="color: black; background-color: blue;" aria-hidden="true"></i>
             </button>
           </div>
         </div>

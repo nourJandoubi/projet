@@ -102,7 +102,28 @@ body {
   /*--------------------------------------------------------------
   #  Get Startet Button
   --------------------------------------------------------------*/
+  .get-started-btn {
+    color: black;
+    border-radius: 4px;
+    padding: 7px 25px 8px 25px;
+    white-space: nowrap;
+    transition: 0.3s;
+    font-size: 14px;
+    display: inline-block;
+    border: 2px solid blue;
+  }
   
+  .get-started-btn:hover {
+    background: #51a8ff;
+    color: #343a40;
+  }
+  
+  @media (max-width: 992px) {
+    .get-started-btn {
+      padding: 7px 20px 8px 20px;
+      margin-right: 15px;
+    }
+  }
   
   /*--------------------------------------------------------------
   # Navigation Menu
@@ -139,7 +160,7 @@ body {
     padding: 10px 0 10px 30px;
     font-size: 15px;
     font-weight: 600;
-    color: #fff;
+    color: white;
     white-space: nowrap;
     transition: 0.3s;
   }
@@ -166,22 +187,23 @@ body {
     margin: 0;
     padding: 10px 0;
     z-index: 99;
-    opacity: 0;
+    opacity: 0.5;
     visibility: hidden;
-    background: #5e5858;
+    background: white;
     box-shadow: 0px 0px 30px rgba(70, 76, 91, 0.25);
     transition: 0.3s;
   }
   
   .navbar .dropdown ul li {
     min-width: 200px;
+    opacity: 1;
   }
   
   .navbar .dropdown ul a {
     padding: 10px 20px;
     font-size: 14px;
     text-transform: none;
-    color: #151515;
+    color: black;
     font-weight: 400;
   }
   
@@ -594,7 +616,7 @@ body {
     border: 1px solid #ebebeb;
     padding: 80px 20px;
     transition: all ease-in-out 0.3s;
-    background: #fff;
+    width: 350px;
   }
   
   .services .icon-box .icon {

@@ -1,7 +1,6 @@
-<div class="container position-sticky z-index-sticky top-0">
+<!--<div class="container position-sticky z-index-sticky top-0">
     <div class="row">
       <div class="col-12">
-        <!-- Navbar -->
         <nav class="navbar navbar-expand-lg blur border-radius-lg top-0 z-index-3 shadow position-absolute mt-4 py-2 start-0 end-0 mx-4">
           <div class="container-fluid">
           
@@ -38,16 +37,16 @@
             </div>
           </div>
         </nav>
-        <!-- End Navbar -->
       </div>
     </div>
-  </div>
+  </div>-->
+  <app-header></app-header>
   <main class="main-content  mt-0">
     <section>
       <div class="page-header min-vh-100">
         <div class="container">
-          <div class="row">
-            <div class="col-xl-5 col-lg-5 col-md-7 d-flex flex-column mx-lg-2 mx-auto">
+          <div class="row mt-lg-n10 mt-md-n11 mt-n10 justify-content-center">
+            <div class="col-xl-8 col-lg-5 col-md-7 d-flex flex-column mx-lg-2 mx-auto">
               <div class="card card-plain">
                 <div class="card-header pb-1 text-start">
                   <h4 class="font-weight-bolder">S'identifier</h4>
@@ -123,30 +122,22 @@
                 <div class="card-footer text-center pt-1 px-lg-2 px-1">
                   <p class="mb-1 text-sm mx-auto">
                     Vous n'avez pas de compte ?
-                    <a routerLink="/signUp" mat-stroked-button routerLinkActive="active" class="text-primary text-gradient font-weight-bold"> S'inscrire</a>
+                    <a routerLink="/signUp"class=" font-weight-bolder text-primary" style="text-decoration: none;"> S'inscrire</a>
                   </p>
                 </div>
               </div>
             </div>
-            <div class="col-6 d-lg-flex d-none h-100 my-auto pe-0 position-absolute top-0 end-0 text-center justify-content-center flex-column">
-              <div class="position-relative bg-gradient-primary h-100 m-3 px-7 border-radius-lg d-flex flex-column justify-content-center overflow-hidden" style="background-image: url('https://www.lesclesdelabanque.com/uploads/2021/05/comment-se-passe-investissement-_BD.jpg'); background-size: cover;">
-                <span class="mask bg-gradient-primary opacity-6"></span>
-                <h4 class="mt-5 text-white font-weight-bolder position-relative">
-                    Les investissements d'aujourd'hui sont les profits de demain et les emplois d'après-demain
-                </h4>
-                
-              </div>
-            </div>
+           
           </div>
         </div>
       </div>
-      <div class="card">
+      <!--<div class="card">
         <p-toast></p-toast>
         <button type="button" pButton pRipple (click)="show()" label="Show" class="p-button-success">shooow</button>
-    </div>
+    </div>-->
       
     </section>
   </main>
-
+<app-footer></app-footer>
   
   
