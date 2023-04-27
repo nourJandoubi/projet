@@ -16,8 +16,8 @@ export class ActionService {
     return this.http.get(`${this.baseUrl}/${nomBourse}`);
   }
  
-  getActionsParBourse(bourse:string): Observable<any> {
-    return this.http.get(`${this.baseUrl}/${bourse}`);
+  getActionsParBourse(nomBourse:string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/${nomBourse}`);
   }
   createAction(h:Action): Observable<any> {
     return this.http.post(`${this.baseUrl}`,h);
