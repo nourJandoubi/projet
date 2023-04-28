@@ -24,7 +24,6 @@ export class ActualitesComponent {
   searchTermAction = ''; //search term des actualites
  
   first: number = 0;
-
   rows: number = 4;
   
   onPageChange(event) {

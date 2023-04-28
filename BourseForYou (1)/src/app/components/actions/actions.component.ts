@@ -74,31 +74,22 @@ export class ActionsComponent {
   pageSize = 10;
   pageIndex = 0;
   length = 0;
+  first: number = 0;
+  rows: number = 10;
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       this.nomBourse = params['nomBourse'];
       }
     );
-  
-    
-  /*selectBourse(location: string, pageNumber: any): void {
-    
-    this.actionService.getActions(location, pageNumber).subscribe(data => {
-      this.actions=data.products;
-      this.actionsFiltreParBousre = data.products;
-      this.dataPageTotal=data.pages;
-      this.pagination = data.pages;
-      console.log("actionsFiltreParBourse",this.actionsFiltreParBousre);
-      console.log("pagination",this.pagination)
-      console.log('actions select',this.actions)*/
-      if (!this.nomBourse ) {
+    console.log('nom bourse',this.nomBourse)
+      if (!this.nomBourse ) 
+      {
         this.nomBourse = 'paris';
       }
 
       this.selectBourse(this.nomBourse);
     }
-  
 
   selectBourse(nomBourse: string): void {
     this.actionService.getActionsParBourse(nomBourse).subscribe(data => {
@@ -116,12 +107,23 @@ export class ActionsComponent {
     this.router.navigate([route]);
   }
 
-  onPageChange(event): void {
+  /*onPageChange(event): void {
   this.pageIndex = event.pageIndex;
   const startIndex = this.pageIndex * this.pageSize;
   const endIndex = startIndex + this.pageSize;
   this.actionsFiltreParBourse = this.actions.slice(startIndex, endIndex);
-}
+}*/
+//Pagination
+  onPageChange(event) {
+    this.first = event.first;
+    this.rows = event.rows;
+    const startIndex = event.first * event.rows;
+    let endIndex = startIndex + event.rows;
+    if (endIndex > this.actions.length) {
+      endIndex = this.actions.length;
+    }
+    this.actionsFiltreParBourse = this.actions.slice(startIndex, endIndex);
+  }
 
   
 }

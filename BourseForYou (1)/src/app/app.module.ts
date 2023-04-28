@@ -46,6 +46,8 @@ import { CalendarModule } from 'primeng/calendar';
 import { VisitorComponent } from './admin/visitor/visitor.component';
 import { InvestorComponent } from './admin/investor/investor.component';
 import { CountryComponent } from './admin/country/country.component';
+import { NotFound404Component } from './components/not-found404/not-found404.component';
+import { FieldsetModule } from 'primeng/fieldset';
 @NgModule({
   declarations: [
     
@@ -72,6 +74,7 @@ import { CountryComponent } from './admin/country/country.component';
        VisitorComponent,
        InvestorComponent,
        CountryComponent,
+       NotFound404Component,
    
   ],
   imports: [
@@ -100,7 +103,8 @@ import { CountryComponent } from './admin/country/country.component';
     DialogModule,
     ButtonModule,
     ChartModule,
-    CalendarModule
+    CalendarModule,
+    FieldsetModule
     
     
   ],

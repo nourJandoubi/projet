@@ -1,3 +1,4 @@
+import { NotFound404Component } from './components/not-found404/not-found404.component';
 import { CountryComponent } from './admin/country/country.component';
 import { InvestorComponent } from './admin/investor/investor.component';
 import { VisitorComponent } from './admin/visitor/visitor.component';
@@ -26,18 +27,19 @@ const routes: Routes = [
   {path:'actualite/:id', component:ActualiteDetailsComponent},
   {path:"signUp",component:SignUpComponent},
   {path:"home",component:HomeComponent},
+  {path:"404",component:NotFound404Component},
   //{path:"home",component:ActionsComponent},
  
   {path:'visitor',
   component:VisitorComponent,
-  canActivate:[AuthGuardService]},
+  canActivate:[AdminGuardService]},
   {path:'investor',
   component:InvestorComponent,
-  canActivate:[AuthGuardService]
+  canActivate:[AdminGuardService]
 },
   {path:'country',
   component:CountryComponent,
-  canActivate:[AuthGuardService]},
+  canActivate:[AdminGuardService]},
   {path:"profile",
    component:ProfileComponent,
    canActivate:[AuthGuardService]
@@ -47,6 +49,7 @@ const routes: Routes = [
   canActivate:[AdminGuardService]
 },
   {path:'',redirectTo:'accueil',pathMatch:'full'},
+  {path:'**',component:NotFound404Component}
 ];
 
 @NgModule({

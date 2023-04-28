@@ -18,9 +18,7 @@ exports.scrapeDetailsActualite = (req, res) => {
         const titre = $('h1').text();
         const description = $('.sc-14omazk-0').text();
         const resume = $('p.sc-14kwckt-6.sc-14omazk-0.sc-1ji9l2r-0.jeWPZm.dQHQSy.fKyVcA').text();
-  
-        console.log(description);
-        res.send({ titre: titre, description: description, resume: resume });
+          res.send({ titre: titre, description: description, resume: resume });
       } else {
         res.status(500).send('Error scraping data');
       }

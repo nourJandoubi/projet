@@ -15,9 +15,9 @@ export class AuthGuardService {
     private authentificationService: AuthentificationService,
     private router: Router
   ) {}
-  canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+  canActivate() {
     if (!this.authentificationService.isLogedIn()) {
-      this.router.navigateByUrl('/login');
+      this.router.navigateByUrl('/404');
       return false;
     } else {
       return true;

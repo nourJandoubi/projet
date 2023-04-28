@@ -63,9 +63,13 @@
           </tr>
           </tbody>
           </table>
-          <mat-paginator [pageSize]="pageSize"
+          <!--<mat-paginator [pageSize]="pageSize"
           [pageIndex]="pageIndex"
           [length]="length"
           (page)="onPageChange($event)">
-    </mat-paginator>
+    </mat-paginator>-->
+    <div class="d-flex align-items-center ">
+      <p-paginator class="ms-5" [first]="first" [rows]="rows" [totalRecords]="actions.length" (onPageChange)="onPageChange($event)" [showJumpToPageDropdown]="true" [showPageLinks]="false"></p-paginator>
+
+    </div>
           
