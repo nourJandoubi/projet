@@ -1,71 +1,99 @@
 <div class="card">
-  <div class="card-header pb-0 p-3">
-    <ul class="nav nav-tabs">
-      <li class="nav-item">
-        <a class="nav-link"  (click)="navigateToPlace('paris')">Paris</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" (click)="navigateToPlace('new-york')">NYSE</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" (click)="navigateToPlace('amsterdam')">Amsterdam</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link"  (click)="navigateToPlace('bruxelles')">Bruxelles</a>
-      </li>
-    </ul>
-    <div class="pb-0 p-3 d-flex justify-content-between mt-2">
-      <button class="mb-2 btnAlpha" (click)="All()">
-        <strong>Tous</strong>
-      </button>
-      <button *ngFor="let i of alpha" class="btnAlpha" (click)="filterActionByLetter(i)">{{ i }}</button>
-    </div>
-  </div>
-  <div class="card-body">
-    <div class="table-responsive mt-2">
-      <table class="table align-middle table-hover">
+  <div class="card-header pb-0 p-3" >
+   <!-- <input type="text" [(ngModel)]="searchTermAction" placeholder="Rechercher..." (keyup)="onsearchTermActionChange($event)" /> --> 
+   <!-- navbar de bourse  -->
+
+<ul class="nav nav-tabs">
+<li class="nav-item">
+  <a class="nav-link "  (click)="navigateToPlace('paris')" >Paris</a>
+</li>
+<li class="nav-item">
+  <a class="nav-link"   (click)="navigateToPlace('new-york')"  >NYSE</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link"   (click)="navigateToPlace('amsterdam')" >Amsterdam</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link"   (click)="navigateToPlace('bruxelles')"  >Bruxelles</a>
+  </li>
+</ul>
+
+<ul></ul>
+<!-- abcd partie -->
+<div class="d-flex justify-content-between">
+  <h6 class="mb-2" style="text-decoration: underline">All</h6>
+  <!--hedhy bech tzidha fonction bech ki yenzel 3la 7aref ihezou we ifalter bih el tableau eli louta-->
+  <a *ngFor="let i of alpha" href="" style="text-decoration: none">{{ i }}</a>
+</div>
+<!-- fin abcd partie -->
+<div class="tab-content">
+  <div class="tab-pane fade show active">
+    <div class="table-responsive">
+      <table class="table align-items-center">
         <thead>
-          <tr class="bg-light">
-            <th scope="col" class="w-25">Valeur</th>
-            <th scope="col" class="w-15">Cours</th>
-            <th scope="col" class="w-15">Variation</th>
-            <th scope="col" class="w-15">Ouv.</th>
-            <th scope="col" class="w-15">Haut</th>
-            <th scope="col" class="w-15">Bas</th>
-            <th scope="col" class="w-15">Volume</th>
+          <tr>
+            <th scope="col">value</th>
+            <th scope="col">cours</th>
+            <th scope="col">variation</th>
+            <th scope="col">ouv.</th>
+            <th scope="col">haut</th>
+            <th scope="col">bas</th>
+            <th scope="col">volume</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let t of actionsFiltreParBourse">
+          <tr *ngFor="let t of actionsFiltreParBourse" >
             <ng-container *ngIf="t.entreprise !== null">
-              <td class="w-25">
-                <div class="d-flex px-2 py-1 align-items-center">{{ t.action.nomEntreprise }}</div>
-              </td>
-              <td class="w-15">
-                <div class="align-items-center">{{ t.action.cours }}</div>
-              </td>
-              <td class="w-15">
-                <div class="align-items-center" [innerHTML]="t.action.variation | highlightSign"></div>
-              </td>
-              <td class="w-15">
-                <div class="align-items-center">{{ t.action.ouv }}</div>
-              </td>
-              <td class="w-15">
-                <div class="align-items-center">{{ t.action.haut }}</div>
-              </td>
-              <td class="w-15">
-                <div class="align-items-center">{{ t.action.bas }}</div>
-              </td>
-              <td class="w-15">
-                <div class="align-items-center">{{ t.action.volume }}</div>
-              </td>
-            </ng-container>
+            <td class="w-30">
+              <div class="d-flex px-2 py-1 align-items-center" >
+                {{ t.action.nomEntreprise }}
+              </div>
+            </td>
+            <td class="w-30">
+              <div class="d-flex px-2 py-1 align-items-center">
+                {{ t.action.cours }}
+              </div>
+            </td>
+            <td class="w-30">
+              <div class="d-flex px-2 py-1 align-items-center" [innerHTML]="t.action.variation | highlightSign" >
+
+              </div>
+            </td>
+            <td class="w-30">
+              <div class="d-flex px-2 py-1 align-items-center">
+                {{ t.action.ouv }}
+              </div>
+            </td>
+            <td class="w-30">
+              <div class="d-flex px-2 py-1 align-items-center">
+                {{ t.action.haut }}
+              </div>
+            </td>
+            <td class="w-30">
+              <div class="d-flex px-2 py-1 align-items-center">
+                {{ t.action.bas }}
+              </div>
+            </td>
+            <td class="w-30">
+              <div class="d-flex px-2 py-1 align-items-center">
+                {{ t.action.volume }}
+              </div>
+            </td>
+          </ng-container>
           </tr>
-          </tbody>
-          </table>
-          <mat-paginator [pageSize]="pageSize"
-          [pageIndex]="pageIndex"
-          [length]="length"
-          (page)="onPageChange($event)">
-    </mat-paginator>
+        </tbody>
+      </table>
+      <mat-paginator [pageSize]="pageSize"
+      [pageIndex]="pageIndex"
+      [length]="length"
+      (page)="onPageChange($event)">
+</mat-paginator>
+
+    </div>
+  </div>
+</div>
+</div>
+
+   
+</div>
           
