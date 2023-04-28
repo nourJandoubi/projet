@@ -7,13 +7,23 @@
     <!-- <a href="index.html" class="logo me-auto me-lg-0"><img src="../../../assets/img/logo.png" alt="" class="img-fluid"></a>-->
 
     <nav id="navbar" class="navbar order-last order-lg-0 ">
-      <ul>
+      <ul *ngIf="!admin">
         <li><a class="nav-link scrollto " routerLinkActive="active" routerLink="/accueil">Accueil</a></li>
         <li><a class="nav-link scrollto "routerLinkActive="active" routerLink="/home">Action</a></li>
 
         <li><a class="nav-link scrollto"routerLinkActive="active" routerLink="/devise">Devise</a></li>
         <li><a class="nav-link scrollto"routerLinkActive="active" href="#contact">Conseil</a></li>
 
+
+       
+      </ul>
+      <ul *ngIf="admin">
+        <li><a class="nav-link scrollto " routerLinkActive="active" routerLink="/admin">Accueil</a></li>
+        <!--<li><a class="nav-link scrollto "routerLinkActive="active" routerLink="/visitor">Visiteurs</a></li>
+
+        <li><a class="nav-link scrollto"routerLinkActive="active" routerLink="/investor">Investisseurs</a></li>
+        <li><a class="nav-link scrollto"routerLinkActive="active" routerLink="/country">Pays</a></li>
+        -->
 
        
       </ul>
@@ -69,7 +79,10 @@
     <div class="row justify-content-center" data-aos="fade-up" data-aos-delay="150">
       <div class="col-xl-6 col-lg-8">
         <h1>Bourse Pour Toi <span>.</span></h1>
-        <h2>Le succès en investissement ne vient pas de la chance, mais de la perspicacité, du travail acharné et de la pensée claire</h2>
+        <h3 class="text-light">Le succès en investissement ne vient pas de la chance, mais de la perspicacité, du travail acharné et de la pensée claire</h3>
+        
+        <h2 *ngIf="admin" class="mt-5"><strong>Administarteur</strong> </h2>
+        
       </div>
     </div>
 

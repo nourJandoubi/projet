@@ -29,7 +29,8 @@ export class AdminGuardService {
     }
   }
   isAdmin()
-  {
+  {   console.log('type',this.status)
+
     if (this.status=='admin') {
       return true;
     } else {

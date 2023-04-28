@@ -16,14 +16,15 @@ export class ActionsComponent {
     private router: Router
   ) {}
 
-  actions: Action[] = [];
+  //actions: Action[] = [];
+  actions:any;
   location: string;
   pageNumber: any;
   pagination: any;
-  pageSliceAction: Action[] = []; //pageSliceNews des action
+  pageSliceAction:any; //pageSliceNews des action
   searchTermAction = ''; //search term des actions
-  filteredItemsAction: Action[] = [];
-  actionsFiltreParBousre: Action[] = [];
+  filteredItemsAction: any;
+  actionsFiltreParBousre:any;
   dataPageTotal:any;
 
   currentLink = 'paris';
@@ -44,22 +45,24 @@ export class ActionsComponent {
  console.log('action f',this.actionsFiltreParBourse)
  console.log('action',this.actions)
 
-  this.actionsFiltreParBousre= this.actions.filter((item)=>
+  //this.actionsFiltreParBousre;
+  let a= this.actions.filter((item)=>
   
-    {console.log('item',item)
-      if (typeof item.nomEntreprise === 'string' && item.nomEntreprise.startsWith(letter))
-       { 
+    {
+      if (typeof item.entreprise === 'string' && item.entreprise.startsWith(letter))
+       { console.log('item name',item.entreprise)
         return item
         } 
         else
-        {    console.log('nulll')
+        {   
               return false;
         }
     
   });
-  this.pagination=this.actionsFiltreParBousre.length;
+  console.log('action filter',a)
+  //this.pagination=this.actionsFiltreParBousre.length;
 
-  this.actionsFiltreParBousre= this.actionsFiltreParBousre.slice(0,10);
+  //this.actionsFiltreParBousre= this.actionsFiltreParBousre.slice(0,10);
 
  }
 
@@ -75,11 +78,6 @@ export class ActionsComponent {
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       this.nomBourse = params['nomBourse'];
-
-
-      
-       console.log('nnnn',this.actions['action']);
-
       }
     );
   
@@ -105,7 +103,7 @@ export class ActionsComponent {
   selectBourse(nomBourse: string): void {
     this.actionService.getActionsParBourse(nomBourse).subscribe(data => {
       this.actions = data;
-  
+      console.log('nnnn',this.actions[0].entreprise);
       this.actionsFiltreParBourse = this.actions.slice(0, this.pageSize);
   
       this.length = this.actions.length;

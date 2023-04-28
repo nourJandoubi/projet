@@ -35,6 +35,8 @@ export class HeaderComponent implements OnInit{
         this.admin=this.adminGuardService.isAdmin();
         this.investor=this.isLogedIn && !this.admin;     
       }
+      console.log('admin',this.admin)
+      console.log('investor',this.investor)
     }
     deconnexion() {
       //this.authentificationService.logOut();

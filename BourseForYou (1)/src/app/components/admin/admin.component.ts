@@ -15,7 +15,6 @@ import Chart from 'chart.js/auto';
 export class AdminComponent {
   faDirections=faDirections;
   faSignOut=faSignOut;
-  @ViewChild('myCanvas') myCanvas: ElementRef<HTMLCanvasElement>;
     today: string;
     day:string="";
     typeSelect=[
@@ -342,59 +341,7 @@ this.usersMonth(this.selectedYearUM,this.selectedMonthUM)
   });
 }
 
-ngAfterViewInit() {
-// console.log('label ng',this.labelVisitorsByMonth);
-// console.log('data ng',this.dataVisitorsByMonth);
-setTimeout(() => {   
-  const ctx = this.myCanvas.nativeElement.getContext('2d');
-    
 
-const chartData = {
-    labels: this.labelVisitorsByMonth,
-    datasets: [
-      {
-        label: `to 2023 `,
-        data: this.dataVisitorsByMonth,
-        backgroundColor: '#3F51B5',
-        borderColor: '#3F51B5',
-        borderWidth: 1,
-        fill: true,
-      },
-    ],
-  };
-  
-  const chartOptions = {
-    responsive: true,
-    scales: {
-      x: {
-        display: true,
-        title: {
-          display: true,
-          text: 'Date',
-        },
-      },
-      y: {
-        display: true,
-        title: {
-          display: true,
-          text: `Exchange rate (azzz to )`,
-        },
-      },
-    },
-  };
-
-      
-      // Create chart
-     
-        const myChart = new Chart(ctx, {
-          type: 'line',
-          data: chartData,
-          options: chartOptions,
-        });
-      }, 50);
-  
-    }
-  
 
 
 
