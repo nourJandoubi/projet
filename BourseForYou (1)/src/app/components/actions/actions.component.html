@@ -61,4 +61,11 @@
               </td>
             </ng-container>
           </tr>
+          </tbody>
+          </table>
+          <mat-paginator [pageSize]="pageSize"
+          [pageIndex]="pageIndex"
+          [length]="length"
+          (page)="onPageChange($event)">
+    </mat-paginator>
           
