@@ -1,19 +1,37 @@
 const mongoose = require('mongoose');
-const ActionSchema = mongoose.Schema({
-  nomBourse: { type: String, required: true },
-  pubDate: { type: Date, required: true },
-  nomEntreprise: { type: String, required: true },
-  cours: { type: String, required: true },
-  variation: { type: String, required: true },
-  ouv: { type: String, required: true },
-  haut: { type: String, required: true },
-  bas: { type: String, required: true },
-  volume: { type: String, required: true },
-  
 
+const actionSchema = new mongoose.Schema({
+  nomEntreprise: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Entreprise',
+    required: false
+  },
+  
+  cours: {
+    type: String,
+    required: false
+  },
+  variation: {
+    type: String,
+    required: false
+  },
+  ouverture: {
+    type: String,
+    required: false
+  },
+  haut: {
+    type: String,
+    required: false
+  },
+  bas: {
+    type: String,
+    required: false
+  },
+  cloture: {
+    type: String,
+    required: false
+  },
+  
 });
 
-
-
-
-module.exports = mongoose.model('Action', ActionSchema);
+module.exports = mongoose.model('Action', actionSchema);

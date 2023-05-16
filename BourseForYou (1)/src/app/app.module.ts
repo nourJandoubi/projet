@@ -46,6 +46,7 @@ import { CalendarModule } from 'primeng/calendar';
 import { VisitorComponent } from './admin/visitor/visitor.component';
 import { InvestorComponent } from './admin/investor/investor.component';
 import { CountryComponent } from './admin/country/country.component';
+import { EntrepriseComponent } from './components/entreprise/entreprise.component';
 @NgModule({
   declarations: [
     
@@ -72,6 +73,7 @@ import { CountryComponent } from './admin/country/country.component';
        VisitorComponent,
        InvestorComponent,
        CountryComponent,
+       EntrepriseComponent,
    
   ],
   imports: [

@@ -25,6 +25,7 @@
     width: 135%;
     text-align: center; /* centre le texte horizontalement */
     vertical-align: middle; /* centre le texte verticalement */
+    cursor: pointer;
   }
   
   table tbody tr th, table tbody tr td {

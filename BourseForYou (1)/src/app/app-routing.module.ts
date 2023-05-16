@@ -15,6 +15,7 @@ import { DeviseComponent } from './components/devise/devise.component';
 import { ActionsComponent } from './components/actions/actions.component';
 import { DevisesDetailsComponent } from './components/devises-details/devises-details.component';
 import { AccueilComponent } from './components/accueil/accueil.component';
+import { EntrepriseComponent } from './components/entreprise/entreprise.component';
 
 const routes: Routes = [
 
@@ -23,6 +24,7 @@ const routes: Routes = [
   {path:"accueil",component:AccueilComponent},
   {path:'home/:nomBourse',component:HomeComponent},
   {path:'devise/:id/:selectedDevise/:devise', component:DevisesDetailsComponent},
+  {path:'entreprise/:nom', component:EntrepriseComponent},
   {path:'actualite/:id', component:ActualiteDetailsComponent},
   {path:"signUp",component:SignUpComponent},
   {path:"home",component:HomeComponent},

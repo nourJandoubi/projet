@@ -1,0 +1,99 @@
+<header class="container-fluid">
+    <app-header></app-header>
+  </header>
+  <div class="container" style="margin-top: 30px;">
+    <div class="card">
+      <div class="card-header">
+        <h2 class="text-primary"> {{nom}}</h2>
+        <img *ngIf="entreprise && entreprise.image" [src]="entreprise.image" style="size:5px  ;">
+
+      </div>
+      <div class="card-body">
+        <table class="table caption-top">
+            <tbody>
+                <tr>
+                    <th scope="row">capitalisation</th>
+                    <td *ngIf="entreprise.capitalisation === null || entreprise.capitalisation =='0'">
+                        capitalisation n'est pas mentionné(e).
+                    </td>
+                    <td>{{entreprise.capitalisation}}</td>
+                  </tr>
+              <tr>
+                <th scope="row">Industrie</th>
+                <td *ngIf="entreprise.industrie === null || entreprise.industrie === '0'">
+                    {{ entreprise.industrie }} n'est pas mentionné(e).
+                </td>
+                <td>{{entreprise.industrie}}</td>
+              </tr>
+              <tr>
+                <th scope="row">Pays</th>
+                <td *ngIf="entreprise.pays === null || entreprise.pays === 0">
+                    pays n'est pas mentionné(e).
+                </td>
+                <td>{{entreprise.pays}}</td>
+              </tr>
+              <tr>
+                <th scope="row">ville</th>
+                <td *ngIf="entreprise.ville === null ||entreprise.ville === 0">
+                    ville n'est pas mentionné(e).
+                </td>
+                <td>{{entreprise.ville}}</td>
+              </tr>
+              <tr>
+                <th scope="row">date introduction à la bourse</th>
+                <td *ngIf="entreprise.dateIntroductionBourse === null || entreprise.dateIntroductionBourse === 0">
+                    la date introduction à la bourse n'est pas mentionnée.
+                </td>
+                <td>{{entreprise.dateIntroductionBourse }}</td>
+              </tr>
+              <tr>
+                <th scope="row">Prix</th>
+                <td *ngIf="entreprise.prix === null || entreprise.prix === 0">
+                    prix n'est pas mentionné(e).
+                </td>
+                <td>{{entreprise.prix}}</td>
+              </tr>
+              <tr>
+                <th scope="row">Clé d'Index Central</th>
+                <td *ngIf="entreprise.cik === null || entreprise.cik=== 0">
+                    Clé d'Index Central n'est pas mentionné(e).
+                </td>
+                <td>{{entreprise.cik}}</td>
+              </tr>
+              <tr>
+                <th scope="row">Secteur</th>
+                <td *ngIf="entreprise.secteur === null || entreprise.secteur=== 0">
+                   le secteur n'est pas mentionné.
+                </td>
+                <td>{{entreprise.secteur}}</td>
+              </tr>
+              <tr>
+                <th scope="row">Devise</th>
+                <td *ngIf="entreprise.devise === null || entreprise.devise=== 0">
+                    le secteur n'est pas mentionné.
+                 </td>
+                <td>{{entreprise.devise}}</td>
+              </tr>
+              <tr>
+                <th scope="row">nombre d'employeurs </th>
+                <td *ngIf="entreprise.nbEmployes === null || entreprise.nbEmployes=== 0">
+                    le nombre d'employeurs n'est pas mentionné.
+                 </td>
+                <td>{{entreprise.nbEmployes}}</td>
+              </tr>
+              <tr>
+                <th scope="row"> président-directeur général </th>
+                <td *ngIf="entreprise.pdg === null || entreprise.pdg=== 0||entreprise.pdg===''">
+                    le président-directeur général n'est pas mentionné.
+                 </td>
+                <td>{{entreprise.pdg}}</td>
+              </tr>
+            </tbody>
+        </table>
+        </div>
+        
+      
+    </div>
+  </div>
+  <app-footer></app-footer>
+  

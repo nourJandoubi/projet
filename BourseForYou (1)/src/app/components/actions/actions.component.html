@@ -3,7 +3,7 @@
    <!-- <input type="text" [(ngModel)]="searchTermAction" placeholder="Rechercher..." (keyup)="onsearchTermActionChange($event)" /> --> 
    <!-- navbar de bourse  -->
 
-<ul class="nav nav-tabs">
+<!-- <ul class="nav nav-tabs">
 <li class="nav-item">
   <a class="nav-link "  (click)="navigateToPlace('paris')" >Paris</a>
 </li>
@@ -16,7 +16,14 @@
   <li class="nav-item">
     <a class="nav-link"   (click)="navigateToPlace('bruxelles')"  >Bruxelles</a>
   </li>
-</ul>
+</ul> -->
+<select [(ngModel)]="selectedOption" (change)="onSelectedOptionChange()">
+  <option *ngFor="let option of bourseOptions" [value]="option.nom">{{ option.nom }}</option>
+</select>
+
+
+
+
 
 <ul></ul>
 <!-- abcd partie -->
@@ -32,54 +39,55 @@
       <table class="table align-items-center">
         <thead>
           <tr>
-            <th scope="col">value</th>
+            <th scope="col" >nom Entreprise</th>
             <th scope="col">cours</th>
             <th scope="col">variation</th>
             <th scope="col">ouv.</th>
             <th scope="col">haut</th>
             <th scope="col">bas</th>
-            <th scope="col">volume</th>
+            <th scope="col">cloture</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let t of actionsFiltreParBourse" >
+           
             <ng-container *ngIf="t.entreprise !== null">
             <td class="w-30">
-              <div class="d-flex px-2 py-1 align-items-center" >
-                {{ t.action.nomEntreprise }}
+              <div class="d-flex px-2 py-1 align-items-center"  [routerLink]="['/entreprise',t.nomEntreprise]">
+                {{ t.nomEntreprise }}
               </div>
             </td>
             <td class="w-30">
               <div class="d-flex px-2 py-1 align-items-center">
-                {{ t.action.cours }}
+                {{ t.cours }}
               </div>
             </td>
             <td class="w-30">
-              <div class="d-flex px-2 py-1 align-items-center" [innerHTML]="t.action.variation | highlightSign" >
+              <div class="d-flex px-2 py-1 align-items-center" [innerHTML]="t.variation | highlightSign" >
 
               </div>
             </td>
             <td class="w-30">
               <div class="d-flex px-2 py-1 align-items-center">
-                {{ t.action.ouv }}
+                {{ t.ouverture }}
               </div>
             </td>
             <td class="w-30">
               <div class="d-flex px-2 py-1 align-items-center">
-                {{ t.action.haut }}
+                {{ t.haut }}
               </div>
             </td>
             <td class="w-30">
               <div class="d-flex px-2 py-1 align-items-center">
-                {{ t.action.bas }}
+                {{ t.bas }}
               </div>
             </td>
             <td class="w-30">
               <div class="d-flex px-2 py-1 align-items-center">
-                {{ t.action.volume }}
+                {{ t.cloture }}
               </div>
-            </td>
-          </ng-container>
+            </td> 
+        </ng-container>
           </tr>
         </tbody>
       </table>
