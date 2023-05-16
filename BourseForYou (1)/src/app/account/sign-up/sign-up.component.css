@@ -13,3 +13,6 @@
   .password-wrapper input[type="password"] {
     padding-right: 40px;
   }
+  .password-wrapper form input[type="password"] {
+    padding-right: 40px;
+  }

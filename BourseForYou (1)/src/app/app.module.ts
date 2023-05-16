@@ -1,5 +1,5 @@
 import { SignUpComponent } from './account/sign-up/sign-up.component';
-import { ProfileComponent } from './components/profile/profile.component';
+import { ProfileComponent } from './investor/profile/profile.component';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -48,6 +48,13 @@ import { InvestorComponent } from './admin/investor/investor.component';
 import { CountryComponent } from './admin/country/country.component';
 import { NotFound404Component } from './components/not-found404/not-found404.component';
 import { FieldsetModule } from 'primeng/fieldset';
+import { AjouterPortefeuilleComponent } from './investor/ajouter-portefeuille/ajouter-portefeuille.component';
+import { ListePortefeuilleComponent } from './investor/liste-portefeuille/liste-portefeuille.component';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { HistoriqueComponent } from './investor/historique/historique.component';
+import { PortefeuilleComponent } from './investor/portefeuille/portefeuille.component';
+import { ModifierPortefeuilleComponent } from './investor/modifier-portefeuille/modifier-portefeuille.component';
+import { RadioButtonModule } from 'primeng/radiobutton';
 @NgModule({
   declarations: [
     
@@ -75,6 +82,11 @@ import { FieldsetModule } from 'primeng/fieldset';
        InvestorComponent,
        CountryComponent,
        NotFound404Component,
+       AjouterPortefeuilleComponent,
+       ListePortefeuilleComponent,
+       HistoriqueComponent,
+       PortefeuilleComponent,
+       ModifierPortefeuilleComponent,
    
   ],
   imports: [
@@ -104,7 +116,9 @@ import { FieldsetModule } from 'primeng/fieldset';
     ButtonModule,
     ChartModule,
     CalendarModule,
-    FieldsetModule
+    FieldsetModule,
+    ConfirmDialogModule,
+    RadioButtonModule
     
     
   ],

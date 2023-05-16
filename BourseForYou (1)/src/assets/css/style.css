@@ -669,19 +669,20 @@ body {
   # Cta
   --------------------------------------------------------------*/
   .cta {
-    background: linear-gradient(rgba(2, 2, 2, 0.5), rgba(0, 0, 0, 0.5)), url("../img/cta-bg.jpg") fixed center center;
+    /*background: linear-gradient(rgba(2, 2, 2, 0.5), rgba(0, 0, 0, 0.5)), url("../img/cta-bg.jpg") fixed center center;*/
     background-size: cover;
     padding: 60px 0;
   }
   
   .cta h3 {
-    color: #fff;
+    color: black;
     font-size: 28px;
     font-weight: 700;
   }
   
   .cta p {
-    color: #fff;
+    color: black;
+    font-size: 20px;
   }
   
   .cta .cta-btn {
@@ -694,8 +695,8 @@ body {
     border-radius: 4px;
     transition: 0.5s;
     margin-top: 10px;
-    border: 2px solid #fff;
-    color: #fff;
+    border: 2px solid black;
+    color: black;
   }
   
   .cta .cta-btn:hover {

@@ -5,6 +5,7 @@ exports.visitors = async (req, res, next) => {
     let now = new Date();
     let today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     today.setDate(today.getDate() + 1);
+    today.setHours(0, 0, 0, 0);
     try {
       const visite = await Visite.findOne({ date: today });
       if (!visite)

@@ -97,7 +97,6 @@ usersLastWeek()
      {
        this.adminService.getUsersByDay(this.labelUsersLastWeek[i]).toPromise().then((response)=>{
          this.dataUsersLastWeek.push(response.total)
-         console.log('logg ress',response.total)
        })
      }
   

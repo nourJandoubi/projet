@@ -22,6 +22,7 @@ export class SignInComponent implements OnInit{
   value:string;
   motdepasse:string="password";
   eye:boolean=true;
+  error:boolean=false;
   constructor(
     private _formBuilder: FormBuilder,
     private authentificationService: AuthentificationService,
@@ -69,10 +70,10 @@ export class SignInComponent implements OnInit{
       .signin(this.userFormGroup.value)
       .subscribe((res) => {
         if (res) {
-          console.log('resss',res)
-          this.show();
+          //console.log('resss',res)
+         // this.show();
           //this.openSnackBar();
-          
+          this.error=false;
 
            if(res.status=='admin')
            this.router.navigate(['/admin']);
@@ -80,6 +81,7 @@ export class SignInComponent implements OnInit{
             this.router.navigate(['/profile']);
         
         } else {
+          this.error=true;
           this.errorSnackBar('error');
         }
       });

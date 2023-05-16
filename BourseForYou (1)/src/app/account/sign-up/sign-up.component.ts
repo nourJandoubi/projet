@@ -12,14 +12,20 @@ import { Router } from '@angular/router';
 })
 export class SignUpComponent implements OnInit{
   UserFormGroup: FormGroup = new FormGroup({});
+  passwordFormGroup:FormGroup=new FormGroup({});
   countriestable: any[];
   countries:any[]=[];
 
   motdepasse:string="password";
+  motdepasse2:string="password";
   eye:boolean=true;
+  eye2:boolean=true;
 
   selectedCity: string;
+  errorSignUp:boolean=false;
+  emailError:boolean=false;
   cities=[]
+  signUpDisabled: boolean=true;
   constructor(
     private _formBuilder: FormBuilder,
     private authentificationService: AuthentificationService,
@@ -28,13 +34,22 @@ export class SignUpComponent implements OnInit{
     private http: HttpClient
 
   ){}
-  eyes()
+  eyes(i:any)
   {
-    this.eye=!this.eye;
+    if(i==1)
+    {this.eye=!this.eye;
     if(this.eye)
     {this.motdepasse="password";}
     else
     {this.motdepasse="text";}
+    }
+    if(i==2)
+    {this.eye2=!this.eye2;
+    if(this.eye2)
+    {this.motdepasse2="password";}
+    else
+    {this.motdepasse2="text";}
+    }
     
     
   }
@@ -57,7 +72,27 @@ export class SignUpComponent implements OnInit{
       duration: 5000,
       panelClass: 'notif-success',
     });
-  }
+  }  //verifier comptabilité des deux mot de passes
+  verifPassword()
+   {   
+    if(this.UserFormGroup.controls['password'].value==this.passwordFormGroup.controls['password1'].value)
+      {   
+          if(this.UserFormGroup.controls['password'].value=='' && this.passwordFormGroup.controls['password1'].value=='')
+            {
+              this.signUpDisabled=true;
+              return false;
+            }
+            else
+            {
+              this.signUpDisabled=false;
+              return false;
+            }
+      }
+      else
+      { this.signUpDisabled=true;
+        return true;
+      }
+   }
 
   
   ngOnInit(): void {
@@ -69,6 +104,11 @@ export class SignUpComponent implements OnInit{
       email: ['',[Validators.required,Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}' )]],
       country: ['', Validators.required],
       password: ['', [Validators.required, Validators.minLength(6), Validators.pattern('^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!$@%])[a-zA-Z0-9!$@%]{6,}$')]],
+
+    });
+    
+    this.passwordFormGroup = this._formBuilder.group({
+      password1: ['', [Validators.required, Validators.minLength(6), Validators.pattern('^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!$@%])[a-zA-Z0-9!$@%]{6,}$')]],
 
     });
 
@@ -92,20 +132,41 @@ export class SignUpComponent implements OnInit{
       ...this.UserFormGroup.value,
       
     };
-    console.log('form data',formData)
     for (var key in formData) {
       form_data.append(key, formData[key]);
     }
+    this.authentificationService.verifierEmail(formData).toPromise()
+    .then((success)=>{
 
-    this.authentificationService.signup(formData).subscribe((res) => {
-      if (res) {
-        this.openSnackBar();
-        this.router.navigate(['/home']);
-      } else {
-        this.errorSnackBar('error');
+      if(!success.success)
+      {
+        this.emailError=true;
+
       }
-    });
+      else
+      {
+        this.emailError=false;
+        this.authentificationService.signup(formData).subscribe((res) => {
+          if (res)
+           {
+            this.errorSignUp=false;
+            this.router.navigate(['/home']);
+          } 
+          else 
+          {
+              this.errorSignUp=true;
+          }
+        });
+      }
+
+    })
+
+  
   }
+  get password1()
+{
+  return this.passwordFormGroup.get('password1');
+}
 get password()
 {
   return this.UserFormGroup.get('password');

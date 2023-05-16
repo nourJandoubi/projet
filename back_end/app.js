@@ -14,6 +14,8 @@ const userController = require('./controllers/user');
 const visitorsMiddleware = require('./middleware/visitorsMiddleware');
 const deviseRoutes = require('./routes/devise');
 const deviseController = require('./controllers/devise');
+const portefeuilleRoutes=require('./routes/portefeuille')
+const historiqueRoutes=require('./routes/historiquePortefeuille');
 const app = express();
 
 
@@ -54,7 +56,7 @@ app.use('/path/to/font-awesome', express.static('path/to/font-awesome', {
 
 require('dotenv').config();
 
-const archiveFilePath = process.env.ARCHIVE_FILE_PATH;
+/*const archiveFilePath = process.env.ARCHIVE_FILE_PATH;
 console.log('archiveFilePath:', archiveFilePath);
 
 
@@ -71,13 +73,13 @@ cron.schedule('* * * * *', () => {
 
 cron.schedule('* * * * *', () => {
   actionController.createAction();
-  actionController.archiveData();
+  //actionController.archiveData();
 
   console.log(" saved action")
 
 }).start();
 
-
+*/
 
 
   
@@ -90,8 +92,9 @@ app.use('/api/actualite', actualiteRoutes);
 app.use('/api/action', actionRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/visitors', visiteRoutes);
-app.use('/api/devise', deviseRoutes)
+app.use('/api/devise', deviseRoutes);
+app.use('/api/historique',historiqueRoutes);
 
-
-
+app.use('/api/portefeuilles',portefeuilleRoutes);
+/*app.use('/api/historique',historiquePortefeuilleRoutes);*/
 module.exports = app;

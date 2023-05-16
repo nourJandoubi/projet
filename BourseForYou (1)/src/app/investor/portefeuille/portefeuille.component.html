@@ -1,0 +1,132 @@
+<app-header></app-header>
+
+
+<header id="header" >
+  <div class=" d-flex align-items-center justify-content-lg-center  ">
+    <nav id="navbar" class="navbar justify-content-lg-center order-last order-lg-0 ">
+      <ul class="justify-content-lg-center">
+        <li><a class="nav-link scrollto " routerLinkActive="active" [routerLink]="['/portefeuille',idPortefeuille]">Portefeuille</a></li>
+        <li><a class="nav-link scrollto "routerLinkActive="active" [routerLink]="['/historique',idPortefeuille]">Historique</a></li>       
+      </ul>
+    </nav>
+  </div>
+</header>
+
+
+
+
+
+<main class="main-content  mt-4 mb-5 " >
+    <div class="container" data-aos="zoom-in">
+      <div >
+        <table class="table table-striped ">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Valeur</th>
+              <th scope="col">Quantité</th>
+              <th scope="col">Prix Achat</th>
+              <th scope="col">Prix Actuel</th>
+              <th scope="col">Capital Initial</th>
+              <th scope="col">Gain (€)</th>
+              <th scope="col">Gain (%)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let a of actions2; index as index">
+              <th scope="row">{{index+1}}</th>
+              <td>Mar</td>
+              <td>{{a.nombreAction}}</td>
+              <td>{{a.prixInvestissement}}</td>
+              <td>{{a.prixActuel}}</td>
+              <td>{{a.capital}}</td>
+              <td>{{a.gain}}</td>
+              <td>{{a.gainP}}</td>
+              <td><button class="btn btn-danger btn-sm"(click)="showDialog(a.prixActuel,a.idAction)"  label="Show" >Vendre</button></td>
+            </tr>
+          
+          </tbody>
+        </table>
+        <div></div>
+        <br>
+    <table>
+      <tbody>
+        <tr>
+          <td>
+            <label >Indice : </label><strong> {{indice}}</strong>
+
+          </td>
+          <td>
+            <table class="table bg-light table-bordered"*ngIf="portefeuille">
+              <tr>
+                  <th >Titres</th>
+                  <td>{{portefeuille.prixTitres}}</td>
+              </tr>
+              <tr>
+                  <th>Liquidités</th>
+                  <td>{{portefeuille.liquidites}}</td>
+              </tr>
+              <tr>
+                  <th>Totaux</th>
+                  <td>{{portefeuille.soldeTotal}}</td>
+              </tr>
+              
+           </table>
+          </td>
+        </tr>
+      </tbody>
+     
+    
+    </table>
+    <table>
+      <tbody>
+        <tr>
+          <td><div class="port_c1">
+            hhhhh
+          </div></td>
+          <td>
+            <div class="port_c2 ">
+              <div class="chatpie">
+               <canvas id="myChart1" ></canvas>
+             </div>
+           </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+   
+     
+  
+     
+                 
+    </div>  
+
+          
+            <p-dialog header="Vendre" [(visible)]="visible" [style]="{width: '50vw'}" *ngIf="portefeuille">
+              
+                    <div class="row mt-1 pt-1">
+                      <div class="col-md-3">
+
+                      </div>
+                    <div class="col-md-6">
+                      <form  [formGroup]="venteForm">
+                      <div class="form-group">
+                        <label for="example-text-input" class="form-control-label">Quantité<span class="text-danger">*</span></label>
+                        <input class="form-control mt-1" type="number"  formControlName="nombreAction" name="nombreAction" (input)="calculerTotalVente()">
+                        <div *ngIf="quantityFilled" class="mt-1">Total: {{totalVente}} €</div>
+                        <label class="mt-1"> <strong>Solde disponible : </strong> {{portefeuille.liquidites}} € </label>
+
+                      </div>
+                     
+                      <button type="button" class="btn bg-success mb-3 mt-2 " (click)="vendreAction()">Valider</button>
+      
+                      
+                    </form>
+                    </div>              
+                 </div>
+            </p-dialog>
+  
+
+    </div>
+</main>

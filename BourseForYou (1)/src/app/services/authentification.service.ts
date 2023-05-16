@@ -126,7 +126,8 @@ export class AuthentificationService {
             return auth.success;
           }
            else {
-            console.log('Le mot de passe est incorrecte')
+            console.log('Le mot de passe actuel est incorrecte');
+            return false;
           }
         }),
         catchError((err: any) => {
@@ -135,6 +136,13 @@ export class AuthentificationService {
         })
       );
   }
+
+
+verifierEmail(email:FormData):Observable<any>
+{
+  return this.http.post(`${this.baseUrl}/verifierEmail`,email)
+}
+
 
 
 //cette partie est pour verifier le compte email

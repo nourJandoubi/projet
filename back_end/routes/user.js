@@ -142,5 +142,5 @@ router.get('/year/:year',userController.usersByYear);
 router.get('/total',userController.totalUsers);
 router.get('/country',userController.usersByCountry);
 router.get('/totalCountries',userController.totalCountries);
-
+router.post('/verifierEmail',userController.verifierEmail);
 module.exports=router;

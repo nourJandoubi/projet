@@ -2,6 +2,8 @@ const asyncHandler=require('express-async-handler')
 const User=require('../models/user')
 const generateToken=require('../utils/generateToken')
 const emailValidator=require('deep-email-validator')
+const email_verifier = require('email-verifier-node');
+
 //@desc authenticate user and send login mail
 // @route POST /api/users/login
 // @access public
@@ -29,16 +31,41 @@ exports.authUser = asyncHandler(async (req, res) => {
     }
   }
 })
+exports.verifierEmail=asyncHandler(async(req,res)=>{
+  const { email } = req.body
+  const result = await email_verifier.verify_email(email);
+  console.log('eee', result.accept_all);
+  const emailExists = result.accept_all;
+  
+  console.log('email', emailExists);
+  if (emailExists === false) {
+    res.send({
+      error: 'invalid',
+      success: false
+    });
+    return false;
+  }
+  else
+  {
+    res.send({
+      success: true
+    });
+    return true;
+  }
+});
 
 exports.registerUser = asyncHandler(async (req, res) => {
   const { email } = req.body
   const userExists = await User.findOne({ email })
   if (userExists) {
-    res.status(400)
+    //res.status(400)
     res.send({
         error:'User already exists',
         success:false
     })
+    console.log('eroooor')
+    return false;
+
   }
   const user = await User.create({
     ...req.body,
@@ -51,15 +78,13 @@ exports.registerUser = asyncHandler(async (req, res) => {
       success: true,
       user: newUser,
       token: 'Bearer ' + generateToken(user._id),
-    }),()=>{
-      done();
-    }
+    })
+    return true;
   } else {
     res.json({
       success: false,
-    }),()=>{
-      done();
-    }
+    })
+    return false;
   }
 })
 

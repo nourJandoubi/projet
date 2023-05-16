@@ -52,7 +52,7 @@ export class ActualitesComponent {
   onPageChangeNews(event) {
     this.first = event.first;
     this.rows = event.rows;
-    const startIndex = event.first * event.rows;
+    const startIndex = event.first ;
     let endIndex = startIndex + event.rows;
     if (endIndex > this.filteredItemsNews.length) {
       endIndex = this.filteredItemsNews.length;
@@ -72,4 +72,5 @@ export class ActualitesComponent {
 
     // }, 9000);
   }
+  
 }

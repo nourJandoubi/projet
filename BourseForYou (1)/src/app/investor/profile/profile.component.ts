@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { AuthentificationService } from './../../services/authentification.service';
+import { AuthentificationService } from '../../services/authentification.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 import {MatMenuTrigger} from '@angular/material/menu';
@@ -32,6 +32,7 @@ export class ProfileComponent implements OnInit {
   motdepasse:string="password";
   motdepasse2:string="password";
   motdepasse3:string="password";
+  motdepasseIncorrect:boolean=false;
 
   eye:boolean=true;
   eye2:boolean=true;
@@ -184,7 +185,12 @@ export class ProfileComponent implements OnInit {
    {    
    if(data)
    {
+    this.motdepasseIncorrect=false;
     this.updateInfo()
+   }
+   else{
+    this.motdepasseIncorrect=true;
+    console.log('profile: mot de passe incorrect')
    }
     
    }

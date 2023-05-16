@@ -1,3 +1,8 @@
+import { ModifierPortefeuilleComponent } from './investor/modifier-portefeuille/modifier-portefeuille.component';
+import { HistoriqueComponent } from './investor/historique/historique.component';
+import { PortefeuilleComponent } from './investor/portefeuille/portefeuille.component';
+import { ListePortefeuilleComponent } from './investor/liste-portefeuille/liste-portefeuille.component';
+import { AjouterPortefeuilleComponent } from './investor/ajouter-portefeuille/ajouter-portefeuille.component';
 import { NotFound404Component } from './components/not-found404/not-found404.component';
 import { CountryComponent } from './admin/country/country.component';
 import { InvestorComponent } from './admin/investor/investor.component';
@@ -10,7 +15,7 @@ import { SignInComponent } from './account/sign-in/sign-in.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ActualiteDetailsComponent } from './components/actualite-details/actualite-details.component';
-import { ProfileComponent } from './components/profile/profile.component';
+import { ProfileComponent } from './investor/profile/profile.component';
 import { AuthGuardService } from './services/auth-guard.service';
 import { DeviseComponent } from './components/devise/devise.component';
 import { ActionsComponent } from './components/actions/actions.component';
@@ -44,6 +49,27 @@ const routes: Routes = [
    component:ProfileComponent,
    canActivate:[AuthGuardService]
   },
+  {path:'ajouterPortefeuille',
+  component:AjouterPortefeuilleComponent
+  },
+  {path:'listePortefeuille',
+  component:ListePortefeuilleComponent,
+  //canActivate:[AuthGuardService]
+  },
+  {path:'portefeuille/:id',
+  component:PortefeuilleComponent,
+  canActivate:[AuthGuardService]
+  },
+  {path:'historique/:id',
+  component:HistoriqueComponent,
+  canActivate:[AuthGuardService]
+  },
+  {path:'modifierPortefeuille/:id',
+  component:ModifierPortefeuilleComponent,
+  canActivate:[AuthGuardService]
+
+  },
+
   {path:"admin",
   component:AdminComponent,
   canActivate:[AdminGuardService]
