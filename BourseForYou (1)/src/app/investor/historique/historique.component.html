@@ -10,9 +10,12 @@
   </div>
 </header>
 <main class="main-content  mt-4" *ngIf="historique.length == 0">
+  <div *ngIf="loading" class="d-flex justify-content-between loader">
+    <app-loader></app-loader>
+  </div>
     
     <!-- ======= Cta Section ======= -->
-<section id="cta" class="cta">
+<section id="cta" class="cta" *ngIf="!loading">
     <div class="container" data-aos="zoom-in">
 
       <div class="text-center">
@@ -27,16 +30,17 @@
     </div>
   </section><!-- End Cta Section -->
 </main>
-<main class="main-content  mt-4" *ngIf="historique.length!=0">
-    <div class="container" data-aos="zoom-in">
-        <h1>Opérations exécutées</h1>
+
+<main   class=" main-content  mt-4" *ngIf="historique.length!=0 && !loading" data-aos="zoom-in">
+    <div #content class="content"  >
+        <h1 class="ms-5">Opérations exécutées</h1>
 
         <table class="table" >
             <thead>
               <tr>
                 <th scope="col">#</th>
                 <th scope="col">Opération</th>
-                <th scope="col">Valeur</th>
+                <th scope="col">Entreprise</th>
                 <th scope="col">Prix </th>
                 <th scope="col">Quantité</th>
                 <th scope="col">Date opération </th>
@@ -47,7 +51,7 @@
               <tr *ngFor="let h of pageSlice ; index as index">
                 <th scope="row">{{index+1}}</th>
                 <td>{{h.typeInvestissement}}</td>
-                <td>{{h.idAction}}</td>
+                <td><a [routerLink]="['/entreprise',h.idEntreprise]">{{h.nomEntreprise}}</a> </td>
                 <td>{{h.prixInvestissement}}</td>
                 <td>{{h.nombreAction}}</td>
                 <td>{{h.dateOperation | date:'dd/MM/yyyy'}}</td>
@@ -61,4 +65,6 @@
   
           </div>
     </div>
+    <button (click)="makePdf()">make pdf</button>
+
 </main>

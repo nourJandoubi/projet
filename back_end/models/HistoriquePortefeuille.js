@@ -22,9 +22,9 @@ const historiquePortefeuilleSchema = new mongoose.Schema({
     ref: 'Portefeuille', 
     required: true 
 },
-  idAction: { 
+  idEntreprise: { 
     type: mongoose.Schema.Types.ObjectId, 
-    ref: 'Action', 
+    ref: 'Entreprise', 
     required: true 
 }
 });

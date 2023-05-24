@@ -1,3 +1,6 @@
+import { ActualitesComponent } from './components/actualites/actualites.component';
+import { LoaderComponent } from './components/loader/loader.component';
+import { ForgotPasswordComponent } from './account/forgot-password/forgot-password.component';
 import { ModifierPortefeuilleComponent } from './investor/modifier-portefeuille/modifier-portefeuille.component';
 import { HistoriqueComponent } from './investor/historique/historique.component';
 import { PortefeuilleComponent } from './investor/portefeuille/portefeuille.component';
@@ -21,6 +24,7 @@ import { DeviseComponent } from './components/devise/devise.component';
 import { ActionsComponent } from './components/actions/actions.component';
 import { DevisesDetailsComponent } from './components/devises-details/devises-details.component';
 import { AccueilComponent } from './components/accueil/accueil.component';
+import { EntrepriseComponent } from './components/entreprise/entreprise.component';
 
 const routes: Routes = [
 
@@ -29,9 +33,13 @@ const routes: Routes = [
   {path:"accueil",component:AccueilComponent},
   {path:'home/:nomBourse',component:HomeComponent},
   {path:'devise/:id/:selectedDevise/:devise', component:DevisesDetailsComponent},
+  {path:'entreprise/:id', component:EntrepriseComponent},
   {path:'actualite/:id', component:ActualiteDetailsComponent},
+  {path:'actualites',component:ActualitesComponent},
   {path:"signUp",component:SignUpComponent},
   {path:"home",component:HomeComponent},
+  {path:"reset-password/:token",component:ForgotPasswordComponent},
+  {path:"loader",component:LoaderComponent},
   {path:"404",component:NotFound404Component},
   //{path:"home",component:ActionsComponent},
  

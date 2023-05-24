@@ -258,3 +258,40 @@ exports.totalCountries = (req, res, next) => {
     })
     .catch((err) => next(err));
 };
+
+/*exports.forgotPassword= async(req,res,nest)=>{
+  const user= await User.findOne({email:req.body.email});
+  if(!user)
+  {
+    return nest(new ErrorResponse('There is no user with this email'));
+  }
+  const resetToken= user.getResetPasswordToken();
+  await user.save({validateBeforeSave:false})
+
+  //create reset url
+  const restUrl=`${req.protocol}://${req.get('host')}/ressetPassword/${resetToken}}`
+  const message='you are receiving this email because you (or someone else) has requested the reset of password. Please make a PUT request'
+ 
+  try{
+    await sendEmail({
+      email:user.email,
+      subject:'Password reset token',
+      message
+    })
+    res.status(200).json({
+      success:true,
+      data:'Email sent'
+    });
+ }
+ catch(error)
+ {
+  console.log(error);
+  user.getResetPasswordToken=undefined;
+  user.resetPasswordExpire=undefined;
+  await user.save({ validateBeforeSave:false})
+  return next(new ErrorResponse('Email could not be sent',500))
+
+ }
+
+}*/
+

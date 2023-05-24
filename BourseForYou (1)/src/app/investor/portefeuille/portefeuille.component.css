@@ -10,17 +10,34 @@ table {
     vertical-align: middle; /* centre le texte verticalement */
   
   }
-  
+  .tableAction{
+    vertical-align:auto; /* centre le texte verticalement */
+  }
   .port_c1{
     float: left;
     height: 150px;
-    margin-top: 30px;
   }
   .port_c2{
     float: right;
     height: 150px;
-    margin-top: 30px;
+    width: 550px;
+
   }
   .chartpie{
-    height: 300px;
+    height: 180px;
+    width: 350px;
+  }
+  #myChart1{
+    margin-top: 0px;
+    height: 180px;
+
+  }
+  .loader{
+    margin-top: 5%;
+    padding-left: 48%;
+    margin-bottom: 10%;
+  }
+  .main-content {
+    margin-bottom: 20%;
+    min-height: 700px;
   }

@@ -20,10 +20,13 @@
         </div>
       </section><!-- End Cta Section -->
 </main>
-<main class="main-content  mt-4" *ngIf="!isLogedIn">
+<div *ngIf="loading && isLogedIn && !listeVide" class="d-flex justify-content-between loader">
+  <app-loader></app-loader>
+</div>
+<main class="main-content  mt-4" *ngIf="!isLogedIn ">
     
   <!-- ======= Cta Section ======= -->
-<section id="cta" class="cta">
+<section id="cta" class="cta" >
   <div class="container" data-aos="zoom-in">
 
     <div class="text-center">
@@ -43,8 +46,8 @@
 </main>
 
 
-<main class="main-content  mt-4 " *ngIf="!listeVide && isLogedIn" >
-    <div class="container" data-aos="zoom-in">
+<main class="main-content  mt-5  ms-5 me-5" *ngIf="!listeVide && isLogedIn" >
+    <div  data-aos="zoom-in" *ngIf="!loading">
         <table class="table">
             <thead>
               <tr>
@@ -53,6 +56,7 @@
                 <th scope="col">Liquidites</th>
                 <th scope="col">PrixTitres</th>
                 <th scope="col">Indice</th>
+                <th></th>
 
               </tr>
             </thead>

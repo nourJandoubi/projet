@@ -13,18 +13,19 @@
                 <div class="card-body">
                   <form [formGroup]="userFormGroup">
                     <div class="mb-3 pt-3">
-                    <span class="p-float-label">
-                      <input type="email" id="float-input" pInputText class="form-control form-control"  aria-label="Email" formControlName="email" name="email">
-                      <label for="float-input">Email *</label>
+                      <span class="p-float-label">
+                        <input type="email" id="float-input" pInputText class="form-control form-control"  aria-label="Email" formControlName="email" name="email">
+                        <label for="float-input">Email *</label>
                       </span>
-                      <div *ngIf="email.invalid  && email.touched"   
-                            class="mb-3 alert alert-danger alert-dismissible fade show" 
-                            role="alert">
-                          <div *ngIf="email.errors?.['required']">Le champ email est obligatoire.</div>
-                          <div *ngIf="email.errors?.['pattern']">L'adresse email n'est pas valide.</div>
-                          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-                          </button>
-                      </div>
+                        <div *ngIf="email.invalid  && email.touched"class="mb-3 alert alert-danger alert-dismissible fade show" role="alert">
+                            <div *ngIf="email.errors?.['required']">Le champ email est obligatoire.</div>
+                            <div *ngIf="email.errors?.['pattern']">L'adresse email n'est pas valide.</div>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        <div *ngIf="emailVide" class="mb-3 alert alert-danger alert-dismissible fade show" role="alert">
+                            Le champ email est obligatoire.
+                          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
                     </div>                
                     <div class="mb-3 pt-3">
                       <div class="password-wrapper">
@@ -49,8 +50,16 @@
                       </div>
                     </div>
                     <div>
-                     <a class="small text-muted" routerLink="/retrouverMail" routerLinkActive="active">Mot de passe oublier</a>
+
+                      <a class="small font-weight-bolder text-primary" (click)="forgotPassword()" style="cursor: pointer;">Mot de passe oublié</a>
                     </div>
+                    <div *ngIf="emailEnvoyer"   
+                    class="mb-3 alert alert-success alert-dismissible fade show" 
+                    role="alert">
+                  <div >Un e-mail de réinitialisation de mot de passe a été envoyé à votre adresse e-mail. Veuillez vérifier votre boîte de réception.</div>
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                  </button>
+              </div>
                     <div class="text-center">
                       <button type="button" class="btn btn-lg btn-primary w-100 mt-4 mb-0" (click)="login()" [disabled]="userFormGroup.invalid">
                         Connecter
@@ -75,10 +84,6 @@
             </div>
           </div>
         </div>
-      <!--<div class="card">
-        <p-toast></p-toast>
-        <button type="button" pButton pRipple (click)="show()" label="Show" class="p-button-success">shooow</button>
-    </div>-->
     </section>
   </main>
   

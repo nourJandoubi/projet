@@ -5,6 +5,8 @@ import { VisitorsService } from 'src/app/services/visitors.service';
 import { AdminService } from 'src/app/services/admin.service';
 import { forkJoin } from 'rxjs';
 import Chart from 'chart.js/auto';
+import * as html2pdf from 'html2pdf.js';
+
 @Component({
   selector: 'app-visitor',
   templateUrl: './visitor.component.html',
@@ -12,12 +14,39 @@ import Chart from 'chart.js/auto';
 })
 export class VisitorComponent {
 
-  faDirections=faDirections;
-  faSignOut=faSignOut;
+  
+
   @ViewChild('myCanvas1') myCanvas1: ElementRef<HTMLCanvasElement>;
   @ViewChild('myCanvas2') myCanvas2: ElementRef<HTMLCanvasElement>;
   @ViewChild('myCanvas3') myCanvas3: ElementRef<HTMLCanvasElement>;
+  @ViewChild('content1') content1: ElementRef;
+  @ViewChild('content2') content2: ElementRef;
+  @ViewChild('content3') content3: ElementRef;
 
+  makePdf(i:any) {
+   const element1 = this.content1.nativeElement;
+   const element2 = this.content2.nativeElement;
+
+   const element3 = this.content3.nativeElement;
+
+   const opt = {
+     margin:       1,
+     filename:     'rapport_Visiteurs.pdf',
+     image:        { type: 'jpeg', quality: 0.98 },
+     html2canvas:  { scale: 0.5 },
+     jsPDF:        { unit: 'in', format: 'letter', orientation: 'landscape' },
+     page_size: 'A3'
+   };
+ if(i==1)
+   html2pdf().set(opt).from(element1).save();
+   if(i==2)
+   html2pdf().set(opt).from(element2).save();
+   if(i==3)
+   html2pdf().set(opt).from(element3).save();
+
+
+ }
+    loading:boolean=false; 
     today: string;
     day:string="";
     typeSelect=[
@@ -56,16 +85,6 @@ export class VisitorComponent {
   totalDayV:any; 
   totalMonthV:any;
   totalYearV:any;
-
-  /*totalTextDayV=false;
-  totalTextMonthV=true;
-  totalTextYearV=true;*/
-
-  /*selectedOption='jour';
-  showChartDay = true;
-  showChartMonth = false;
-  showChartYear = false;*/
-
   selectedYearVM = this.todaydate.getFullYear();
   selectedYearVY:number = this.todaydate.getFullYear();
   selectedMonthVM = this.todaydate.getMonth() + 1;
@@ -82,52 +101,6 @@ export class VisitorComponent {
     public visitorService:VisitorsService,
     public adminService:AdminService)
     {     }
-
-
-    /*onOptionSelected()
-  {
-       if (this.selectedOption === 'jour')
-       {
-               this.showChartDay = true;
-               this.showChartMonth = false;
-               this.showChartYear = false;
-       } 
-       else 
-           if (this.selectedOption === 'mois') 
-           {
-                   this.showChartDay = false;
-                   this.showChartMonth = true;
-                   this.showChartYear = false;
-               } 
-           else 
-                   if (this.selectedOption === 'annee') 
-                   {
-                       this.showChartDay = false;
-                       this.showChartMonth = false;
-                       this.showChartYear = true;
-                   } 
-  }*/
-/*changeDate(type:any)
- {
-   if(type=='visitor')
-  { 
-       this.visitorsDay(this.day)
-       this.totalTextDayV=true;
-  }
-  
- }*/
-/*visitorsDay(day:any)
- {
-     this.visitorService.getVisitorsByDay(day).subscribe((responses: any) =>
-     {
-         this.totalDayV= responses.total;
-         if(this.totalDayV==undefined)
-         {
-           this.totalDayV=0;
-         }
-     });
- }*/
-/**hedhy zeyda 5ater manich nesta3mel fel fonction */
  visitorsYear(year: any) 
 {
   for (let i = 1; i < 13; i++) 
@@ -159,7 +132,6 @@ visitorsMonth(year:any,month:any)
           .then((response: any) => {
             if (response.total == undefined) {
               this.tabVisitorsByMonth[day] = 0;
-              //this.dataVisitorsByMonth.push(0);
             } 
             else {
               this.tabVisitorsByMonth[day] = response.total;
@@ -167,32 +139,15 @@ visitorsMonth(year:any,month:any)
               this.labelVisitorsByMonth.sort((a: Date, b: Date) => Date.parse(a.toString()) - Date.parse(b.toString()));
               this.dataVisitorsByMonth.push(response.total);
             }
-          })
-         
-      );
-   
-      /*Promise.all(promises).then(() => {
-        console.log('tabb', this.tabVisitorsByMonth[day]);
-        
-      });*/
-      
+          }) 
+      );   
     }     
     this.visitorService.getVisitorsByMonth(year,month).subscribe((response)=>
     {
         this.totalMonthV=response.total;
     });   
 }
-/*updateDays(type:any)
-{  this.labelVisitorsByMonth=[]
-   this.dataVisitorsByMonth=[]
-    this.visitorsMonth(this.selectedYearVM,this.selectedMonthVM)
-   
-}*/
-/*updateYear(type:any)
-{   if(type=='visitor')
-    this.visitorsYear(this.selectedYearVY)
-   
-}*/
+
 ngOnInit() {
   //hedhy bech ya3mel biha el max ta3 el calendrier
   const now = new Date();
@@ -235,10 +190,14 @@ this.visitorsMonth(this.selectedYearVM,this.selectedMonthVM)
         this.dataVisitorsByYear.push(responses[i].total);
         this.labelVisitorByYear.push(this.months.find(month => month.value === (i+1)).name);
       }
+
     });
 }
 ngAfterViewInit() {
-  setTimeout(() => {   
+
+  setTimeout(() => { 
+
+      
     const ctx = this.myCanvas1.nativeElement.getContext('2d');
     const ctx2 = this.myCanvas2.nativeElement.getContext('2d');
     const ctx3 = this.myCanvas3.nativeElement.getContext('2d');

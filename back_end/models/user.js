@@ -33,7 +33,9 @@ const userSchema = mongoose.Schema(
     status:{
       type:String,
       required:true,
-    }
+    },
+    resetPasswordToken: String, // Added field for reset password token
+    resetPasswordExpires: Date // Added field for reset password token expiration
   
   },
   

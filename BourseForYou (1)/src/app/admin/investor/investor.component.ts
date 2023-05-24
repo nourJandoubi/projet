@@ -5,6 +5,7 @@ import { VisitorsService } from 'src/app/services/visitors.service';
 import { AdminService } from 'src/app/services/admin.service';
 import { forkJoin } from 'rxjs';
 import Chart from 'chart.js/auto';
+import * as html2pdf from 'html2pdf.js';
 
 @Component({
   selector: 'app-investor',
@@ -12,11 +13,37 @@ import Chart from 'chart.js/auto';
   styleUrls: ['./investor.component.css']
 })
 export class InvestorComponent {
-  faDirections=faDirections;
-  faSignOut=faSignOut;
+ 
   @ViewChild('myCanvas1') myCanvas1: ElementRef<HTMLCanvasElement>;
   @ViewChild('myCanvas2') myCanvas2: ElementRef<HTMLCanvasElement>;
   @ViewChild('myCanvas3') myCanvas3: ElementRef<HTMLCanvasElement>;
+  @ViewChild('content1') content1: ElementRef;
+  @ViewChild('content2') content2: ElementRef;
+  @ViewChild('content3') content3: ElementRef;
+
+  makePdf(i:any) {
+   const element1 = this.content1.nativeElement;
+   const element2 = this.content2.nativeElement;
+
+   const element3 = this.content3.nativeElement;
+
+   const opt = {
+     margin:       1,
+     filename:     'rapport_Visiteurs.pdf',
+     image:        { type: 'jpeg', quality: 0.98 },
+     html2canvas:  { scale: 0.5 },
+     jsPDF:        { unit: 'in', format: 'letter', orientation: 'landscape' },
+     page_size: 'A3'
+   };
+ if(i==1)
+   html2pdf().set(opt).from(element1).save();
+   if(i==2)
+   html2pdf().set(opt).from(element2).save();
+   if(i==3)
+   html2pdf().set(opt).from(element3).save();
+
+
+ }
     today: string;
     day:string="";
     typeSelect=[

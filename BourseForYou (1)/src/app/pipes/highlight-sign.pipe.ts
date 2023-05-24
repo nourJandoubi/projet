@@ -12,9 +12,15 @@ export class HighlightSignPipe implements PipeTransform {
     let color: string = '';
     if (value.startsWith('-')) {
       color = 'red';
-    } else if (value.startsWith('+')) {
+    } 
+    else if(value=='0')
+    {
+        color='black'
+    }
+    else {
       color = 'green';
     }
+
     return this.sanitizer.bypassSecurityTrustHtml(`<span style="color:${color}; font-weight:bold">${value}</span>`);
   }
 }

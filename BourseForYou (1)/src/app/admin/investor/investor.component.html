@@ -1,38 +1,3 @@
-<!--<p-dialog header="Header" [style]="{width:'50vw',height:'300px'}" [(visible)]="visibleU" [style]="{width: '50vw'}">
-    <select pInputText name="type" id="type"  [(ngModel)]="selectedOption" (ngModelChange)="onOptionSelected()">
-            <option value="jour">jour</option>
-            <option value="mois">Mois</option>
-            <option value="annee">Annee</option>
-          </select>
-          
-      
-           <div *ngIf="showChartDay" class="mt-2">
-            <input type="date" pInputText name="date" max="{{ today | date: 'yyyy-MM-dd' }}" [(ngModel)]="day" (change)="changeDate('user')">
-            <h3 *ngIf="totalTextDayU"class="mt-2">Total Investisseurs : {{totalDayU}}</h3>
-           </div>
-
-
-           <div *ngIf="showChartMonth" class="mt-2">
-            <select name="year"pInputText [(ngModel)]="selectedYearUM" (ngModelChange)="updateDays('user')">
-                <option *ngFor="let year of years" [value]="year">{{year}}</option>
-            </select>
-              <select name="month"pInputText [(ngModel)]="selectedMonthUM" (ngModelChange)="updateDays('user')" class="ms-2">
-                <option *ngFor="let month of months" [value]="month.value">{{month.name}}</option>
-              </select>
-              <h3 *ngIf="totalTextMonthU"class="mt-2">Total Investisseurs : {{totalMonthU}}</h3>
-
-           
-            <p-chart  type="bar" [data]="basicData" [options]="basicOptions"></p-chart>
-           </div>
-           <div *ngIf="showChartYear" class="mt-2">
-            <select name="year"pInputText [(ngModel)]="selectedYearUY" (ngModelChange)="updateYear('user')">
-                <option *ngFor="let year of years" [value]="year">{{year}}</option>
-            </select>                               
-            <h3 *ngIf="totalTextYearU"class="mt-2">Total Investisseurs : {{totalYearU}}</h3>
-
-        </div>
-   </p-dialog>
--->
 
 
 <app-header></app-header>
@@ -40,71 +5,64 @@
 <div class="row mt-4">
     <div class="col-lg-4 col-md-6 mt-4 mb-4">
       <div class="card z-index-2 ">
-        <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
-          <div class="bg-gradient-light shadow-primary border-radius-lg py-3 pe-1">
-            <div class="chart">
-                <canvas #myCanvas1></canvas>
+      <div #content1>
+          <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
+            <div class="bg-gradient-light shadow-primary border-radius-lg py-3 pe-1">
+              <div class="chart">
+                  <canvas #myCanvas1></canvas>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="card-body">
-          <!--<h3 class="mb-0 ">La Dernière semaine</h3>-->
-          <h4 class="mt-2">Total Investisseurs : {{totalLastWeek}}</h4>
+          <div class="card-body">
+            <h4 class="mt-2">Total Investisseurs : {{totalLastWeek}}</h4>
+            <hr class="dark horizontal">
+          </div>
+      </div>
+      <button (click)="makePdf(1)" class="btn btn-success btn-sm">Génerer PDF <i class="fa fa-print" aria-hidden="true"></i></button>
 
-          <hr class="dark horizontal">
-         
-        </div>
       </div>
     </div>
     <div class="col-lg-4 col-md-6 mt-4 mb-4">
         <div class="card z-index-2 ">
-          <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
-            <div class="bg-gradient-light shadow-primary border-radius-lg py-3 pe-1">
-              <div class="chart">
-                  <canvas #myCanvas2></canvas>
-              </div>
-            </div>
-          </div>
-          <div class="card-body">
-             <!--  Visitors By Month  -->
-           <div  class="mt-2">
-            <!--<select name="year"pInputText [(ngModel)]="selectedYearVM" (ngModelChange)="updateDays('visitor')">
-                <option *ngFor="let year of years" [value]="year">{{year}}</option>
-            </select>
-              <select name="month"pInputText [(ngModel)]="selectedMonthVM" (ngModelChange)="updateDays('visitor')" class="ms-2">
-                <option *ngFor="let month of months" [value]="month.value">{{month.name}}</option>
-              </select>-->
-
-              <h4 class="mt-2">Total Investisseurs : {{totalMonthU}}</h4>
+         <div #content2>
+           <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
+             <div class="bg-gradient-light shadow-primary border-radius-lg py-3 pe-1">
+               <div class="chart">
+                   <canvas #myCanvas2></canvas>
+               </div>
+             </div>
            </div>
-           
-            <hr class="dark horizontal">
-           
-          </div>
+           <div class="card-body">
+            <div  class="mt-2">
+               <h4 class="mt-2">Total Investisseurs : {{totalMonthU}}</h4>
+            </div>
+             <hr class="dark horizontal">
+           </div>
+         </div>
+         <button (click)="makePdf(2)" class="btn btn-success btn-sm">Génerer PDF <i class="fa fa-print" aria-hidden="true"></i></button>
+
         </div>
       </div>
       <div class="col-lg-4 col-md-6 mt-4 mb-4">
         <div class="card z-index-2 ">
-          <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
-            <div class="bg-gradient-warning shadow-primary border-radius-lg py-3 pe-1">
-              <div class="chart">
-                  <canvas #myCanvas3></canvas>
+          <div #content3>
+            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
+              <div class="bg-gradient-warning shadow-primary border-radius-lg py-3 pe-1">
+                <div class="chart">
+                    <canvas #myCanvas3></canvas>
+                </div>
               </div>
             </div>
+            <div class="card-body">
+             <div  class="mt-2">                               
+              <h4 class="mt-2">Total Investisseurs : {{totalYearU}}</h4>
+             </div>
+             <hr class="dark horizontal">
+            </div>         
           </div>
-          <div class="card-body">
-                <!--  Visitors By Year  -->
-           <div  class="mt-2">
-            <!--<select name="year"pInputText [(ngModel)]="selectedYearVY" (ngModelChange)="updateYear('visitor')">
-                <option *ngFor="let year of years" [value]="year">{{year}}</option>
-            </select>-->                               
-            <h4 class="mt-2">Total Investisseurs : {{totalYearU}}</h4>
-        
-        </div>   
-           
-            <hr class="dark horizontal">
-           
-          </div>
+          <button (click)="makePdf(3)" class="btn btn-success btn-sm">Génerer PDF <i class="fa fa-print" aria-hidden="true"></i></button>
+
         </div>
+
       </div>
     </div>

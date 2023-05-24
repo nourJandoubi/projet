@@ -43,5 +43,9 @@ export class HistoriquePortefeuilleService {
   { console.log('service data',data)
     return this.http.post(`${this.baseUrl}/pourcentageLiquidite`,data);
   }
+  acheterAction(data:FormData):Observable<any>
+  {
+    return this.http.post(`${this.baseUrl}/acheter`,data);
+  }
 
 }

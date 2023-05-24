@@ -1,133 +1,53 @@
 const cron = require('node-cron');
 const axios = require('axios');
 require('dotenv').config();
-
+const Entreprise=require('../models/Entreprise')
 const fs = require('fs');
 const path = require('path');
 const cheerio = require('cheerio');
 const Action=require('../models/Action');
-const app = require('../app')
+const https = require('https');
 
-exports.createAction = async () => {
-  const baseUrls = [
-    'https://www.boursier.com/actions/paris',
-    'https://www.boursier.com/actions/new-york',
-    'https://www.boursier.com/actions/amsterdam',
-    'https://www.boursier.com/actions/bruxelles',
-    
-  ];
 
-  const promises = [];
 
-  // Loop through the pages and scrape data for each URL
-  for (let i = 0; i < baseUrls.length; i++) {
-    const baseUrl = baseUrls[i];
 
-    for (let pageNum = 1; pageNum <= 2; pageNum++) {
-      const url = `${baseUrl}?page=${pageNum}`;
-
-      try {
-        const response = await axios.get(url);
-        const $ = cheerio.load(response.data);
-
-        $('section.grid-12 table').each((index, table) => {
-          const rows = $(table).find('tr');
-
-          rows.each(async (index, row) => {
-            const columns = $(row).find('td');
-            const rowData = [];
-
-            columns.each((index, column) => {
-              const item = $(column).text().trim();
-              rowData.push(item);
-            });
-
-            const nomBourse =
-              i === 0 ? 'paris' :
-              i === 1 ? 'new-york' :
-              i === 2 ? 'amsterdam' :
-             'bruxelles' ;
-
-            
-
-const action = new Action({
-  nomEntreprise: rowData[0],
-  nomBourse: nomBourse,
-  cours: rowData[1],
-  variation: rowData[2],
-  ouv: rowData[3],
-  haut: rowData[4],
-  bas: rowData[5],
-  volume: rowData[6],
-  pubDate: new Date().toISOString()
-});
-
-const existingAction = await Action.findOne({
-  nomEntreprise: rowData[0],
-  nomBourse: nomBourse,
-  cours: rowData[1],
-  variation: rowData[2],
-  ouv: rowData[3],
-  haut: rowData[4],
-  bas: rowData[5],
-  volume: rowData[6]
-});
-
-if (existingAction) {
-  //If an Action instance with the same information already exists, we do not create a new instance.
- 
-} else {
-  //If an Action instance with the same information does not exist, we create a new instance
-  await action.save();
-  
-}
-            promises.push(action);
-          });
-        });
-
-      } catch (error) {
-        console.log(`Error scraping page ${pageNum} for ${baseUrl}: ${error.message}`);
+exports.getActionById = async (req, res) => {
+  Action.findOne({
+      _id: req.params.id
+  }).then(
+      (action) => {
+          res.status(200).json(action);
       }
-    }
-  }
+  ).catch(
+      (error) => {
+          res.status(404).json({
+              error: error
+          });
+      }
+  );
 
-  await Promise.all(promises);
+};
+exports.getActionByEntreprise = async (req, res) => {
+  Action.findOne({
+      nomEntreprise: req.params.idEntreprise
+  }).then(
+      (action) => {
+          res.status(200).json(action);
+      }
+  ).catch(
+      (error) => {
+          res.status(404).json({
+              error: error
+          });
+      }
+  );
+
 };
 
 
-exports.archiveData = async () => {
-  const companyNames = await Action.distinct("nomEntreprise");
 
-  // Create a buffer array to store the archived actions
-  let buffer = [];
-
-  for (const companyName of companyNames) {
-    const actions = await Action.find({ nomEntreprise: companyName }).sort({ pubDate: -1 });
-    const lastDate = actions[0].pubDate;
-
-    const latestActions = actions.filter((action) => {
-      return action.pubDate.getTime() === lastDate.getTime();
-    });
-
-    const archivedActions = actions.filter((action) => {
-      return action.pubDate.getTime() !== lastDate.getTime();
-    });
-
-    // Add the archived actions to the buffer
-    buffer.push(...archivedActions);
-
-    // Delete the archived actions from the database
-    await Action.deleteMany({ _id: { $in: archivedActions.map((a) => a._id) } });
-  }
-
-  // Write the archived actions to the file
-  /*fs.appendFile(process.env.ARCHIVE_FILE_PATH, JSON.stringify(buffer), (err) => {
-    if (err) throw err;
-    console.log(`Archived ${buffer.length} actions.`);
-  });*/
-};
-
-exports.getActionsParBourse = async (req, res) => {
+exports.getActionsParBourse = async (req, res) => 
+{
   const bourse = req.params.bourse;
   try {
     const actions = await Action.aggregate([
@@ -148,7 +68,7 @@ exports.getActionsParBourse = async (req, res) => {
 };
 
 
-  exports.getAllActions = (req, res) => {
+exports.getAllActions = (req, res) => {
     Action.find().then(
         (actualites) => {
             res.status(200).json(actualites);
@@ -163,23 +83,158 @@ exports.getActionsParBourse = async (req, res) => {
 };
 
 
-// exports.getAllActions = async (req, res) => {
-//     const pageSize = 10
-//     const page = Number(req.params.pageNumber) || 1
+exports.stockPricesToDatabase = async () => {
+  // Drop the collection before inserting new data
+     await Action.deleteMany({});
   
-//     const location = req.params.location
-//       ? {
-//         nomBourse: {
-//             $regex: req.params.location,
-//             $options: 'i',
-//           },
+  const apiKey1 = 'd5cc5d0c38488e4a1e76a68f4d37c4d2';
+  const apiKey2 = '6f4be5649d0bf36fd645d14c8a567024';
+  const apiKey3 = 'b771f2db822a9738d46790a44ce03d62';
+
+  const limit = 643;
+  const midpoint =Math.floor(limit / 3);
+
+  for (let i = 0; i < limit; i++) {
+    let apiKey;
+    if (i < midpoint) {
+      apiKey = apiKey1;
+    } else if (i < midpoint * 2) {
+      apiKey = apiKey2;
+    } else {
+      apiKey = apiKey3;
+    }
+
+    const entreprise = await Entreprise.findOne().skip(i).select('symbol _id').maxTimeMS(20000);
+
+    if (!entreprise) {
+      break;
+    }
+
+    const keyword = entreprise.symbol;
+    const id = entreprise._id;
+    const url = `/api/v3/quote/${keyword}?apikey=${apiKey}`;
+
+    const options = {
+      hostname: 'financialmodelingprep.com',
+      port: 443,
+      path: url,
+      method: 'GET'
+    };
+
+    const req = https.request(options, (res) => {
+      let data = '';
+
+      res.on('data', (chunk) => {
+        data += chunk;
+      });
+
+      res.on('end', async () => {
+        const response = JSON.parse(data);
+        console.log(response);
+        if (response.length > 0) {
+          const stock = new Action({
+            nomEntreprise: id,
+            cours: response[0].price,
+            variation: response[0].change,
+            bas: response[0].dayLow,
+            haut: response[0].dayHigh,
+            ouverture: response[0].open,
+            cloture: response[0].previousClose
+          });
+
+          await stock.save();
+        } else {
+          console.log(`No data found for keyword '${keyword}'`);
+        }
+      });
+
+    });
+
+    req.on('error', (error) => {
+      console.error(error);
+    });
+
+    req.end();
+  }
+};
+
+
+
+
+// exports.oldstockPricesToJson = async () => {
+//   const apiKey1 = '627642dadddba43643f8227cb301cf8c';
+//   const apiKey2 = '34a0a1a18bee75d140c581c960b1f7ec';
+//   const apiKey3 = 'b7c0b7ea093de820c1fd81a4773f505e';
+
+//   const limit = 643;
+//   const midpoint = Math.floor(limit / 3);
+
+//   const stocks = [];
+//   let jsonData = '';
+
+//   for (let i = 0; i < limit; i++) {
+//     let apiKey;
+//     if (i < midpoint) {
+//       apiKey = apiKey1;
+//     } else if (i < midpoint * 2) {
+//       apiKey = apiKey2;
+//     } else {
+//       apiKey = apiKey3;
+//     }
+
+//     const entreprise = await Entreprise.findOne()
+//       .skip(i)
+//       .select('symbol _id')
+//       .maxTimeMS(20000);
+
+//     if (!entreprise) {
+//       break;
+//     }
+
+//     const keyword = entreprise.symbol;
+//     const id = entreprise._id;
+//     const url = `/api/v3/historical-price-full/${keyword}?apikey=${apiKey}`;
+
+//     const options = {
+//       hostname: 'financialmodelingprep.com',
+//       port: 443,
+//       path: url,
+//       method: 'GET'
+//     };
+
+//     const req = https.request(options, (res) => {
+//       let data = '';
+
+//       res.on('data', (chunk) => {
+//         data += chunk;
+//       });
+
+//       res.on('end', async () => {
+//         const response = JSON.parse(data);
+//         console.log(response);
+//         if (response.length > 0) {
+//           jsonData += JSON.stringify(response);
+//         } else {
+//           console.log(`No data found for keyword '${keyword}'`);
 //         }
-//       : {}
-  
-//     const count = await Action.countDocuments({ ...location })
-//     const products = await Action.find({ ...location })
-//       .limit(pageSize)
-//       .skip(pageSize * (page - 1))
-  
-//     res.json({ products, page, pages: Math.ceil(count / pageSize) })
+//       });
+//     });
+
+//     req.on('error', (error) => {
+//       console.error(error);
+//     });
+
+//     req.end();
 //   }
+
+//   // Écriture des données dans le fichier JSON
+  
+//   fs.writeFileSync('stocks.json', jsonData);
+// };
+
+
+
+
+
+
+

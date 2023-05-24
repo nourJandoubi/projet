@@ -10,3 +10,8 @@ table {
     vertical-align: middle; /* centre le texte verticalement */
   
   }
+  .loader{
+    margin-top: 5%;
+    padding-left: 48%;
+    margin-bottom: 10%;
+  }

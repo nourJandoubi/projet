@@ -16,7 +16,7 @@ export class ListePortefeuilleComponent {
   listeVide:boolean=false;
   idP:any;
   isLogedIn:boolean;
-
+  loading:boolean=true;
   
     showDialog(id:any) {
 
@@ -45,7 +45,9 @@ if(this.isLogedIn)
       this.portefeuilleService.getPortefuilleByInvestor(this.idInvestisseur).toPromise()
       .then((res)=>
       {
+        this.loading=false;
         this.listePortfeuille=res;
+        
       })
      .then(()=>
       {
@@ -53,7 +55,8 @@ if(this.isLogedIn)
          {this.listeVide=true;}
         else
          {this.listeVide=false;}
-      })}
+      })
+    }
     }
 
 

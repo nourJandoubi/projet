@@ -55,6 +55,9 @@ import { HistoriqueComponent } from './investor/historique/historique.component'
 import { PortefeuilleComponent } from './investor/portefeuille/portefeuille.component';
 import { ModifierPortefeuilleComponent } from './investor/modifier-portefeuille/modifier-portefeuille.component';
 import { RadioButtonModule } from 'primeng/radiobutton';
+import { EntrepriseComponent } from './components/entreprise/entreprise.component';
+import { ForgotPasswordComponent } from './account/forgot-password/forgot-password.component';
+import { LoaderComponent } from './components/loader/loader.component';
 @NgModule({
   declarations: [
     
@@ -87,7 +90,11 @@ import { RadioButtonModule } from 'primeng/radiobutton';
        HistoriqueComponent,
        PortefeuilleComponent,
        ModifierPortefeuilleComponent,
-   
+       EntrepriseComponent,
+       ForgotPasswordComponent,
+       LoaderComponent,
+
+       
   ],
   imports: [
     BrowserModule,

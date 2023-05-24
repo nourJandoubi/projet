@@ -1,5 +1,5 @@
   <app-header></app-header>
-  <main class="main-content  mt-4">
+  <main class="main-content  mt-4" data-aos="zoom-in">
     <div class="container">
       <div class="row mt-lg-n11 mt-md-n12 mt-n12 justify-content-center">
         <div class="col-xl-9 col-lg-9 col-md-11 mx-auto">
@@ -57,7 +57,7 @@
                         <div class="form-group">
                           <label for="example-text-input" class="form-control-label">Pays<span class="text-danger">*</span></label>
                          
-                          <select  class="form-control" formControlName="country" name="country">
+                          <select  class="form-select" formControlName="country" name="country">
                             <option *ngFor="let country of countries" [value]="country.name.common">{{ country.name.common }}</option>
                           </select>  
                         </div>
@@ -68,7 +68,7 @@
                   </mat-tab>
                     <mat-tab label="Changer de mot de passe" >
                       <p class="mb-0 font-weight-bold text-sm ms-4 pt-2">
-                        Votre mot de passe doi contenir au moins 6 caractéres ainsi qu'une combinaison de chiffres, de lettres et de caractéres spéciaux (!$@%)
+                        Votre mot de passe doi contenir au moins 6 caractéres ainsi qu'une combinaison de chiffres, de lettres 
                         </p>
                       <div class="row mt-1 pt-1">
                         <div class="col-md-1"></div>

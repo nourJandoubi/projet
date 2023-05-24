@@ -102,7 +102,7 @@ deconnexion() {
         this.authentificationService.logOut();
         this.ngOnInit();
       }
-showDialog(type:any)
+/*showDialog(type:any)
       { if(type=='visiteur')
         this.visibleV=true;
         if(type=='investisseur')
@@ -205,10 +205,7 @@ visitorsMonth(year:any,month:any)
           })
       );
 
-      /*Promise.all(promises).then(() => {
-        console.log('tabb', this.tabVisitorsByMonth[day]);
-        
-      });*/
+    
       
     }
     console.log('label dateee',this.labelVisitorsByMonth);
@@ -263,10 +260,7 @@ usersMonth(year:any,month:any)
             }
           })
       );
-      /*Promise.all(promises).then(() => {
-        console.log('tabb', this.tabUsersByMonth[day]);
-        
-      });*/
+    
       
     }
      
@@ -301,7 +295,7 @@ updateYear(type:any)
     this.visitorsYear(this.selectedYearVY)
     if(type=='user')
     this.usersYear(this.selectedYearUY)
-}
+}*/
 ngOnInit() {
   //hedhy bech ya3mel biha el max ta3 el calendrier
   const now = new Date();
@@ -317,11 +311,11 @@ ngOnInit() {
 
 
 
-this.visitorsYear(this.selectedYearVY)
+/*this.visitorsYear(this.selectedYearVY)
 this.visitorsMonth(this.selectedYearVM,this.selectedMonthVM)
 this.usersYear(this.selectedYearUY)
 this.usersMonth(this.selectedYearUM,this.selectedMonthUM)
-
+*/
 
 
 //---------------Visitors---------------------------------//  
@@ -333,9 +327,9 @@ this.usersMonth(this.selectedYearUM,this.selectedMonthUM)
       this.totalUsers=response.count;
   });
 //-----------Country-------------------
-  this.adminService.getCountry().subscribe((response:any)=>{
+  /*this.adminService.getCountry().subscribe((response:any)=>{
       this.tabCountry=response;
-    });
+    });*/
   this.adminService.getTotalCountries().subscribe((response:any)=>{
       this.totalCountries=response;
   });

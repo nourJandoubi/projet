@@ -6,6 +6,9 @@ import { AdminService } from 'src/app/services/admin.service';
 import { forkJoin } from 'rxjs';
 import Chart from 'chart.js/auto';
 
+
+import * as html2pdf from 'html2pdf.js';
+
 @Component({
   selector: 'app-country',
   templateUrl: './country.component.html',
@@ -14,6 +17,22 @@ import Chart from 'chart.js/auto';
 export class CountryComponent {
    @ViewChild('myCanvas') myCanvas: ElementRef<HTMLCanvasElement>;
 
+
+
+   @ViewChild('content') content: ElementRef;
+ 
+   makePdf() {
+    const element = this.content.nativeElement;
+    const opt = {
+      margin:       1,
+      filename:     'obrz.pdf',
+      image:        { type: 'jpeg', quality: 0.98 },
+      html2canvas:  { scale: 2 },
+      jsPDF:        { unit: 'in', format: 'letter', orientation: 'landscape' }
+    };
+  
+    html2pdf().set(opt).from(element).save();
+  }
    visibleC:boolean;
   totalCountries:number;
   tabCountry:any[]=[];
@@ -36,11 +55,16 @@ export class CountryComponent {
         console.log('ttt',this.labelCountry);
         console.log('dd',this.dataCountry);
       });
-  this.adminService.getTotalCountries().subscribe((response:any)=>{
-      this.totalCountries=response;
-  });
+      this.adminService.getTotalCountries().subscribe((response:any)=>{
+          this.totalCountries=response;
+      });
+
+/**--------------------------------------------------------------------------- */
+
+/**---------------------------------------------------------------------------------- */
 
     }
+    
 
 ngAfterViewInit() {
   setTimeout(() => {   

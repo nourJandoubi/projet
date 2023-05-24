@@ -64,8 +64,7 @@ export class AuthentificationService {
             // console.log('current subject',this.currentUserSubject);
             
             return auth;
-          } else {
-          }
+          } 
         }),
         catchError((err: any) => {
           console.log(err);

@@ -141,7 +141,6 @@ exports.supprimerPortefeuille = async (req, res) => {
     try {
       // Chercher le portefeuille correspondant à l'utilisateur
       const portefeuille = await Portefeuille.find({ idUser: idUser });
-      console.log('portefeuileee',portefeuille);
   
       if (!portefeuille) {
         throw new Error('Le portefeuille n\'a pas été trouvé.');

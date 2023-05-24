@@ -28,4 +28,12 @@ export class ActionService {
   deleteAction(id: string): Observable<any> {
     return this.http.delete(`${this.baseUrl}/${id}`);
   }
+  getActionById(id:any):Observable<any>
+  {
+    return this.http.get(`${this.baseUrl}/${id}`)
+  }
+  getActionByEntreprise(id:any):Observable<any>
+  {
+    return this.http.get(`${this.baseUrl}entreprise/${id}`)
+  }
 }

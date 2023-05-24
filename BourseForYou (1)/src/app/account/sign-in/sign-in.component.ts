@@ -1,3 +1,4 @@
+import { PasswordService } from './../../services/password.service';
 import { AdminService } from 'src/app/services/admin.service';
 import { AdminGuardService } from './../../services/admin-guard.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
@@ -23,13 +24,16 @@ export class SignInComponent implements OnInit{
   motdepasse:string="password";
   eye:boolean=true;
   error:boolean=false;
+  emailVide:boolean=false;
+  emailEnvoyer:boolean=false;
   constructor(
     private _formBuilder: FormBuilder,
     private authentificationService: AuthentificationService,
     private _snackBar: MatSnackBar,
     private router: Router,
     private messageService: MessageService,
-    private adminService:AdminService
+    private adminService:AdminService,
+    private passwordService:PasswordService
   ) {}
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
@@ -96,11 +100,28 @@ export class SignInComponent implements OnInit{
   ngOnInit(): void {
     this.userFormGroup = this._formBuilder.group({
       email: ['',[Validators.required,Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}' )]],
-      password: ['', [Validators.required, Validators.minLength(6), Validators.pattern('^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!$@%])[a-zA-Z0-9!$@%]{6,}$')]],
+      password: ['', [Validators.required, Validators.minLength(6), Validators.pattern('^(?=.*[0-9])(?=.*[a-zA-Z])[a-zA-Z0-9!$@%]{6,}$')]],
     });
   }
 
+  forgotPassword()
+  {
+    if(this.userFormGroup.get('email').value=="")
+    {
+      this.emailVide=true;
+    }
+    else
+    {
+      this.emailVide=false;
+      this.passwordService.forgetPassword(this.userFormGroup.value).subscribe(
+        (res)=>
+        {
+          this.emailEnvoyer=true;
+        }
+      )
+    }
 
+  }
   get password()
   {
     return this.userFormGroup.get('password');

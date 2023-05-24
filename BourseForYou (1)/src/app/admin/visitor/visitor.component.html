@@ -1,75 +1,76 @@
 
 
 <app-header></app-header>
+<div *ngIf="loading" class="d-flex justify-content-between loader">
+  <app-loader></app-loader>
+</div>
 
+<div  class="content " *ngIf="!loading">
   <div class="row mt-4">
-    <div class="col-lg-4 col-md-6 mt-4 mb-4">
-      <div class="card z-index-2 ">
-        <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
-          <div class="bg-gradient-light shadow-primary border-radius-lg py-3 pe-1">
-            <div class="chart">
-                <canvas #myCanvas1></canvas>
-            </div>
-          </div>
-        </div>
-        <div class="card-body">
-          <!--<h3 class="mb-0 ">La Dernière semaine</h3>-->
-          <h4 class="mt-2">Total Visiteurs : {{totalLastWeekV}}</h4>
-
-          <hr class="dark horizontal">
-         
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-4 col-md-6 mt-4 mb-4">
-        <div class="card z-index-2 ">
-          <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
-            <div class="bg-gradient-light shadow-primary border-radius-lg py-3 pe-1">
-              <div class="chart">
-                  <canvas #myCanvas2></canvas>
+      <div class=" col-lg-4 col-md-6 mt-4 mb-4">
+        <div   class="card z-index-2 ">
+          <div #content1>
+            <div  class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
+              <div class="bg-gradient-light shadow-primary border-radius-lg py-3 pe-1">
+                <div class="chart">
+                    <canvas #myCanvas1></canvas>
+                </div>
               </div>
             </div>
+            <div class="card-body">
+              <h4 class="mt-2">Total Visiteurs : {{totalLastWeekV}}</h4>
+              <hr class="dark horizontal">          
+            </div>
           </div>
-          <div class="card-body">
-             <!--  Visitors By Month  -->
-           <div  class="mt-2">
-            <!--<select name="year"pInputText [(ngModel)]="selectedYearVM" (ngModelChange)="updateDays('visitor')">
-                <option *ngFor="let year of years" [value]="year">{{year}}</option>
-            </select>
-              <select name="month"pInputText [(ngModel)]="selectedMonthVM" (ngModelChange)="updateDays('visitor')" class="ms-2">
-                <option *ngFor="let month of months" [value]="month.value">{{month.name}}</option>
-              </select>-->
+          <button (click)="makePdf(1)" class="btn btn-success btn-sm">Génerer PDF <i class="fa fa-print" aria-hidden="true"></i></button>
 
-              <h4 class="mt-2">Total Visiteurs : {{totalMonthV}}</h4>
-           </div>
-           
-            <hr class="dark horizontal">
-           
-          </div>
         </div>
+
       </div>
       <div class="col-lg-4 col-md-6 mt-4 mb-4">
-        <div class="card z-index-2 ">
-          <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
-            <div class="bg-gradient-warning shadow-primary border-radius-lg py-3 pe-1">
-              <div class="chart">
-                  <canvas #myCanvas3></canvas>
+          <div   class="card z-index-2 ">
+            <div #content2>
+              <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
+                <div class="bg-gradient-light shadow-primary border-radius-lg py-3 pe-1">
+                  <div class="chart">
+                      <canvas #myCanvas2></canvas>
+                  </div>
+                </div>
+              </div>
+              <div class="card-body">
+               <div  class="mt-2">
+                  <h4 class="mt-2">Total Visiteurs : {{totalMonthV}}</h4>
+               </div>
+                <hr class="dark horizontal">
               </div>
             </div>
+            <button (click)="makePdf(2)" class="btn btn-success btn-sm">Génerer PDF <i class="fa fa-print" aria-hidden="true"></i></button>
+
           </div>
-          <div class="card-body">
-                <!--  Visitors By Year  -->
-           <div  class="mt-2">
-            <!--<select name="year"pInputText [(ngModel)]="selectedYearVY" (ngModelChange)="updateYear('visitor')">
-                <option *ngFor="let year of years" [value]="year">{{year}}</option>
-            </select>-->                               
-            <h4 class="mt-2">Total Visiteurs : {{totalYearV}}</h4>
-        
-        </div>   
-           
-            <hr class="dark horizontal">
-           
-          </div>
-        </div>
+
       </div>
-    </div>
+      <div class="col-lg-4 col-md-6 mt-4 mb-4">
+          <div   class="card z-index-2 ">
+            <div #content3>
+              <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
+                <div class="bg-gradient-warning shadow-primary border-radius-lg py-3 pe-1">
+                  <div class="chart">
+                      <canvas #myCanvas3></canvas>
+                  </div>
+                </div>
+              </div>
+              <div class="card-body">
+               <div  class="mt-2">                             
+                <h4 class="mt-2">Total Visiteurs : {{totalYearV}}</h4>
+               </div>   
+                <hr class="dark horizontal">
+              </div>
+            </div>
+            <button (click)="makePdf(3)" class="btn btn-success btn-sm">Génerer PDF <i class="fa fa-print" aria-hidden="true"></i></button>
+
+          </div>
+
+      </div>
+  </div>
+
+</div>

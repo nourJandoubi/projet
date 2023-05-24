@@ -10,7 +10,7 @@ exports.acheterAction = async (req, res) => {
     nombreAction: req.body.nombreAction,
     prixInvestissement: req.body.prixInvestissement,
     idPortefeuille: req.body.idPortefeuille,
-    idAction:req.body.idAction
+    idEntreprise:req.body.idEntreprise
   });
 
   try {
@@ -48,18 +48,15 @@ exports.vendreAction = async (req, res) => {
       nombreAction: req.body.nombreAction,
       prixInvestissement: req.body.prixInvestissement,
       idPortefeuille: req.body.idPortefeuille,
-      idAction:req.body.idAction
+      idEntreprise:req.body.idEntreprise
     });
   
     try {
       // Enregistrement de l'historique du portefeuille
       const newHistoriquePortefeuille = await historiquePortefeuille.save();
-      console.log('historique',newHistoriquePortefeuille)
       // Mise à jour du portefeuille avec le prix de vente
       const portefeuille = await Portefeuille.findById(req.body.idPortefeuille);
-      console.log('prix titre',portefeuille.prixTitres)
-      console.log('prix vente',req.body.prixInvestissement)
-      console.log('n',req.body.nombreAction)
+      
 
 
       const prixTitre = (portefeuille.prixTitres - (req.body.prixInvestissement*req.body.nombreAction)).toFixed(2);
@@ -67,7 +64,6 @@ exports.vendreAction = async (req, res) => {
   
       portefeuille.prixTitres = prixTitre;
       portefeuille.liquidites = liquidite;
-      console.log('portefeuille',portefeuille)
   
       await portefeuille.save();
   
@@ -108,8 +104,8 @@ exports.vendreAction = async (req, res) => {
   exports.recupererActionsAchetees = async (req, res) => {
     try {
       const idPortefeuille = req.params.id;
-        //la méthode populate() est utilisée pour peupler les détails de l'action achetée en utilisant la référence idAction stockée dans chaque entrée d'historique de portefeuille. 
-      const actionsAchetees = await HistoriquePortefeuille.find({idPortefeuille:idPortefeuille, typeInvestissement: 'achat' }).populate('idAction');
+        //la méthode populate() est utilisée pour peupler les détails de l'action achetée en utilisant la référence idEntreprise stockée dans chaque entrée d'historique de portefeuille. 
+      const actionsAchetees = await HistoriquePortefeuille.find({idPortefeuille:idPortefeuille, typeInvestissement: 'achat' }).populate('idEntreprise');
       res.status(200).json(actionsAchetees);
     } catch (error) {
       console.error(error);
@@ -123,7 +119,7 @@ exports.vendreAction = async (req, res) => {
     try {
       const idPortefeuille = req.params.id;
 
-      const actionsVendues = await HistoriquePortefeuille.find({idPortefeuille:idPortefeuille, typeInvestissement: 'vente' }).populate('idAction');
+      const actionsVendues = await HistoriquePortefeuille.find({idPortefeuille:idPortefeuille, typeInvestissement: 'vente' }).populate('idEntreprise');
       res.status(200).json(actionsVendues);
     } catch (error) {
       console.error(error);
@@ -137,8 +133,13 @@ exports.vendreAction = async (req, res) => {
   exports.recupererActionsParPortefeuille = async (req, res) => {
     try {
       const idPortefeuille = req.params.id;
-      const actions = await HistoriquePortefeuille.find({ idPortefeuille: idPortefeuille }).populate('idAction');
-      console.log('actionsss',actions)
+      const actions = await HistoriquePortefeuille.find({ idPortefeuille: idPortefeuille }).populate('idEntreprise');
+      actions.sort((a, b) => {
+       
+        const dateA = new Date(a.dateOperation);
+        const dateB = new Date(b.dateOperation);
+        return dateB.getTime() - dateA.getTime();
+      });
       res.status(200).json(actions);
     } catch (error) {
       console.error(error);
@@ -151,54 +152,26 @@ exports.vendreAction = async (req, res) => {
 async function calculerValeurTotalAction(idPortefeuille) {
     try {
       // Récupérer les actions du portefeuille
-      const actions = await HistoriquePortefeuille.find({ idPortefeuille: idPortefeuille }).populate('idAction');
-      console.log('action',actions)
+      const actions = await HistoriquePortefeuille.find({ idPortefeuille: idPortefeuille }).populate('idEntreprise');
       let somme = 0;
   
       // Parcourir les actions et calculer la somme
       actions.forEach(action => {
-        somme += action.nombreAction * action.prixInvestissement;
+        somme += parseFloat((action.nombreAction * action.prixInvestissement).toFixed(2));
       });
-      console.log('somme',somme)
-  
       return somme;
     } catch (error) {
       console.log(error);
     }
   }
-/** fi souret me st7a9itha
- * async function calculerPourcentageParAction(idPortefeuille, liquidites, nombreAction, prixInvestissement) {
-  try {
-    const valeurPortefeuille = await CalculerValeurTotalPortefeuille(idPortefeuille, liquidites);
-    const valeurAction = nombreAction * prixInvestissement;
-    const pourcentage = (valeurAction / valeurPortefeuille) * 100;
-    return pourcentage;
-  } catch (error) {
-    console.log(error);
-  }
-}
- */
 
-  /*exports.calculerPourcentageParAction = (idPortefeuille, liquidites, nombreAction, prixInvestissement) => {
-    // Calculer la valeur totale du portefeuille
-    const valeurPortefeuille = calculerValeurTotalAction(idPortefeuille) + liquidites;
-  
-    // Calculer la valeur de l'action
-    const valeurAction = nombreAction * prixInvestissement;
-  
-    // Calculer le pourcentage de l'action
-    const pourcentage = (valeurAction / valeurPortefeuille) * 100;
-  
-    return pourcentage;
-  };*/
   exports.calculerPourcentageParAction = async (req, res) => {
     try {
       const { idPortefeuille, liquidites, nombreAction, prixInvestissement } = req.body;
       const valeurPortefeuille = await calculerValeurTotalAction(idPortefeuille)+liquidites;
-      console.log('valeurPortefeuille',valeurPortefeuille);
       const valeurAction = nombreAction * prixInvestissement;
-      console.log('valeurAction',valeurAction);
       const pourcentage = ((valeurAction / valeurPortefeuille) * 100).toFixed(2);
+    
       res.status(200).json({ pourcentage });
     } catch (error) {
       console.error(error);
@@ -212,10 +185,7 @@ async function calculerValeurTotalAction(idPortefeuille) {
   exports.calculerPourcentageLiquidite = async (req, res) => {
     try {
       const { liquidites, soldeTotal } = req.body;
-      console.log('liquidites',liquidites)
-      console.log('soldeTotal',soldeTotal)
       const pourcentage = ((liquidites / soldeTotal) * 100).toFixed(2);
-      console.log('pourcentage liquidite',pourcentage)
       res.status(200).json({ pourcentage });
     } catch (error) {
       console.error(error);
@@ -225,10 +195,10 @@ async function calculerValeurTotalAction(idPortefeuille) {
       });
     }
   };
-/**async function calculerPerformance(idAction, idPortefeuille, prixVente) {
+/**async function calculerPerformance(idEntreprise, idPortefeuille, prixVente) {
   // Trouver l'historique des opérations d'achat/vente pour cette action
   const historique = await HistoriquePortefeuille.find({
-    idAction: idAction,
+    idEntreprise: idEntreprise,
     idPortefeuille: idPortefeuille,
     typeInvestissement: { $in: ['A', 'V'] } // A pour achat, V pour vente
   }).sort({ dateOperation: 'asc' });
@@ -244,35 +214,14 @@ async function calculerValeurTotalAction(idPortefeuille) {
 }
  */  
   
-/**async function calculerGainPerte(idAction, prixVente, quantiteVendue) {
-  // Trouver l'enregistrement d'achat le plus récent pour l'action donnée
-  const dernierAchat = await HistoriquePortefeuille.findOne({ 
-    idAction: idAction, 
-    typeInvestissement: "achat" 
-  }).sort({ dateOperation: -1 });
 
-  if (!dernierAchat) {
-    throw new Error("Aucun enregistrement d'achat trouvé pour cette action");
-  }
-
-  // Calculer le gain ou la perte avant la vente
-  const gainPerteAvantVente = (prixVente - dernierAchat.prixInvestissement) * dernierAchat.nombreAction * 10;
-
-  // Calculer le gain ou la perte après la vente
-  const gainPerteApresVente = (prixVente - dernierAchat.prixInvestissement) * quantiteVendue * 100;
-
-  // Retourner les résultats
-  return {
-    gainPerteAvantVente: gainPerteAvantVente,
-    gainPerteApresVente: gainPerteApresVente
-  };
-}
- */
 exports.calculerGainPerte = async (req, res) => {
     try {
       const { prixAchat, prixActuel, nombreActions } = req.body;
-      const gainPrix = ((prixActuel - prixAchat) * nombreActions).toFixed(2);
-      const gainPourcentage = ((prixActuel - prixAchat) / prixAchat * 100).toFixed(2);
+  
+      const gainPrix = ((parseFloat(prixActuel) - prixAchat) * nombreActions).toFixed(2);
+      const gainPourcentage = ((parseFloat(prixActuel) - prixAchat) / prixAchat * 100).toFixed(2);
+     
       res.status(200).json({ gainPrix, gainPourcentage });
     } catch (error) {
       console.error(error);

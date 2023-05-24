@@ -16,7 +16,7 @@ export class DeviseComponent {
   montant = 0;
   resultat = 0;
   values=[];
- nomDevises=["EUR","USD","JPY","TRY","CAD"]
+  nomDevises=["EUR","USD","JPY","TRY","CAD"]
   deviseList={"EUR":[],"USD":[],"JPY":[],"TRY":[],"CAD":[]};
   selectedDevise="EUR";
   selectedDeviseTo="EUR";
@@ -53,7 +53,7 @@ export class DeviseComponent {
   ngOnInit(): void {
     this.deviseService.getDevisesParDate().subscribe((data) => {
       this.devises = data;
-      console.log(this.devises);
+      console.log('devise 1',this.devises);
      
       
       for (let i = 0; i < this.devises.length; i++) {
