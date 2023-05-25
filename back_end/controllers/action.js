@@ -46,6 +46,7 @@ exports.getActionByEntreprise = async (req, res) => {
 
 
 
+
 exports.getActionsParBourse = async (req, res) => 
 {
   const bourse = req.params.bourse;

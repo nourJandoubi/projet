@@ -38,6 +38,7 @@ export class CountryComponent {
   tabCountry:any[]=[];
   labelCountry:any[]=[];
   dataCountry:any[]=[];
+  loading:boolean=true;
  constructor(
     private authentificationService:AuthentificationService,
     public visitorService:VisitorsService,
@@ -52,12 +53,55 @@ export class CountryComponent {
           this.dataCountry.push(this.tabCountry[i].count);
         }
       }).then(() => {
-        console.log('ttt',this.labelCountry);
-        console.log('dd',this.dataCountry);
-      });
-      this.adminService.getTotalCountries().subscribe((response:any)=>{
+        this.adminService.getTotalCountries().subscribe((response:any)=>{
           this.totalCountries=response;
       });
+      this.loading=false;
+
+      setTimeout(() => {   
+        const ctx = this.myCanvas.nativeElement.getContext('2d');    
+        const chartData = {
+          labels: this.labelCountry,
+          datasets: [
+            {
+              label: `Nombre Investisseurs Par Pays`,
+              data: this.dataCountry,
+              backgroundColor: '#3F51B5',
+              borderColor: '#3F51B5',
+              borderWidth: 1,
+              fill: true,
+            },
+          ],
+        }; 
+        const chartOptions = {
+          responsive: true,
+          scales: {
+            x: {
+              display: true,
+              title: {
+                display: true,
+                text: 'Pays',
+              },
+            },
+            y: {
+              display: true,
+              title: {
+                display: true,
+                text: `Nombre Investisseurs`,
+              },
+            },
+          },
+        };    
+        // Create chart
+        const myChart = new Chart(ctx, {
+          type: 'bar',
+          data: chartData,
+          options: chartOptions,
+        });
+             
+            }, 500); 
+      });
+     
 
 /**--------------------------------------------------------------------------- */
 
@@ -67,50 +111,6 @@ export class CountryComponent {
     
 
 ngAfterViewInit() {
-  setTimeout(() => {   
-    const ctx = this.myCanvas.nativeElement.getContext('2d');
-    
-  const chartData = {
-      labels: this.labelCountry,
-      datasets: [
-        {
-          label: `Nombre Investisseurs Par Pays`,
-          data: this.dataCountry,
-          backgroundColor: '#3F51B5',
-          borderColor: '#3F51B5',
-          borderWidth: 1,
-          fill: true,
-        },
-      ],
-    }; 
-    const chartOptions = {
-      responsive: true,
-      scales: {
-        x: {
-          display: true,
-          title: {
-            display: true,
-            text: 'Pays',
-          },
-        },
-        y: {
-          display: true,
-          title: {
-            display: true,
-            text: `Nombre Investisseurs`,
-          },
-        },
-      },
-    };
-  
-   
-        // Create chart
-          const myChart = new Chart(ctx, {
-            type: 'bar',
-            data: chartData,
-            options: chartOptions,
-          });
-         
-        }, 500); 
+
       }
     }

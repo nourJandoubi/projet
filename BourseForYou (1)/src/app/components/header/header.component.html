@@ -10,12 +10,11 @@
       <ul *ngIf="!admin">
         <li><a class="nav-link scrollto " routerLinkActive="active" routerLink="/accueil">Accueil</a></li>
         <li><a class="nav-link scrollto "routerLinkActive="active" routerLink="/home">Action</a></li>
-
+        <li><a class="nav-link scrollto "routerLinkActive="active" routerLink="/actualites">Actualites</a></li>
         <li><a class="nav-link scrollto"routerLinkActive="active" routerLink="/devise">Devise</a></li>
-        <li><a class="nav-link scrollto"routerLinkActive="active" href="#contact">Conseil</a></li>
 
         <li class="dropdown " *ngIf="!admin">
-          <a routerLinkActive="active" class="nav-link scrollto">
+          <a routerLinkActive="active"  class="nav-link scrollto">
             <span>Portefeuille virtuel</span> 
             <i class="bi bi-chevron-down"></i>
           </a>
@@ -28,20 +27,13 @@
        
       </ul>
       <ul *ngIf="admin">
-        <li><a class="nav-link scrollto " routerLinkActive="active" routerLink="/admin">Accueil</a></li>
-        <!--<li><a class="nav-link scrollto "routerLinkActive="active" routerLink="/visitor">Visiteurs</a></li>
-
-        <li><a class="nav-link scrollto"routerLinkActive="active" routerLink="/investor">Investisseurs</a></li>
-        <li><a class="nav-link scrollto"routerLinkActive="active" routerLink="/country">Pays</a></li>
-        -->
-
-       
+        <li><a class="nav-link scrollto " routerLinkActive="active" routerLink="/admin">Accueil</a></li>    
       </ul>
       <ul class="me-3">
         <!--<li><a class="nav-link scrollto active"  routerLink="/home">Home</a></li>-->
         
         <li class="dropdown " *ngIf="!admin">
-          <a  class="nav-link scrollto">
+          <a routerLink="" class="nav-link scrollto">
             <span>A propos</span> 
             <i class="bi bi-chevron-down"></i>
           </a>
@@ -54,7 +46,7 @@
           </ul>
           </li>          
           <li class="dropdown ">
-          <a class="nav-link scrollto">
+          <a routerLink="" class="nav-link scrollto">
             <span>Compte</span> 
             <i class="bi bi-chevron-down"></i>
           </a>
@@ -64,13 +56,13 @@
           
           </ul>
           <ul *ngIf="admin">
-            <li><a (click)="deconnexion()" class="nav-link scrollto">Déconnexion</a></li>
+            <li><a (click)="deconnexion()" routerLink="" class="nav-link scrollto">Déconnexion</a></li>
 
           </ul>
           <ul *ngIf="investor">
             <li><a routerLink="/profile" class="nav-link scrollto">Profile</a></li>
 
-            <li><a (click)="deconnexion()" class="nav-link scrollto">Déconnexion</a></li>
+            <li><a (click)="deconnexion()" routerLink="" class="nav-link scrollto">Déconnexion</a></li>
 
           </ul>
           </li>

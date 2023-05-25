@@ -13,7 +13,7 @@ export class HighlightSignPipe implements PipeTransform {
     if (value.startsWith('-')) {
       color = 'red';
     } 
-    else if(value=='0')
+    else if(value=='0' || value=='0.00')
     {
         color='black'
     }

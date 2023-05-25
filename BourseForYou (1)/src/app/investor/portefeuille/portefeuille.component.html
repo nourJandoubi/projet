@@ -37,8 +37,8 @@
               <th scope="col">Prix Achat</th>
               <th scope="col">Prix Actuel</th>
               <th scope="col">Valeur Total</th>
-              <th scope="col">Gain (€)</th>
-              <th scope="col">Gain (%)</th>
+              <th scope="col">Gain/Perte</th>
+              <th scope="col">Gain/Perte (%)</th>
               <th>
                 <select class="form-select" [(ngModel)]="selectedOption" (change)="convertir('EUR',selectedOption)">
                   <option *ngFor="let option of currencies" [value]="option.symbol">{{ option.symbol }}</option>
@@ -54,8 +54,8 @@
               <td>{{a.prixInvestissement}}</td>
               <td>{{a.prixActuel}}</td>
               <td>{{a.capital}}</td>
-              <td>{{a.gain}}</td>
-              <td>{{a.gainP}}</td>
+              <td [innerHTML]="a.gain | highlightSign"></td>
+              <td [innerHTML]="a.gainP | highlightSign"></td>
               <td><button class="btn btn-danger btn-sm"(click)="showDialog(a)"  label="Show" >Vendre</button></td>
             </tr>
           </tbody>
@@ -95,7 +95,7 @@
                 </div>
               </td>
               <td>
-                <div class="port_c2 pe-5 ">
+                <div class="port_c2 me-2">
                   <h4>Contenu du portefeuille</h4>
                   <div class="chatpie ">
                     <canvas id="myChart1" ></canvas>

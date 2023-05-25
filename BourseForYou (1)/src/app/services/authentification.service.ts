@@ -53,11 +53,10 @@ export class AuthentificationService {
       .pipe(
         map((auth: any) => {
           if (auth.success) {
-            if(auth.status=='admin')
-            {
+            
               localStorage.setItem('status', auth.status);
               this.status=auth.status;
-            }
+            
             localStorage.setItem('TOKEN', auth.token);
             localStorage.setItem('currentUser', JSON.stringify(auth.user));
             this.currentUserSubject = new BehaviorSubject<any>(auth.user);
@@ -141,22 +140,8 @@ verifierEmail(email:FormData):Observable<any>
 {
   return this.http.post(`${this.baseUrl}/verifierEmail`,email)
 }
-
-
-
-//cette partie est pour verifier le compte email
-  sendMail(login: string): Observable<any> {
-    return this.http.get(`${this.baseUrl}mail/${login}`);
-  }
-
-  sendCode(user: any): Observable<any> {
-    return this.http.post(`${this.baseUrl}request`, user);
-  }
-  VerifyCode(user: any): Observable<any> {
-    return this.http.post(`${this.baseUrl}code`, user);
-  }
-  sendNotification(login: string): Observable<any> {
-    return this.http.get(`${this.baseUrl}notification/${login}`);
-  }
-
+   supprimerCompte(id:any):Observable<any>
+   {
+    return this.http.delete(`${this.baseUrl}/${id}`)
+   }
 }

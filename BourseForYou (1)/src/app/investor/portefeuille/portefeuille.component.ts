@@ -243,6 +243,7 @@ convertir(from:string,to:string)
                       then(
                         (res)=>
                         {
+                          console.log('action portefeuilleee',this.actionsDistinct[i].idEntreprise.nom,'==>',res);
                             /**prix actuel */
                             this.convertForm=this.formBuilder.group
                             ({ 
@@ -343,6 +344,43 @@ convertir(from:string,to:string)
             })
           }
       )
+
+
+      setTimeout(() => {  
+        console.log('xValues',this.xValues)
+        console.log('yValue',this.yValues)
+        if(this.xValues.length!=1)
+        {
+          const barColors = [
+            "#b91d47","#00aba9","#2b5797","#e8c3b9","#1e7145","#F1948A","#F18AE5","#8AE0F1","#8AF1BC","#A9F18A","#F1CD8A","#A16E6E"
+          ];
+          new Chart("myChart1", {
+            type: "pie",
+            data: {
+              labels: this.xValues.map((label, index) => `${label} ${this.yValues[index]}%`),
+              datasets: [{
+                backgroundColor: barColors,
+                data: this.yValues, 
+              }]
+            },
+            options: {
+             layout: {
+               padding: {
+                 top: 20 // Modifier la valeur du margin-top ici
+               }
+             },
+             plugins: {
+               legend: {
+                 position: "right" // Modifier la position de la légende ici (peut être "top", "left", "right" ou "bottom")
+               }
+             },
+             responsive: true,
+             maintainAspectRatio: false, // Modifier cette valeur à false pour permettre le redimensionnement du chart
+           }
+          });
+        }
+        
+         }, 5000); 
 }
   ngOnInit():void
   {    
@@ -368,37 +406,5 @@ convertir(from:string,to:string)
     });
     this.convertir('EUR','EUR')
   }
-  ngAfterViewInit() {
-   setTimeout(() => {  
-    console.log('xValues',this.xValues)
-    console.log('yValue',this.yValues)
-     const barColors = [
-       "#b91d47","#00aba9","#2b5797","#e8c3b9","#1e7145","#F1948A","#F18AE5","#8AE0F1","#8AF1BC","#A9F18A","#F1CD8A","#A16E6E"
-     ];
-     new Chart("myChart1", {
-       type: "pie",
-       data: {
-         labels: this.xValues,
-         datasets: [{
-           backgroundColor: barColors,
-           data: this.yValues, 
-         }]
-       },
-       options: {
-        layout: {
-          padding: {
-            top: 20 // Modifier la valeur du margin-top ici
-          }
-        },
-        plugins: {
-          legend: {
-            position: "right" // Modifier la position de la légende ici (peut être "top", "left", "right" ou "bottom")
-          }
-        },
-        responsive: true,
-        maintainAspectRatio: false, // Modifier cette valeur à false pour permettre le redimensionnement du chart
-      }
-     });
-     }, 5000); 
-  }
+
 }

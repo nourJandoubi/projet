@@ -80,6 +80,13 @@
                       <td>{{entreprise.secteur}}</td>
                     </tr>
                     <tr>
+                      <th scope="row">Bourse</th>
+                      <td *ngIf="entreprise.bourse === null || entreprise.bourse==='' ">
+                         Le bourse n'est pas mentionné.
+                      </td>
+                      <td>{{entreprise.bourse}}</td>
+                    </tr>
+                    <tr>
                       <th scope="row">Devise</th>
                       <td *ngIf="entreprise.devise === null || entreprise.devise=== '' ">
                           La devise n'est pas mentionné.

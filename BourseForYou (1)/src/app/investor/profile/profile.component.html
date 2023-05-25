@@ -17,9 +17,7 @@
                 <div >
                   <mat-tab-group animationDuration="0ms">
                     <mat-tab label="Informations Personnels" >
-                      <div class="row mt-1 pt-1">
-                        <div class="col-md-1"></div>
-                      <div class="col-md-6">
+                      <div  class="mt-1 pt-1 d-flex justify-content-center">
                         <form [formGroup]="userForm">
                         <div class="form-group">
                           <label for="example-text-input" class="form-control-label">Nom<span class="text-danger">*</span></label>
@@ -27,7 +25,6 @@
                           <div *ngIf="name.dirty && name.invalid"    class=" mb-3 alert alert-danger alert-dismissible fade show" role="alert">
                             <span class="alert-text">Le nom est obligatoire !</span>
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
                             </button>
                           </div>
                         </div>
@@ -37,7 +34,6 @@
                           <div *ngIf="lastName.dirty && lastName.invalid"    class=" mb-3 alert alert-danger alert-dismissible fade show" role="alert">
                             <span class="alert-text">Le prenom est obligatoire !</span>
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
                             </button>
                           </div>
                         </div>
@@ -50,7 +46,6 @@
                             <div *ngIf="email.errors?.['required']">Le champ email est obligatoire.</div>
                             <div *ngIf="email.errors?.['pattern']">L'adresse email n'est pas valide.</div>                        
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
                             </button>
                           </div>
                         </div>
@@ -61,18 +56,17 @@
                             <option *ngFor="let country of countries" [value]="country.name.common">{{ country.name.common }}</option>
                           </select>  
                         </div>
-                        <button type="button" class="btn  bg-primary mb-3 mt-2 btn-sm ms-5" (click)="updateInfo()" [disabled]="userForm.invalid">Modifier mes informations personnels</button>
+                        <button type="button" class="btn  bg-primary mb-3 mt-2 btn-sm ms-3" (click)="updateInfo()" [disabled]="userForm.invalid">Modifier mes informations personnels</button>
                       </form>
-                      </div>              
+                                    
                     </div>
                   </mat-tab>
                     <mat-tab label="Changer de mot de passe" >
                       <p class="mb-0 font-weight-bold text-sm ms-4 pt-2">
                         Votre mot de passe doi contenir au moins 6 caractéres ainsi qu'une combinaison de chiffres, de lettres 
                         </p>
-                      <div class="row mt-1 pt-1">
-                        <div class="col-md-1"></div>
-                      <div class="col-md-6">
+                      <div  class="mt-1 pt-1 d-flex justify-content-center">
+                        
                         <form [formGroup]="passwordForm">
                         <div class="form-group">
                               <div class="password-wrapper">
@@ -97,7 +91,6 @@
                             <div *ngIf="lastPassword.errors?.['minlength'] || lastPassword.errors?.['pattern']">Le mot de passe doit comporter au moins 6 caractères et au moins une lettre et un chiffre.</div>
                         
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
                             </button>
                           </div>
                         </div>
@@ -121,7 +114,6 @@
                       
                     
                           <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-                              <span aria-hidden="true">&times;</span>
                           </button>
                           </div>
                         
@@ -140,12 +132,12 @@
                           <div *ngIf="secondPassword.dirty && verifPassword()"    class=" mb-3 alert alert-danger alert-dismissible fade show" role="alert">
                             <span class="alert-text">Le mot de passe est incorrect !</span>
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         </div>
                         <p style="color: blue;">Mot de passe oublié ?</p>
-                        <button type="button" class="btn  bg-primary mb-3 btn-sm ms-5" (click)=" updatePassword() " [disabled]="updateDisabled ||passwordForm.invalid ">Modifier mon mot de passe</button>
+                        <button type="button" class="btn  bg-primary mb-3 btn-sm ms-3" (click)=" updatePassword() " [disabled]="updateDisabled ||passwordForm.invalid ">
+                          Modifier mon mot de passe</button>
                         <div *ngIf="motdepasseIncorrect"   
                         class="mb-3 alert alert-danger alert-dismissible fade show" 
                         role="alert">               
@@ -155,9 +147,28 @@
                     </div>
                      
                       </form>
-                      </div>
+                     
                       </div>
 
+                    </mat-tab>
+                    <mat-tab label="Supprimer Compte">
+                      <div class= " mt-2 mb-2 d-flex justify-content-center">
+                        <div class="mb-2 ms-4 me-4">
+                          <p class=" mt-2 mb-2">Si vous confirmez la suppression de votre compte, vos portefeuilles virtuels, vos informations et votre historique seront supprimés.</p>
+                          
+                          <label class="ms-5 ">
+                            <input name="confirmation" class="form-check-input" type="radio"   [(ngModel)]="confirmation" [value]="true">
+                            Je confirme de supprimer mon compte
+                          </label>
+                          <br>
+                          <label *ngIf="confirmationError" class="text-danger ms-5"> Confirmer la suppression du compte * </label>
+                          <div class="ms-4">
+                            <button (click)="supprimerCompte()" class="ms-5 mt-2 btn btn-danger d-flex justify-content-center">Supprimer</button>
+                          </div>
+                        </div>
+                        
+                      </div>
+                      
                     </mat-tab>
                   </mat-tab-group>
                   

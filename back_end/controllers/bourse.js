@@ -87,8 +87,9 @@ exports.getBourseByName = async (req, res) => {
 
       };
     });
-
     return res.status(200).json(actionsWithEntrepriseNames);*/
+    console.log('actionsss',actions.length)
+
     return res.status(200).json(actions);
 
   } catch (error) {

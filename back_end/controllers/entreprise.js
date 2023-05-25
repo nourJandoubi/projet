@@ -2,6 +2,7 @@ const Entreprise = require('../models/Entreprise');
 const request = require('request');
 const https = require('https');
 const fs = require('fs');
+const Action = require('../models/Action');
 
 // exports.createEntreprise = async () => {
 //     const options = {
@@ -294,3 +295,36 @@ exports.getAllSecteur = async (req, res) => {
     });
   };
   
+  /*exports.getActionByBourseAndSecteur = async (req, res) => {
+    Entreprise.find({
+        bourse: req.body.bourse,
+        secteur:req.body.secteur
+    }).then(
+        (action) => {
+            res.status(200).json(action);
+        }
+    ).catch(
+        (error) => {
+            res.status(404).json({
+                error: error
+            });
+        }
+    );
+  
+  };*/
+  exports.getActionByBourseAndSecteur = async (req, res) => {
+    try {
+      const { bourse, secteur } = req.body;
+  
+      const entreprises = await Entreprise.find({ bourse, secteur }).exec();
+      const entrepriseIds = entreprises.map((entreprise) => entreprise._id);
+  
+      const actions = await Action.find({ nomEntreprise: { $in: entrepriseIds } })
+      .populate('nomEntreprise')
+      .exec();
+  
+      res.status(200).json(actions);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  };

@@ -71,10 +71,8 @@
                         <button (click)="modal1(t)" >
                             Acheter                
                         </button>
-        
                       </td>
                     <td class="w-30">
-                      <!---->
                       <div class="d-flex px-2 py-1 align-items-center"  [routerLink]="['/entreprise',t.nomEntreprise._id]">
                         {{ t.nomEntreprise.nom }}
                       </div>
@@ -86,7 +84,6 @@
                     </td>
                     <td class="w-30">
                       <div class="align-items-center" [innerHTML]="t.variation | highlightSign" >
-        
                       </div>
                     </td>
                     <td class="w-30">
@@ -114,7 +111,6 @@
                         Conseil
                         <div class="arrow-wrapper">
                             <div class="arrow"></div>
-                    
                         </div>
                     </button>
                     </td>

@@ -96,7 +96,7 @@ export class InvestorComponent {
   labelUserByYear:any[]=[]
   dataUsersByYear:any[]=[]
    
-
+  loading:boolean=true;
   constructor(
     private authentificationService:AuthentificationService,
     public visitorService:VisitorsService,
@@ -217,12 +217,6 @@ ngOnInit() {
   for (let i = year - 40; i <= year; i++) {
     this.years.push(i);
   }
-  
-
-
-
-
-
 this.usersYear(this.selectedYearUY)
 this.usersMonth(this.selectedYearUM,this.selectedMonthUM)
 this.usersLastWeek()
@@ -241,146 +235,155 @@ this.usersLastWeek()
     this.totalMonthU=response.total;
 
   });
- 
-   
-
     const requests = [];
     for (let i = 1; i < 13; i++) {
       requests.push(this.adminService.getUsersByMonth(year, i));
     } 
-    forkJoin(requests).subscribe((responses) => {
+    forkJoin(requests).toPromise()
+    .then( (responses) => 
+    {
       for (let i = 0; i < responses.length; i++) {
         this.dataUsersByYear.push(responses[i].total);
         //const monthObject = this.months.find(month => month.value === this.selectedMonthUM).name;
 
         this.labelUserByYear.push(this.months.find(month => month.value === (i+1)).name);
       }
-    });
+    })
+    .then(
+      ()=>{
+        setTimeout(() => {   
+          const ctx = this.myCanvas1.nativeElement.getContext('2d');
+          const ctx2 = this.myCanvas2.nativeElement.getContext('2d');
+          const ctx3 = this.myCanvas3.nativeElement.getContext('2d');
+        const chartData = {
+            labels: this.labelUsersLastWeek,
+            datasets: [
+              {
+                label: `Nombre Investisseurs Pour La Semaine Dernière`,
+                data: this.dataUsersLastWeek,
+                backgroundColor: '#3F51B5',
+                borderColor: '#3F51B5',
+                borderWidth: 1,
+                fill: true,
+              },
+            ],
+          }; 
+          const chartOptions = {
+            responsive: true,
+            scales: {
+              x: {
+                display: true,
+                title: {
+                  display: true,
+                  text: 'Date',
+                },
+              },
+              y: {
+                display: true,
+                title: {
+                  display: true,
+                  text: `Nombre Investisseurs`,
+                },
+              },
+            },
+          };
+         
+          //chart 2
+          const monthObject = this.months.find(month => month.value === this.selectedMonthUM).name;
+          const chartData2 = {
+            labels: this.labelUsersByMonth,
+            datasets: [
+              {
+                label: `Nombre Investisseurs Pour Mois ${monthObject} `,
+                data: this.dataUsersByMonth,
+                backgroundColor: '#3F51B5',
+                borderColor: '#3F51B5',
+                borderWidth: 1,
+                fill: true,
+              },
+            ],
+          };  
+          const chartOptions2 = {
+            responsive: true,
+            scales: {
+              x: {
+                display: true,
+                title: {
+                  display: true,
+                  text: 'Date',
+                },
+              },
+              y: {
+                display: true,
+                title: {
+                  display: true,
+                  text: `Nombre Investisseurs`,
+                },
+              },
+            },
+          };
+          //chart 3
+          const chartData3 = {
+            labels: this.labelUserByYear,
+            datasets: [
+              {
+                label: `Nombre Investisseurs Pour ${this.selectedYearUY}`,
+                data: this.dataUsersByYear,
+                backgroundColor: '#3F51B5',
+                borderColor: '#3F51B5',
+                borderWidth: 1,
+                fill: true,
+              },
+            ],
+          };
+          const chartOptions3 = {
+            responsive: true,
+            scales: {
+              x: {
+                display: true,
+                title: {
+                  display: true,
+                  text: 'Mois',
+                },
+              },
+              y: {
+                display: true,
+                title: {
+                  display: true,
+                  text: `Nombre Investisseurs`,
+                },
+              },
+            },
+          };
+              // Create chart
+                const myChart = new Chart(ctx, {
+                  type: 'bar',
+                  data: chartData,
+                  options: chartOptions,
+                });
+                const myChart2 = new Chart(ctx2, {
+                  type: 'bar',
+                  data: chartData2,
+                  options: chartOptions2,
+                });
+                const myChart3 = new Chart(ctx3, {
+                  type: 'bar',
+                  data: chartData3,
+                  options: chartOptions3,
+                });
+              }, 500); 
+      }
+    )
+    .then(
+      ()=>{
+        this.loading=false;
+
+      }
+    )
+ 
 }
 
 ngAfterViewInit() {
- 
-  setTimeout(() => {   
-    const ctx = this.myCanvas1.nativeElement.getContext('2d');
-    const ctx2 = this.myCanvas2.nativeElement.getContext('2d');
-    const ctx3 = this.myCanvas3.nativeElement.getContext('2d');
-  const chartData = {
-      labels: this.labelUsersLastWeek,
-      datasets: [
-        {
-          label: `Nombre Investisseurs Pour La Semaine Dernière`,
-          data: this.dataUsersLastWeek,
-          backgroundColor: '#3F51B5',
-          borderColor: '#3F51B5',
-          borderWidth: 1,
-          fill: true,
-        },
-      ],
-    }; 
-    const chartOptions = {
-      responsive: true,
-      scales: {
-        x: {
-          display: true,
-          title: {
-            display: true,
-            text: 'Date',
-          },
-        },
-        y: {
-          display: true,
-          title: {
-            display: true,
-            text: `Nombre Investisseurs`,
-          },
-        },
-      },
-    };
-    console.log('label last week',this.labelUsersLastWeek)
-    console.log('data last week',this.dataUsersLastWeek)
-    //chart 2
-    const monthObject = this.months.find(month => month.value === this.selectedMonthUM).name;
-    const chartData2 = {
-      labels: this.labelUsersByMonth,
-      datasets: [
-        {
-          label: `Nombre Investisseurs Pour Mois ${monthObject} `,
-          data: this.dataUsersByMonth,
-          backgroundColor: '#3F51B5',
-          borderColor: '#3F51B5',
-          borderWidth: 1,
-          fill: true,
-        },
-      ],
-    };  
-    const chartOptions2 = {
-      responsive: true,
-      scales: {
-        x: {
-          display: true,
-          title: {
-            display: true,
-            text: 'Date',
-          },
-        },
-        y: {
-          display: true,
-          title: {
-            display: true,
-            text: `Nombre Investisseurs`,
-          },
-        },
-      },
-    };
-    //chart 3
-    const chartData3 = {
-      labels: this.labelUserByYear,
-      datasets: [
-        {
-          label: `Nombre Investisseurs Pour ${this.selectedYearUY}`,
-          data: this.dataUsersByYear,
-          backgroundColor: '#3F51B5',
-          borderColor: '#3F51B5',
-          borderWidth: 1,
-          fill: true,
-        },
-      ],
-    };
-    const chartOptions3 = {
-      responsive: true,
-      scales: {
-        x: {
-          display: true,
-          title: {
-            display: true,
-            text: 'Mois',
-          },
-        },
-        y: {
-          display: true,
-          title: {
-            display: true,
-            text: `Nombre Investisseurs`,
-          },
-        },
-      },
-    };
-        // Create chart
-          const myChart = new Chart(ctx, {
-            type: 'bar',
-            data: chartData,
-            options: chartOptions,
-          });
-          const myChart2 = new Chart(ctx2, {
-            type: 'bar',
-            data: chartData2,
-            options: chartOptions2,
-          });
-          const myChart3 = new Chart(ctx3, {
-            type: 'bar',
-            data: chartData3,
-            options: chartOptions3,
-          });
-        }, 5000); 
+
       }
 }

@@ -41,21 +41,20 @@
             </div>
           </ul>
           <div class="d-flex align-items-center ">
-            <p-paginator class="ms-5" [first]="first" [rows]="rows" [totalRecords]="filteredItemsNews.length/4" (onPageChange)="onPageChangeNews($event)" [showJumpToPageDropdown]="true" [showPageLinks]="false"></p-paginator>
+            <p-paginator class="ms-5" [first]="first" [rows]="rows" [totalRecords]="filteredItemsNews.length/5" (onPageChange)="onPageChangeNews($event)" [showJumpToPageDropdown]="true" [showPageLinks]="false"></p-paginator>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <div class="col-6" *ngIf="detailsExists">
-    <div class="main-content position-relative border-radius-lg container-fluid py-4 mt-4" >
-          <div class="card text-center">
-            <div class="card-header text-dark">
+  <div class="col-6 mt-2" *ngIf="detailsExists">
+    <div class="main-content position-relative border-radius-lg container-fluid py-4 " >
+          <div class="card cardEntreprise text-center">
+            <div class="card-header ">
               <h2 [innerHTML]="titre | highlightNumber"></h2>
             </div>
             <div class="card-body">
-              <h3 [innerHTML]="resume | highlightNumber" class="card-title" style="color:#1a237e"></h3>
-              <p [innerHTML]="description | highlightNumber" class="card-text" style="font-size: 16px;color: black;text-align: justify;"></p>
+              <p [innerHTML]="description | highlightNumber" class="card-text" ></p>
             </div>
           </div> 
     </div>

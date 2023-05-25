@@ -7,6 +7,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 import {MatMenuTrigger} from '@angular/material/menu';
 import { faSignOut } from '@fortawesome/free-solid-svg-icons';
+import { TimeScale } from 'chart.js';
 
 @Component({
   selector: 'app-profile',
@@ -37,6 +38,8 @@ export class ProfileComponent implements OnInit {
   eye:boolean=true;
   eye2:boolean=true;
   eye3:boolean=true;
+  confirmation:boolean=false;
+  confirmationError:boolean=false;
 
   constructor( 
     private authentificationService: AuthentificationService,
@@ -196,6 +199,26 @@ export class ProfileComponent implements OnInit {
    }
  );
 
+}
+
+
+supprimerCompte()
+{
+    console.log('confirmation type',this.confirmation)
+    if(this.confirmation)
+    {
+      this.authentificationService.supprimerCompte(this.idUser).subscribe(
+        ()=>{
+          localStorage.clear();
+
+          this.router.navigateByUrl('/signIn');
+                }
+      )
+    }
+    else
+    {
+      this.confirmationError=true;
+    }
 }
 //get of value from userForm and passwordForm
 get password()

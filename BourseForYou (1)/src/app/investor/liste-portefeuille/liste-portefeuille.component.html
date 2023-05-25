@@ -52,9 +52,10 @@
             <thead>
               <tr>
                 <th scope="col">#</th>
-                <th scope="col">Nom Portefuille</th>
+                <th scope="col">Portefuille</th>
+                <th scope="col">Création</th>
                 <th scope="col">Liquidites</th>
-                <th scope="col">PrixTitres</th>
+                <th scope="col">Prix Actions Achetées</th>
                 <th scope="col">Indice</th>
                 <th></th>
 
@@ -64,6 +65,7 @@
               <tr *ngFor="let p of listePortfeuille; index as index">
                 <th scope="row">{{index+1}}</th>
                 <td><a [routerLink]="['/portefeuille',p._id]">{{p.nomPortefeuille}}</a></td>
+                <td>{{p.dateCreation | date:'dd/MM/yyyy'}}</td>
                 <td>{{p.liquidites}}</td>
                 <td>{{p.prixTitres}}</td>
                 <td>{{p.indice}}</td>

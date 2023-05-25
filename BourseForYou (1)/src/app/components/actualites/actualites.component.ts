@@ -20,7 +20,7 @@ export class ActualitesComponent {
   filteredItemsNews: Actualite[] = []; //filtred items des actualites apres utiliser le search term
   searchTermAction = ''; //search term des actualites
   first: number = 0;
-  rows: number = 4;
+  rows: number = 5;
   faSignOut=faSignOut;
   faClockRotateLeft=faClockRotateLeft;
 //-----------------------------
@@ -62,14 +62,14 @@ selecterActualite(actualite:any)
     if (term.trim() !== '') {
       this.filteredItemsNews = this.actualites.filter(item => {
         if (typeof item.title === 'string') {
-          this.pageSliceNews = this.filteredItemsNews.slice(0, 3);
+          this.pageSliceNews = this.filteredItemsNews.slice(0, 5);
           return item.title.toLowerCase().includes(term);
         }
         return false;
       });
     }
     this.pageSliceNews = this.filteredItemsNews;
-    this.pageSliceNews = this.pageSliceNews.slice(0, 4);
+    this.pageSliceNews = this.pageSliceNews.slice(0, 5);
   }
   //Pagination
   onPageChangeNews(event) {
@@ -87,7 +87,7 @@ selecterActualite(actualite:any)
       this.actualites = data;
       this.loading=false;
       this.filteredItemsNews = data;
-      this.pageSliceNews = data.slice(0, 4);     
+      this.pageSliceNews = data.slice(0, 5);     
     });
   }
 }

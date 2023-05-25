@@ -8,7 +8,7 @@ export class HighlightNumberPipe implements PipeTransform {
 
   transform(value: string): SafeHtml {
     const regex = /([+-]?\d+(\.\d+)?%?)/g;
-    const htmlString = value.replace(regex, '<span style="color:red; font-weight:bold;">$&</span>');
+    const htmlString = value.replace(regex, '<span style="color:green; font-weight:bold;">$&</span>');
     return this.sanitizer.bypassSecurityTrustHtml(htmlString);
   }
 }

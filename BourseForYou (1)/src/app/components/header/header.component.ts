@@ -25,28 +25,32 @@ export class HeaderComponent implements OnInit{
     this.isLogedIn =
       localStorage.getItem('TOKEN') != null &&
       localStorage.getItem('TOKEN') != 'undefined';
-       console.log('login',this.isLogedIn)
        if(!this.isLogedIn)
        {
         this.admin=false;
         this.investor=false;
        }
       else{
-        this.admin=this.adminGuardService.isAdmin();
-        this.investor=this.isLogedIn && !this.admin;     
+       if(localStorage.getItem('status')=="admin") 
+       {
+        this.admin=true;
+        this.investor=false;
+       }
+       else
+       {
+        this.admin=false;
+        this.investor=true;
+       }
+        //this.admin=this.adminGuardService.isAdmin();
+        //this.investor=this.isLogedIn && !this.admin;     
       }
-      console.log('admin',this.admin)
-      console.log('investor',this.investor)
+    
     }
     deconnexion() {
       //this.authentificationService.logOut();
       this.admin=false;
       this.investor=false;
-
-
       localStorage.clear();
-      
-
       this.router.navigateByUrl('/signIn');
       this.ngOnInit();
     }

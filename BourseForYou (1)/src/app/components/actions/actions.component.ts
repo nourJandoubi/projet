@@ -17,7 +17,6 @@ export class ActionsComponent {
   constructor(
     public actionService: ActionService,
     public bourseService: BourseService,
-    private route: ActivatedRoute,
     private router: Router,
     private formBuilder:FormBuilder,
     private historiqueService:HistoriquePortefeuilleService,
@@ -44,10 +43,12 @@ export class ActionsComponent {
   listePortfeuille:any[]=[];
   listeVide:boolean=false;
   isLogedIn:boolean;
-  idEntreprise:any;
+  idEntreprise:any={};
   idPortefeuille:any;
   nomEntreprise:any;
   achatForm:FormGroup;
+  rechercheForm:FormGroup;
+
   totalAchat:any;
   soldeDispo:any;
   quantityFilled: boolean = false;
@@ -67,18 +68,12 @@ modal1(action:any)
   { this.visible2=true; 
     this.action=action;
      this.idAction=action._id;
-     this.nomEntreprise=action.nomEntreprise;
+     this.nomEntreprise=action.nomEntreprise.nom;
      this.prixAchat=action.cours;
      this.variation=action.variation;
      this.haut=action.haut;
      this.bas=action.bas;
-     console.log('idAction',this.idAction)
-     console.log('idEntreprise',this.nomEntreprise)
-     this.entrepriseService.getoneEntreprise(this.nomEntreprise).subscribe(
-      (res)=>{
-        this.idEntreprise=res;
-      }
-     )
+     this.idEntreprise=action.nomEntreprise._id;
   }
 modal2(idP:any)
   {          
@@ -106,6 +101,7 @@ calculerTotalAchat()
 }
 acheterAction()
 {
+  console.log('entreprise',this.idEntreprise.nom)
   this.achatForm=this.formBuilder.group({ 
     nombreAction:[this.quantiteAchat],
     prixInvestissement:[this.prixAchat],
@@ -114,14 +110,11 @@ acheterAction()
   })
   this.historiqueService.acheterAction(this.achatForm.value).subscribe(
     (res)=>{
-      console.log('achat',res)
       this.router.navigate(['/portefeuille',this.idPortefeuille]);
-
     }
   )
 }
-
-  All()
+All()
   {
     this.listeAction=this.bourse;
     this.actionsFiltreParBourse=this.listeAction.slice(0,10);
@@ -129,41 +122,28 @@ acheterAction()
   }
  filterActionByLetter(letter:string)
  {
-  //this.actionsFiltreParBourse;
-  this.listeAction= this.bourse.filter((item)=>
-  
+    this.listeAction= this.bourse.filter((item)=>
     {
       if (typeof item.nomEntreprise.nom === 'string' && item.nomEntreprise.nom.startsWith(letter))
-       { 
-        return item
-        } 
+       {return item} 
         else
-        {   
-              return false;
-        }
-    
+        {return false;}
   });
-
   this.actionsFiltreParBourse= this.listeAction.slice(0,10);
   this.length = this.listeAction.length;
  }
-
-
- 
-
   ngOnInit(): void {
     this.isLogedIn =
     localStorage.getItem('TOKEN') != null &&
     localStorage.getItem('TOKEN') != 'undefined';
     if(this.isLogedIn)
-{          
+      {          
        this.investisseur = JSON.parse(localStorage.getItem('currentUser'));
        this.idInvestisseur=this.investisseur._id;     
        this.portefeuilleService.getPortefuilleByInvestor(this.idInvestisseur).toPromise()
       .then((res)=>
       {
         this.listePortfeuille=res;
-        console.log('liste portefeuille',this.listePortfeuille)
       })
      .then(()=>
       {
@@ -172,8 +152,6 @@ acheterAction()
         else
          {this.listeVide=false;}
       })
-
-
       this.achatForm=new FormGroup({
         nombreAction:new FormControl(),
         prixInvestissement:new FormControl(),
@@ -186,23 +164,49 @@ acheterAction()
         this.listeSecteurs=res;
       }
     )
-
     this.bourseService.getBourses().subscribe(data => {
       this.bourseOptions = data;
-      console.log('bbb',this.bourseOptions);
       this.onSelectedOptionChange();
     });
-
-  
     }
-
-
   onSelectedOptionChange(): void {
     this.loading=true;
-    this.bourse=[]
-    this.bourseService.getBourseByName(this.selectedOption).toPromise().
+    this.bourse=[];
+    this.rechercheForm=new FormGroup({
+      bourse:new FormControl(this.selectedOption),
+      secteur:new FormControl(this.secteurOption)
+    })
+    this.entrepriseService.getActionByBourseAndSecteur(this.rechercheForm.value).subscribe(
+      (res)=>{
+        this.bourse=res;
+        if(res.length==0)
+        {
+          this.actionsFiltreParBourse=[]
+          this.loading=false;
+        }
+        else
+        {
+          if(res.length<8)
+          {
+            this.actionsFiltreParBourse=res
+          }
+          if(res.length>=8)
+          {
+            this.actionsFiltreParBourse = res.slice(0, this.pageSize);
+          }
+          this.loading=false;
+  
+        }
+        this.length =res.length;
+      }
+    )
+
+
+
+
+
+    /*this.bourseService.getBourseByName(this.selectedOption).toPromise().
     then(data => {
-     
       if(data.length==0)
       {
         this.actionsFiltreParBourse=[]
@@ -256,7 +260,7 @@ acheterAction()
      
    
      
-    })
+    })*/
    
   }
 

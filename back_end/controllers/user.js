@@ -3,6 +3,8 @@ const User=require('../models/user')
 const generateToken=require('../utils/generateToken')
 const emailValidator=require('deep-email-validator')
 const email_verifier = require('email-verifier-node');
+const Portefeuille = require('../models/Portefeuille');
+const HistoriquePortefeuille = require('../models/HistoriquePortefeuille');
 
 //@desc authenticate user and send login mail
 // @route POST /api/users/login
@@ -104,6 +106,57 @@ exports.getUserProfile = asyncHandler(async (req, res) => {
     throw new Error('Inalid email or passowrd')
   }
 })
+exports.supprimerCompte = async (req, res) => {
+  try {
+    const user = await User.findByIdAndDelete(req.params.id);
+    if (!user) {
+      return res.status(404).send({ message: "Le compte n'a pas été trouvé" });
+    }
+    else
+    {
+      const portefeuilles=await Portefeuille.find({idUser:req.params.id})
+      console.log('tous les portefeuille',portefeuilles)
+       if(portefeuilles)
+       {
+        portefeuilles.forEach(async portefeuille => {
+          console.log('id portefeuille',portefeuille._id)
+          const historiques=await HistoriquePortefeuille.find({idPortefeuille:portefeuille._id})
+          console.log('historique du portefeuille',historiques);
+            historiques.forEach(async  historique=> {
+              console.log('id historique',historique._id)
+                  const deleteHistorique=await HistoriquePortefeuille.findByIdAndDelete(historique._id);
+                  if(deleteHistorique)
+                  {
+                    console.log('historique ',historique._id,' a ete supprimé avec succé')
+                  }
+                  else
+                  {
+                    console.log('historique ',historique._id,' n\'a pas ete supprimé ')
+
+                  }
+              
+            });
+            const deletePortefeuille=await Portefeuille.findByIdAndDelete(portefeuille._id);
+            if(deletePortefeuille)
+            {
+              console.log('portefeuille ',portefeuille._id,' a ete supprimé avec succé')
+            }
+            else
+            {
+              console.log('portefeuille ',portefeuille._id,' n\'a pas ete supprimé ')
+
+            }
+
+          
+        });
+       }
+    }
+    res.send({ message: "Le compte a été supprimé avec succès" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ message: "Erreur lors de la suppression du compte" });
+  }
+};
 
 exports.updateUser = asyncHandler(async (req, res) => {
   console.log('req body modif',req.body)
@@ -130,6 +183,8 @@ exports.updateUser = asyncHandler(async (req, res) => {
     } 
   }
 )
+
+
 
 exports.verifPassword = asyncHandler(async (req, res) => {
   const  email  = req.body.email
@@ -259,39 +314,4 @@ exports.totalCountries = (req, res, next) => {
     .catch((err) => next(err));
 };
 
-/*exports.forgotPassword= async(req,res,nest)=>{
-  const user= await User.findOne({email:req.body.email});
-  if(!user)
-  {
-    return nest(new ErrorResponse('There is no user with this email'));
-  }
-  const resetToken= user.getResetPasswordToken();
-  await user.save({validateBeforeSave:false})
-
-  //create reset url
-  const restUrl=`${req.protocol}://${req.get('host')}/ressetPassword/${resetToken}}`
-  const message='you are receiving this email because you (or someone else) has requested the reset of password. Please make a PUT request'
- 
-  try{
-    await sendEmail({
-      email:user.email,
-      subject:'Password reset token',
-      message
-    })
-    res.status(200).json({
-      success:true,
-      data:'Email sent'
-    });
- }
- catch(error)
- {
-  console.log(error);
-  user.getResetPasswordToken=undefined;
-  user.resetPasswordExpire=undefined;
-  await user.save({ validateBeforeSave:false})
-  return next(new ErrorResponse('Email could not be sent',500))
-
- }
-
-}*/
 

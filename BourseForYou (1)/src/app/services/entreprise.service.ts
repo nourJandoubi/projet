@@ -20,4 +20,8 @@ export class EntrepriseService {
   {
     return this.http.get(`${this.baseUrl}/secteurs/liste`);
   }
+  getActionByBourseAndSecteur(data:FormData):Observable<any>
+  {
+    return this.http.post(`${this.baseUrl}/Bourse/Secteur`,data)
+  }
 }
