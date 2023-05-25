@@ -1,10 +1,11 @@
 const express = require('express');
 const mongoose = require('mongoose');
-
+const indiceRoutes = require('./routes/indice');
 const Action = require('./models/Action');
 const path = require('path');
 const cron = require('node-cron');
 const actionController = require('./controllers/action');
+const indiceController = require('./controllers/indice');
 const actionRoutes = require('./routes/action');
 const userRoutes = require('./routes/user');
 const visiteRoutes = require('./routes/visite');
@@ -91,6 +92,10 @@ cron.schedule('0 0 * * *', () => {
   console.log('Saved action');
 }).start();
  
+
+cron.schedule('* * * * *', () => { 
+  indiceController.createIndice()
+  });
 //bourseController.createBourse();
 
 //actionController.oldstockPricesToJson();
@@ -102,7 +107,7 @@ app.use('/api/user', userRoutes);
 app.use('/api/visitors', visiteRoutes);
 app.use('/api/devise', deviseRoutes);
 app.use('/api/convert', convertRoutes);
-
+app.use('/api/indice', indiceRoutes);
 app.use('/api/historique',historiqueRoutes);
 app.use('/api/password',passwordRoutes);
 app.use('/api/portefeuilles',portefeuilleRoutes);

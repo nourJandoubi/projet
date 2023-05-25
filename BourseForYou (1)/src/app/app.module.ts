@@ -58,6 +58,7 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 import { EntrepriseComponent } from './components/entreprise/entreprise.component';
 import { ForgotPasswordComponent } from './account/forgot-password/forgot-password.component';
 import { LoaderComponent } from './components/loader/loader.component';
+import { IndiceComponent } from './components/indice/indice.component';
 @NgModule({
   declarations: [
     
@@ -93,6 +94,7 @@ import { LoaderComponent } from './components/loader/loader.component';
        EntrepriseComponent,
        ForgotPasswordComponent,
        LoaderComponent,
+       IndiceComponent,
 
        
   ],
