@@ -1,10 +1,11 @@
+
 const mongoose = require('mongoose');
 const ActualiteSchema = mongoose.Schema({
-  title: { type: String, required: false },
-  pubDate: { type: Date, required: false },
-  content: { type: String, required: false },
-  categories: { type: Array, required: false },
-  link: { type: String, required: false },
+  newsTitle: { type: String, required: false },
+  newsUrl: { type: String, required: false },
+  postedBy: { type: String, required: false },
+  postedOn: { type: String, required: false },
+  shotDesc: { type: String, required: false },
   
 
 });

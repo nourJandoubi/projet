@@ -5,9 +5,7 @@ const actualiteController = require('../controllers/actualite');
 
 router.get('/', actualiteController.getAllActualites);
 router.post('/', actualiteController.createActualite);
-router.post('/scraping', actualiteController.scrapeDetailsActualite);
 router.get('/:id', actualiteController.getOneActualite);
-router.put('/:id', actualiteController.modifyActualite);
-router.delete('/:id', actualiteController.deleteActualite);
+
 
 module.exports = router;

@@ -6,7 +6,7 @@ exports.createIndice = async () => {
     method: 'GET',
     url: 'https://global-stock-market-api-data.p.rapidapi.com/major_global_indices_by_price',
     headers: {
-      'X-RapidAPI-Key': '1719ffecefmsh7b6209b767eee9dp1253a5jsn598267d2dd74',
+      'X-RapidAPI-Key': '5ae4ca2eb4msh1f4a8b9faa8deaep1c6cd9jsn238556819ba3',
       'X-RapidAPI-Host': 'global-stock-market-api-data.p.rapidapi.com'
     }
   };

@@ -22,11 +22,11 @@
               <div class="d-flex align-items-center" *ngIf="filteredItemsNews.length !== 0">
                 <div class="d-flex flex-column">
                   <span class="text-xs">
-                    {{ actualite.pubDate | date: 'shortTime' }}
+                    {{ actualite.postedOn }}
                   </span>
-                  <h5 class="mb-1 " style="color: rgb(0,38,65);">{{ actualite.title }}</h5>
+                  <h5 class="mb-1 " style="color: rgb(0,38,65);">{{ actualite.newsTitle }}</h5>
                   <p class="text-xs" style="height: 30px; overflow: hidden" type="text" pTooltip="{{ actualite.content }}" class="text-xs" >
-                    {{ actualite.content }}
+                    {{ actualite.shotDesc }}
                   </p>   
                 </div>
                 <div class="d-flex">

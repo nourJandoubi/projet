@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@google-cloud/translate": "^7.2.1",
     "@tensorflow/tfjs": "^4.4.0",
     "bcrypt": "^5.1.0",
     "bcryptjs": "^2.4.3",
@@ -17,11 +18,14 @@
     "chokidar": "^3.5.3",
     "cors": "^2.8.5",
     "deep-email-validator": "^0.1.21",
+    "deepl-translator": "^1.2.1",
     "dotenv": "^16.0.3",
     "email-verifier": "^0.4.1",
     "email-verifier-node": "^0.0.2",
     "express": "^4.18.2",
     "express-async-handler": "^1.2.0",
+    "google-translate": "^3.0.0",
+    "google-translate-api": "^2.3.0",
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^7.0.1",
     "node-cron": "^3.0.2",
@@ -29,10 +33,12 @@
     "nodemailer": "^6.9.1",
     "nodemon": "^2.0.21",
     "request": "^2.88.2",
-    "rss-parser": "^3.12.0"
+    "rss-parser": "^3.12.0",
+    "translate": "^2.0.2"
   },
   "devDependencies": {
     "mocha": "^10.2.0",
+    "node-esm": "^1.0.0",
     "sinon": "^15.0.3"
   }
 }

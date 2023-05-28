@@ -46,27 +46,26 @@ exports.getActionByEntreprise = async (req, res) => {
 
 
 
-
-exports.getActionsParBourse = async (req, res) => 
-{
-  const bourse = req.params.bourse;
-  try {
-    const actions = await Action.aggregate([
-      // Filtrer les actions pour la bourse donnée
-      { $match: { nomBourse: bourse } },
-      // Trier les actions par date décroissante
-      { $sort: { date: -1 } },
-      // Grouper les actions par nom d'entreprise
-      { $group: { _id: "$nomEntreprise", actions: { $push: "$$ROOT" } } },
-      // Pour chaque groupe, prendre la première action (la plus proche en date)
-      { $project: { _id: 0, entreprise: "$_id", action: { $arrayElemAt: ["$actions", 0] } } }
-    ]);
-    res.json(actions);
-  } catch (error) {
-    console.log(`Error fetching actions for ${bourse}: ${error.message}`);
-    res.status(500).json({ error: 'Unable to fetch actions' });
-  }
-};
+// exports.getActionsParBourse = async (req, res) => 
+// {
+//   const bourse = req.params.bourse;
+//   try {
+//     const actions = await Action.aggregate([
+//       // Filtrer les actions pour la bourse donnée
+//       { $match: { nomBourse: bourse } },
+//       // Trier les actions par date décroissante
+//       { $sort: { date: -1 } },
+//       // Grouper les actions par nom d'entreprise
+//       { $group: { _id: "$nomEntreprise", actions: { $push: "$$ROOT" } } },
+//       // Pour chaque groupe, prendre la première action (la plus proche en date)
+//       { $project: { _id: 0, entreprise: "$_id", action: { $arrayElemAt: ["$actions", 0] } } }
+//     ]);
+//     res.json(actions);
+//   } catch (error) {
+//     console.log(`Error fetching actions for ${bourse}: ${error.message}`);
+//     res.status(500).json({ error: 'Unable to fetch actions' });
+//   }
+// };
 
 
 exports.getAllActions = (req, res) => {
