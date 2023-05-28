@@ -15,4 +15,6 @@ router.put('/:id', portefeuilleController.modifierPortefeuille);
 router.get('/:id', portefeuilleController.recupererPortefeuilleParId);
 router.get('/investisseur/:id', portefeuilleController.chercherPortefeuilleParInvestisseur);
 router.get('/action/:id',portefeuilleController.recupererActionParId);
+router.delete('/:id/:indice',portefeuilleController.supprimerIndice);
+router.put('/indice/:id',portefeuilleController.ajouterIndice);
 module.exports = router;

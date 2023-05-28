@@ -1,3 +1,4 @@
+import { AideComponent } from './components/aide/aide.component';
 import { ActualitesComponent } from './components/actualites/actualites.component';
 import { LoaderComponent } from './components/loader/loader.component';
 import { ForgotPasswordComponent } from './account/forgot-password/forgot-password.component';
@@ -25,6 +26,7 @@ import { ActionsComponent } from './components/actions/actions.component';
 import { DevisesDetailsComponent } from './components/devises-details/devises-details.component';
 import { AccueilComponent } from './components/accueil/accueil.component';
 import { EntrepriseComponent } from './components/entreprise/entreprise.component';
+import { IndiceComponent } from './components/indice/indice.component';
 
 const routes: Routes = [
 
@@ -37,9 +39,11 @@ const routes: Routes = [
   {path:'actualite/:id', component:ActualiteDetailsComponent},
   {path:'actualites',component:ActualitesComponent},
   {path:"signUp",component:SignUpComponent},
+  { path: 'indice', component:IndiceComponent },
   {path:"home",component:HomeComponent},
   {path:"reset-password/:token",component:ForgotPasswordComponent},
   {path:"loader",component:LoaderComponent},
+  {path:'aide',component:AideComponent},
   {path:"404",component:NotFound404Component},
   //{path:"home",component:ActionsComponent},
  

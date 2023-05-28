@@ -56,7 +56,6 @@
                 <th scope="col">Création</th>
                 <th scope="col">Liquidites</th>
                 <th scope="col">Prix Actions Achetées</th>
-                <th scope="col">Indice</th>
                 <th></th>
 
               </tr>
@@ -68,7 +67,6 @@
                 <td>{{p.dateCreation | date:'dd/MM/yyyy'}}</td>
                 <td>{{p.liquidites}}</td>
                 <td>{{p.prixTitres}}</td>
-                <td>{{p.indice}}</td>
                 <td>
                     <button class="btn btn-danger btn-sm" (click)="showDialog(p._id)"><i class="fa fa-trash" aria-hidden="true"></i></button>
                     <button [routerLink]="['/modifierPortefeuille',p._id]" class="btn btn-success btn-sm ms-2" ><i class="fa fa-pen" aria-hidden="true"></i></button>

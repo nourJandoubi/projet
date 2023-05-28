@@ -123,8 +123,8 @@ All()
  filterActionByLetter(letter:string)
  {
     this.listeAction= this.bourse.filter((item)=>
-    {
-      if (typeof item.nomEntreprise.nom === 'string' && item.nomEntreprise.nom.startsWith(letter))
+    {const itemName = item.nomEntreprise.nom.toUpperCase();
+      if (typeof item.nomEntreprise.nom=== 'string' && itemName.startsWith(letter))
        {return item} 
         else
         {return false;}
@@ -195,7 +195,6 @@ All()
             this.actionsFiltreParBourse = res.slice(0, this.pageSize);
           }
           this.loading=false;
-  
         }
         this.length =res.length;
       }

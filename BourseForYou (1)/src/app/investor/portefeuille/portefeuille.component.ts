@@ -1,3 +1,4 @@
+import { IndiceService } from 'src/app/services/indice.service';
 import { ActionService } from 'src/app/services/action.service';
 import { EntrepriseService } from 'src/app/services/entreprise.service';
 import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
@@ -21,7 +22,8 @@ export class PortefeuilleComponent {
    private formBuilder:FormBuilder,
    private entrepriseService:EntrepriseService,
    private actionService:ActionService,
-   private convertisseurService:ConvertisseurService
+   private convertisseurService:ConvertisseurService,
+   private indiceService:IndiceService
   )
   {}
   @ViewChild('myChart1') myChart1: ElementRef<HTMLCanvasElement>;
@@ -52,15 +54,19 @@ export class PortefeuilleComponent {
   quantiteVente:any=0;
   sommePourcentageAction:any=0;
   pourcentageLiquidite:any=100;
+  valeurPortefeuilleInitial:any=0;
+  valeurPortefeuilleActuel:any=0;
+  rendementPortefeuille:any=0;
 
   idEntrepriseVendre:any;
   variation:any;
   haut:any;
   bas:any;
 
-  indice:string;
+  listeindices:any[]=[];
+  indiceVariation:any;
+  indicePrix:any;
   selectedOption:string='EUR';
-
 
 showDialog(action:any)
 {
@@ -75,7 +81,6 @@ showDialog(action:any)
         }
       )
   }
-
 calculerTotalVente()
 { 
   if(this.venteForm.get('nombreAction').value)
@@ -90,7 +95,6 @@ calculerTotalVente()
       this.totalVente=0;
     }
 }
-
   vendreAction()
   { 
     this.venteForm=this.formBuilder.group({ 
@@ -103,14 +107,20 @@ calculerTotalVente()
       window.location.reload();
     })
   }
-  
+  supprimerIndice(id:any,nomIndice:any)
+  {
+    this.portefeuilleService.supprimerIndice(id,nomIndice).subscribe(
+      ()=>{
+        window.location.reload();
+      }
+    )
+  }
 convertir(from:string,to:string)
 { 
   this.loading=true;
   this.actions=[]
   this.actions2=[]
   this.portefeuille=[]
-  
     /**Initialisation des FormGroup */
     this.convertForm=new FormGroup({
       amout:new FormControl(),
@@ -130,17 +140,23 @@ convertir(from:string,to:string)
       liquidites:new FormControl(),
     });
     /**Fin initiaslisation du FormGroup */
-
-
-
-
     this.portefeuilleService.getPortefeuilleById(this.idPortefeuille).toPromise().
     then(
       (res)=>
           {
             this.portefeuille=res;
             console.log('portefeuille',this.portefeuille)
-            this.indice=res.indice;
+            res.indices.forEach(indice => {
+              if(indice!=null)
+              {
+                this.indiceService.getOneIndice(indice).toPromise()
+                .then(
+                  (result)=>{
+                    this.listeindices.push(result)
+                  }
+                )
+              }
+            });
             /**liqudites */
             this.convertForm=this.formBuilder.group
             ({ 
@@ -201,8 +217,6 @@ convertir(from:string,to:string)
                 this.portefeuilleVide=true;
                 this.loading=false;
               }
-
-              console.log('action1',this.actions)
               const actionsGrouped = this.actions.reduce((groups, action) => {
                 const symbol = action.idEntreprise._id;
                 if (!groups[symbol]) {
@@ -216,12 +230,16 @@ convertir(from:string,to:string)
                 return groups;
               }, {}); 
               this.actionsDistinct = Object.values(actionsGrouped);
-
-              for (let i = 0; i < this.actionsDistinct.length; i++) {
+              for (let i = 0; i < this.actionsDistinct.length; i++) 
+              {
                 let newAction = {}; // créez un nouvel objet pour chaque action
                 newAction['idPortefeuille']=this.actionsDistinct[i].idPortefeuille;
                 newAction['idEntreprise']=this.actionsDistinct[i].idEntreprise._id;
+                newAction['bourse']=this.actionsDistinct[i].idEntreprise.bourse;
+                newAction['secteur']=this.actionsDistinct[i].idEntreprise.secteur;
                 newAction['nombreAction'] = this.actionsDistinct[i].nombreAction;
+                newAction['nomEntreprise']=this.actionsDistinct[i].idEntreprise.nom;
+
                   /**prix investissement */
                   this.convertForm=this.formBuilder.group
                   ({ 
@@ -235,6 +253,8 @@ convertir(from:string,to:string)
                     {
                       newAction['prixInvestissement'] = result.convertedAmount;
                       newAction['capital'] = (this.actionsDistinct[i].nombreAction*result.convertedAmount).toFixed(2); 
+                      this.valeurPortefeuilleInitial+= parseFloat(newAction['capital']);
+                      console.log('valeur I',this.valeurPortefeuilleInitial)
                     }
                   )
                   .then(
@@ -243,7 +263,6 @@ convertir(from:string,to:string)
                       then(
                         (res)=>
                         {
-                          console.log('action portefeuilleee',this.actionsDistinct[i].idEntreprise.nom,'==>',res);
                             /**prix actuel */
                             this.convertForm=this.formBuilder.group
                             ({ 
@@ -256,6 +275,15 @@ convertir(from:string,to:string)
                               (result)=>
                               {
                                 newAction['prixActuel']=result.convertedAmount;
+                                this.valeurPortefeuilleActuel+=parseFloat((result.convertedAmount*this.actionsDistinct[i].nombreAction).toFixed(2));
+                                console.log('valeur A',this.valeurPortefeuilleActuel)
+                                if(i==(this.actionsDistinct.length-1))
+                                { console.log('i',i)
+                                  console.log('valeur initial',this.valeurPortefeuilleInitial)
+                                 console.log('valeaur actuel',this.valeurPortefeuilleActuel)
+                                  this.rendementPortefeuille=(((this.valeurPortefeuilleActuel-this.valeurPortefeuilleInitial)/this.valeurPortefeuilleInitial)*100).toFixed(2);
+                                }
+                              
                                 this.gainPerte=new FormGroup({
                                   prixAchat:new FormControl(newAction['prixInvestissement']),
                                   prixActuel:new FormControl(newAction['prixActuel']),
@@ -267,18 +295,16 @@ convertir(from:string,to:string)
                                     newAction['gain']=gain.gainPrix;
                                     newAction['gainP']=gain.gainPourcentage;
                                   })
-                              }
-                            )
-                         }
-                       )
-                     }
-                   )
-                this.entrepriseService.getoneEntreprise(this.actionsDistinct[i].idEntreprise.nom).toPromise()
-                .then(
-                  (res)=>{
-                    newAction['nomEntreprise']=res.nom;
-                  }
-                )                
+
+                                 
+                              })
+                              .then(
+                                ()=>{
+                                
+                                }
+                              )
+                         })
+                     })              
                 this.actions2.push(newAction);
               //calculer pourcentage par action
               this.pourcentageActionForm=this.formBuilder.group({
@@ -292,16 +318,9 @@ convertir(from:string,to:string)
                 { 
                   this.sommePourcentageAction+=parseFloat(res.pourcentage);
                   let newAction={};
-                  this.entrepriseService.getoneEntrepriseById(this.actionsDistinct[i].idEntreprise._id).toPromise()
-                  .then(
-                    (result)=>{
-                      newAction['idEntreprise']=result.nom;
+                      newAction['idEntreprise']=this.actionsDistinct[i].idEntreprise.nom;
                       newAction['pourcentage']=res;
                       this.pourcentageAction.push(newAction);
-                    }
-                  )
-                  .then(()=>
-                  {
                     this.pourcentageLiquidite=100-this.sommePourcentageAction;
                     if(this.pourcentageAction.find(f=>f['idEntreprise']=='liquidites'))
                     {
@@ -317,70 +336,69 @@ convertir(from:string,to:string)
                       newAction['idEntreprise']='liquidites';
                       newAction['pourcentage']=this.pourcentageLiquidite;
                       this.pourcentageAction.push(newAction);
-                  }})
-                  .then(()=>
-                  {
-                    this.yValues=[];
-                    this.xValues=[];
-                    for (let i = 0; i < this.pourcentageAction.length; i++) {
-                      const pourcentage = this.pourcentageAction[i];
-                        if(!(this.yValues.find(f=>f==pourcentage['pourcentage'])||this.xValues.find(f=>f==pourcentage['idEntreprise'])))
-                        {
-                          if(pourcentage['pourcentage'].pourcentage)
-                          {                  
-                            this.yValues.push(parseFloat(pourcentage['pourcentage'].pourcentage));
-                          }
-                          else
-                          {
-                            this.yValues.push(pourcentage['pourcentage']);
-                          }                 
-                          this.xValues.push(pourcentage['idEntreprise']);
-                        }
-                    }
-                    this.loading=false;
+                   }
                   })
-                })
+                  .then(
+                    ()=>{
+                      this.yValues=[];
+                      this.xValues=[];
+                      for (let i = 0; i < this.pourcentageAction.length; i++) {
+                        const pourcentage = this.pourcentageAction[i];
+                          if(!(this.yValues.find(f=>f==pourcentage['pourcentage'])||this.xValues.find(f=>f==pourcentage['idEntreprise'])))
+                          {
+                            if(pourcentage['pourcentage'].pourcentage)
+                            {                  
+                              this.yValues.push(parseFloat(pourcentage['pourcentage'].pourcentage));
+                            }
+                            else
+                            {
+                              this.yValues.push(pourcentage['pourcentage']);
+                            }                 
+                            this.xValues.push(pourcentage['idEntreprise']);
+                          }
+                      }
+                      if(i==(this.actionsDistinct.length-1))
+                      {
+                        setTimeout(() => {  
+                          console.log('xValues',this.xValues)
+                          console.log('yValue',this.yValues)
+                          if(this.xValues.length!=1)
+                          {
+                            const barColors = [
+                              "#b91d47","#00aba9","#2b5797","#e8c3b9","#1e7145","#F1948A","#F18AE5","#8AE0F1","#8AF1BC","#A9F18A","#F1CD8A","#A16E6E"
+                            ];
+                            new Chart("myChart1", {
+                              type: "pie",
+                              data: {
+                                labels: this.xValues.map((label, index) => `${label} ${this.yValues[index]}%`),
+                                datasets: [{
+                                  backgroundColor: barColors,
+                                  data: this.yValues, 
+                                }]
+                              },
+                              options: {
+                               layout: {
+                                 padding: {
+                                   top: 20 // Modifier la valeur du margin-top ici
+                                 }
+                               },
+                               plugins: {
+                                 legend: {
+                                   position: "right" // Modifier la position de la légende ici (peut être "top", "left", "right" ou "bottom")
+                                 }
+                               },
+                               responsive: true,
+                               maintainAspectRatio: false, // Modifier cette valeur à false pour permettre le redimensionnement du chart
+                             }
+                            });
+                          }
+                           }, 5000); 
+                           this.loading=false;
+                      }
+                    })   
               }
-            })
-          }
-      )
-
-
-      setTimeout(() => {  
-        console.log('xValues',this.xValues)
-        console.log('yValue',this.yValues)
-        if(this.xValues.length!=1)
-        {
-          const barColors = [
-            "#b91d47","#00aba9","#2b5797","#e8c3b9","#1e7145","#F1948A","#F18AE5","#8AE0F1","#8AF1BC","#A9F18A","#F1CD8A","#A16E6E"
-          ];
-          new Chart("myChart1", {
-            type: "pie",
-            data: {
-              labels: this.xValues.map((label, index) => `${label} ${this.yValues[index]}%`),
-              datasets: [{
-                backgroundColor: barColors,
-                data: this.yValues, 
-              }]
-            },
-            options: {
-             layout: {
-               padding: {
-                 top: 20 // Modifier la valeur du margin-top ici
-               }
-             },
-             plugins: {
-               legend: {
-                 position: "right" // Modifier la position de la légende ici (peut être "top", "left", "right" ou "bottom")
-               }
-             },
-             responsive: true,
-             maintainAspectRatio: false, // Modifier cette valeur à false pour permettre le redimensionnement du chart
-           }
-          });
-        }
-        
-         }, 5000); 
+            }) 
+          })
 }
   ngOnInit():void
   {    
@@ -406,5 +424,4 @@ convertir(from:string,to:string)
     });
     this.convertir('EUR','EUR')
   }
-
 }

@@ -40,7 +40,7 @@ import { AdminComponent } from './components/admin/admin.component';
 import { DialogModule } from 'primeng/dialog';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
-
+import { AccordionModule } from 'primeng/accordion';
 import { ChartModule } from 'primeng/chart';
 import { CalendarModule } from 'primeng/calendar';
 import { VisitorComponent } from './admin/visitor/visitor.component';
@@ -58,6 +58,8 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 import { EntrepriseComponent } from './components/entreprise/entreprise.component';
 import { ForgotPasswordComponent } from './account/forgot-password/forgot-password.component';
 import { LoaderComponent } from './components/loader/loader.component';
+import { IndiceComponent } from './components/indice/indice.component';
+import { AideComponent } from './components/aide/aide.component';
 @NgModule({
   declarations: [
     
@@ -93,6 +95,8 @@ import { LoaderComponent } from './components/loader/loader.component';
        EntrepriseComponent,
        ForgotPasswordComponent,
        LoaderComponent,
+       IndiceComponent,
+       AideComponent,
 
        
   ],
@@ -125,7 +129,8 @@ import { LoaderComponent } from './components/loader/loader.component';
     CalendarModule,
     FieldsetModule,
     ConfirmDialogModule,
-    RadioButtonModule
+    RadioButtonModule,
+    AccordionModule
     
     
   ],

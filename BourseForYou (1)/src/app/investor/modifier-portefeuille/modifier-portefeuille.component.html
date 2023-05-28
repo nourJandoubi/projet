@@ -52,14 +52,9 @@
             </div>
           <div class="form-group">
             <label for="example-text-input" class="form-control-label">Indice de référence<span class="text-danger">*</span></label>
-            <select class="form-select" aria-label="Default select example" type="email"  formControlName="indice" name="indice" >
-              <option value="CAC 40">CAC 40</option>
-              <option value="S&P 500">S&P 500</option>
-              <option value="Dow Jone">Dow Jone</option>
-              <option value="Nasdaq">Nasdaq</option>
-              <option value="DAX">DAX</option>
-      
-      
+            <select class="form-select" aria-label="Default select example" formControlName="indice"  [(ngModel)]="selectedIndice" name="indice" >
+              <option *ngFor="let option of indices" [value]="option.name">{{ option.name }}</option>
+
             </select>
            
           </div>

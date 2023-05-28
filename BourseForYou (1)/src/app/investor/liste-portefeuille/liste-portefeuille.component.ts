@@ -44,7 +44,8 @@ if(this.isLogedIn)
       this.idInvestisseur=this.investisseur._id;
       this.portefeuilleService.getPortefuilleByInvestor(this.idInvestisseur).toPromise()
       .then((res)=>
-      {
+      { console.log('liste',res)
+      
         this.loading=false;
         this.listePortfeuille=res;
         

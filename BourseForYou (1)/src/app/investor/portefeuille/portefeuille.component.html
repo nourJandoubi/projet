@@ -33,6 +33,8 @@
             <tr>
               <th scope="col">#</th>
               <th scope="col">Entreprise</th>
+              <th scope="col">Bourse</th>
+              <th scope="col">Secteur</th>
               <th scope="col">Quantité</th>
               <th scope="col">Prix Achat</th>
               <th scope="col">Prix Actuel</th>
@@ -50,6 +52,8 @@
             <tr *ngFor="let a of actions2; index as index">
               <th scope="row">{{index+1}}</th>
               <td><a [routerLink]="['/entreprise',a.idEntreprise]">{{a.nomEntreprise}}</a></td>
+              <td>{{a.bourse}}</td>
+              <td>{{a.secteur}}</td>
               <td>{{a.nombreAction}}</td>
               <td>{{a.prixInvestissement}}</td>
               <td>{{a.prixActuel}}</td>
@@ -66,9 +70,28 @@
           <tbody>
             <tr>
               <td>
-                <label >Indice : </label><strong> {{indice}}</strong>
+                      <table>
+                        <tr>
+                          <th>Indice</th>
+                          <th>Prix</th>
+                          <th>Variation</th>
+                          <th>Variation %</th>
+                          <th></th>
+                        </tr>
+                        <tr *ngFor="let indice of listeindices">
+                          <td>{{indice.name}}</td>
+                          <td>{{indice.last}}</td>
+                          <td [innerHTML]="indice.change | highlightSign"></td>
+                          <td [innerHTML]="indice.changePercentage | highlightSign">{{indice.changePercentage}}</td>
+                          <td>
+                            <button class="btn btn-danger btn-sm" (click)="supprimerIndice(idPortefeuille,indice.name)"><i class="fa fa-trash" aria-hidden="true"></i></button>
+
+                          </td>
+                        </tr>
+                      </table>
               </td>
               <td>
+                <h4>Rendement Portefeuille <strong class="text-success">{{rendementPortefeuille}} %</strong></h4>
                 <table class="table bg-light table-bordered"*ngIf="portefeuille">
                   <tr>
                       <th >Titres</th>

@@ -20,7 +20,7 @@
              <hr class="ms-5 ">   
             </div>
             <div class="card-body">
-              <table class="table  ">
+              <table class="table table-striped  ">
                   <tbody>
                     <tr>
                           <th scope="row">Capitalisation</th>
@@ -85,6 +85,13 @@
                          Le bourse n'est pas mentionné.
                       </td>
                       <td>{{entreprise.bourse}}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Symbole</th>
+                      <td *ngIf="entreprise.symbol === null || entreprise.symbol==='' ">
+                         Le symbol n'est pas mentionné.
+                      </td>
+                      <td>{{entreprise.symbol}}</td>
                     </tr>
                     <tr>
                       <th scope="row">Devise</th>

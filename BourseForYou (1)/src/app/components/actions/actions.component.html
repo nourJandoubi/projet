@@ -30,7 +30,7 @@
         </div>
         <!-- abcd partie -->
         <div class="pb-0 p-3 d-flex justify-content-between mt-2">
-          <button class="mb-2 btnAlpha" (click)="All()">
+          <button class="btnAlpha" (click)="All()">
             <strong>Tous</strong>
           </button>
           <button *ngFor="let i of alpha" class="btnAlpha" (click)="filterActionByLetter(i)">
@@ -74,7 +74,10 @@
                       </td>
                     <td class="w-30">
                       <div class="d-flex px-2 py-1 align-items-center"  [routerLink]="['/entreprise',t.nomEntreprise._id]">
-                        {{ t.nomEntreprise.nom }}
+                        <p>
+                          {{ t.nomEntreprise.nom }}
+                          <strong class="text-success"> {{t.nomEntreprise.symbol}} </strong>
+                        </p>
                       </div>
                     </td>
                     <td class="w-30">

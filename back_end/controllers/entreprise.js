@@ -231,7 +231,6 @@ const Action = require('../models/Action');
 exports.getOneEntreprise = (req, res) => {
     //console.log('nom',encodeURI(req.params.nom).replace(/%/g, '%25'))
     const searchQuery = decodeURIComponent(req.params.nom);
-    console.log('search',searchQuery)
 
     Entreprise.findOne({
         nom: searchQuery
@@ -265,12 +264,6 @@ exports.getOneEntrepriseById = async (req, res) => {
 
 };
 
-  
-  
-  
-
-  
-  
 exports.getAllEntreprises = (req, res) => {
     Entreprise.find({ nom: { $exists: true } }).select('symbol').then(
         (entreprises) => {

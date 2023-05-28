@@ -34,5 +34,13 @@ export class PortefeuilleService {
   {
     return this.http.get(`${this.baseUrl}/${id}`)
   }
-  
+  supprimerIndice(id:any,indice:any):Observable<any>
+   {
+    return this.http.delete(`${this.baseUrl}/${id}/${indice}`)
+   } 
+   ajouterIndice(id:any,indice:FormData):Observable<any>
+   {
+    console.log('dataa',indice)
+    return this.http.put(`${this.baseUrl}indice/${id}`,indice)
+   } 
 }

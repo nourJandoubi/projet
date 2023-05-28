@@ -1,5 +1,6 @@
+import { IndiceService } from 'src/app/services/indice.service';
 import { MatDialogRef } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { PortefeuilleService } from './../../services/portefeuille.service';
 import { Component,Input } from '@angular/core';
@@ -15,14 +16,19 @@ export class ModifierPortefeuilleComponent {
   nomportefeuille:any;
   solde:any;
   errorModif:boolean;
-
+  indices:any=[];
+  selectedIndice:string="Nasdaq"
   item:any;
 @Input()idP :any;
   constructor
   (
     private portefeuilleService:PortefeuilleService,
     private activatedRoute:ActivatedRoute,
-    private formBuilder:FormBuilder
+    private formBuilder:FormBuilder,
+    private indiceService:IndiceService,
+    private router: Router,
+
+
   )
   {}
   ngOnInit():void
@@ -38,7 +44,21 @@ export class ModifierPortefeuilleComponent {
         dateCreation:new FormControl(),
         selected:new FormControl()
      });
-
+     this.indiceService.getAllIndice().subscribe(data => {
+      this.indices = data;
+      this.indices.sort((a, b) => {
+        const nomA = a.name.toLowerCase();
+        const nomB = b.name.toLowerCase();
+        if (nomA < nomB) {
+          return -1;
+        }
+        if (nomA > nomB) {
+          return 1;
+        }
+        return 0;
+      });
+    });
+    
 
 
      this.portefeuilleService.getPortefeuilleById(this.idPortefeuille).toPromise()
@@ -79,7 +99,7 @@ export class ModifierPortefeuilleComponent {
           if(res.success)
           {
             this.errorModif=false;
-            window.location.reload();
+            this.router.navigate(['/listePortefeuille']);
           }
           else
           {

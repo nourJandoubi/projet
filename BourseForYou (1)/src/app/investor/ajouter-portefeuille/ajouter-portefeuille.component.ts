@@ -1,3 +1,4 @@
+import { IndiceService } from 'src/app/services/indice.service';
 import { HttpClient } from '@angular/common/http';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -14,7 +15,8 @@ export class AjouterPortefeuilleComponent {
     private router:Router,
     private formBuilder:FormBuilder,
     private hhtp:HttpClient,
-    private profilleService:PortefeuilleService
+    private portefeuilleService:PortefeuilleService,
+    private indiceService:IndiceService,
 
   )
   {}
@@ -24,13 +26,16 @@ export class AjouterPortefeuilleComponent {
   date = new Date();
   errorAjout:boolean;
   isLogedIn:boolean;
+  listeIndices:any=[];
+  selectedIndice:string="Nasdaq"
 
   ajouterPortefeuille()
   {
     // Mettre à jour l'attribut liquidites avec la valeur du soldeTotal
   const soldeTotal = this.portefeuilleForm.get('soldeTotal').value;
   this.portefeuilleForm.patchValue({ liquidites: soldeTotal });
-    this.profilleService.ajouterPortefeuille(this.portefeuilleForm.value).subscribe(
+  console.log('form',this.portefeuilleForm.value)
+    this.portefeuilleService.ajouterPortefeuille(this.portefeuilleForm.value).subscribe(
       (res)=>
     {
       if(res.success)
@@ -43,6 +48,7 @@ export class AjouterPortefeuilleComponent {
       this.errorAjout=true;
     }
     })
+    
   }
 
 
@@ -63,10 +69,25 @@ export class AjouterPortefeuilleComponent {
       prixTitres:new FormControl(0),
       liquidites:new FormControl(),
       dateCreation:new FormControl(this.date),
-      indice:['',Validators.required],
+      indices:[this.selectedIndice,Validators.required],
       idUser:new FormControl(this.idInvestisseur),
 
     });
+    this.indiceService.getAllIndice().subscribe(data => {
+      this.listeIndices = data;
+      this.listeIndices.sort((a, b) => {
+        const nomA = a.name.toLowerCase();
+        const nomB = b.name.toLowerCase();
+        if (nomA < nomB) {
+          return -1;
+        }
+        if (nomA > nomB) {
+          return 1;
+        }
+        return 0;
+      });
+    });
+    
 
   }
 
@@ -82,9 +103,9 @@ get soldeTotal()
   return this.portefeuilleForm.get('soldeTotal')
 }
 
-get indice()
+get indices()
 {
-  return this.portefeuilleForm.get('indice')
+  return this.portefeuilleForm.get('indices')
 }
 
 }

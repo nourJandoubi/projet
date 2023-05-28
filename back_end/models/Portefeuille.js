@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+//const indiceSchema = require('./Indice');
 
 const portefeuilleSchema = mongoose.Schema({
   nomPortefeuille: {
@@ -27,8 +28,8 @@ const portefeuilleSchema = mongoose.Schema({
     default: Date.now,
     required: true
   },
-  indice: {
-    type: String,
+  indices: {
+    type: [],
     required: false
   },
   idUser:{
