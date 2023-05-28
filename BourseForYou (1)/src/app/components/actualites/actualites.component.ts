@@ -14,10 +14,10 @@ export class ActualitesComponent {
   alpha = Array(26)
     .fill(0)
     .map((x, i) => String.fromCharCode(i + 65));
-  actualites: Actualite[] = [];
-  pageSliceNews: Actualite[] = []; //pageSliceNews des actualites
+  actualites: any[] = [];
+  pageSliceNews:any[] = []; //pageSliceNews des actualites
   searchTermNews = ''; //search term des actualites
-  filteredItemsNews: Actualite[] = []; //filtred items des actualites apres utiliser le search term
+  filteredItemsNews: any[] = []; //filtred items des actualites apres utiliser le search term
   searchTermAction = ''; //search term des actualites
   first: number = 0;
   rows: number = 4;
@@ -85,6 +85,7 @@ selecterActualite(actualite:any)
   ngOnInit(): void {
     this.actualiteService.getActualites().subscribe(data => {
       this.actualites = data;
+      console.log(this.actualites)
       this.loading=false;
       this.filteredItemsNews = data;
       this.pageSliceNews = data.slice(0, 4);     

@@ -92,10 +92,15 @@ cron.schedule('0 0 * * *', () => {
   console.log('Saved action');
 }).start();
  
+//every 4 hours
+cron.schedule('0 */4 * * *', () => {
+  indiceController.createIndice(); 
+});
 
-cron.schedule('* * * * *', () => { 
-  indiceController.createIndice()
-  });
+// cron.schedule('0 */4 * * *', () => {
+//   actualiteController.createActualite();
+// });
+actualiteController.createActualite();
 //bourseController.createBourse();
 
 //actionController.oldstockPricesToJson();

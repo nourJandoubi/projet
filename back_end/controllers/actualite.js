@@ -1,52 +1,69 @@
 const Actualite = require('../models/Actualite');
-const request = require('request');
+
+const { Translate } = require('@google-cloud/translate').v2;
 const axios = require('axios');
-const cheerio = require('cheerio');
-const app = require('../app')
 
-const Parser = require('rss-parser');
+const translateText = async (text, targetLanguage) => {
+    // Create a new Translate client
+    const translate = new Translate({ key: 'AIzaSyDcdqGiv8Upzx7u2RDfrVTsvgqKCtP2LYo' });
 
-const parser = new Parser();
-
-exports.scrapeDetailsActualite = (req, res) => {
-    const url = req.body.url;
-    console.log("url", url);
-    request(url, (error, response, html) => {
-      if (!error && response.statusCode === 200) {
-        const $ = cheerio.load(html);
-  
-        const titre = $('h1').text();
-        const description = $('.sc-14omazk-0').text();
-        const resume = $('p.sc-14kwckt-6.sc-14omazk-0.sc-1ji9l2r-0.jeWPZm.dQHQSy.fKyVcA').text();
-          res.send({ titre: titre, description: description, resume: resume });
-      } else {
-        res.status(500).send('Error scraping data');
-      }
-    });
-  };
-  
-
-
-
-exports.createActualite = async () => {
+    // Translate the text
     try {
-        const feed = await parser.parseURL('https://services.lesechos.fr/rss/investir-marches-indices.xml');
-        if (!feed) {
-            throw new Error('RSS feed is undefined.');
-        }
-        const items = feed.items.map(item => ({
-            ...item
-        }));
-
-        await Promise.all(items.map(item =>
-            Actualite.updateOne({ link: item.link }, item, { upsert: true }).exec()
-        ));
-        console.log('Successfully fetched and saved actualites.');
+        const [translation] = await translate.translate(text, targetLanguage);
+        return translation;
     } catch (error) {
-        console.error(`Error fetching or saving actualites: ${error.message}`);
+        console.error(error);
+        throw new Error('Translation request failed.');
     }
 };
 
+exports.createActualite = async () => {
+    const options = {
+        method: 'GET',
+        url: 'https://global-stock-market-api-data.p.rapidapi.com/news/latest_news',
+        headers: {
+            'X-RapidAPI-Key': 'e4895b27f0msh9a9406d24bb6ab3p1bf81ajsn7d5f32e80d1f',
+            'X-RapidAPI-Host': 'global-stock-market-api-data.p.rapidapi.com',
+        },
+    };
+
+    try {
+        const response = await axios.request(options);
+        const actualiteData = response.data;
+
+        // Translate the news titles to French
+        const translatedData = await Promise.all(
+            actualiteData.map(async (newsItem) => {
+                console.log(newsItem)
+                const translatedTitle = await translateText(newsItem.newsTitle || 'no des', 'fr');
+                const translatedContent = await translateText(newsItem.shotDesc || 'no des', 'fr');
+                return {
+                    ...newsItem,
+                    newsTitle: translatedTitle,
+                    shotDesc: translatedContent,
+                };
+            })
+        );
+
+        // Check if the response data matches the existing data
+        const existingData = await Actualite.find().lean();
+        const isDataMatched = JSON.stringify(translatedData) === JSON.stringify(existingData);
+
+        if (!isDataMatched) {
+            // Clear the Actualite collection
+            await Actualite.deleteMany();
+
+            // Insert the new translated data
+            await Actualite.insertMany(translatedData);
+
+            console.log('Actualite data updated successfully.');
+        } else {
+            console.log('Actualite data is up to date.');
+        }
+    } catch (error) {
+        console.error(error);
+    }
+};
 
 
 
@@ -66,40 +83,7 @@ exports.getOneActualite = (req, res) => {
     );
 };
 
-exports.modifyActualite = (req, res) => {
 
-    Actualite.updateOne({ _id: req.params.id }, {
-        ...req.body
-    }).then(
-        () => {
-            res.status(201).json({
-                message: 'Actualité est modifié avec succée!'
-            });
-        }
-    ).catch(
-        (error) => {
-            res.status(400).json({
-                error: error
-            });
-        }
-    );
-};
-
-exports.deleteActualite = (req, res) => {
-    Actualite.deleteOne({ _id: req.params.id }).then(
-        () => {
-            res.status(200).json({
-                message: ' actualite supprimé!'
-            });
-        }
-    ).catch(
-        (error) => {
-            res.status(400).json({
-                error: error
-            });
-        }
-    );
-};
 exports.getAllActualites = (req, res) => {
     Actualite.find().then(
         (actualites) => {

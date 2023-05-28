@@ -152,6 +152,7 @@ acheterAction()
  
 
   ngOnInit(): void {
+    console.log(this.actionsFiltreParBourse);
     this.isLogedIn =
     localStorage.getItem('TOKEN') != null &&
     localStorage.getItem('TOKEN') != 'undefined';

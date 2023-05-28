@@ -36,7 +36,7 @@ const routes: Routes = [
   {path:'devise/:id/:selectedDevise/:devise', component:DevisesDetailsComponent},
   {path:'entreprise/:id', component:EntrepriseComponent},
   {path:'actualite/:id', component:ActualiteDetailsComponent},
-  {path:'actualites',component:ActualitesComponent},
+  {path:'actualite',component:ActualitesComponent},
   {path:"signUp",component:SignUpComponent},
   { path: 'indice', component:IndiceComponent },
   {path:"home",component:HomeComponent},
