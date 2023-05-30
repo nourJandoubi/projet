@@ -1,7 +1,7 @@
 const axios = require('axios');
 const Indice = require('../models/indice');
 
-exports.createIndice = async () => {
+exports.creerIndice = async () => {
   const options = {
     method: 'GET',
     url: 'https://global-stock-market-api-data.p.rapidapi.com/major_global_indices_by_price',
@@ -33,7 +33,7 @@ exports.createIndice = async () => {
     console.error(error);
   }
 };
-exports.getAllIndices = (req, res) => {
+exports.recupererIndices = (req, res) => {
     Indice.find().then(
         (indices) => {
             res.status(200).json(indices);
@@ -46,7 +46,7 @@ exports.getAllIndices = (req, res) => {
         }
     );
 };
-exports.getOneIndice= async (req, res) => {
+exports.recupererIndiceParNom= async (req, res) => {
   const name = req.params.nom;
 
   try {

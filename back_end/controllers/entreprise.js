@@ -228,7 +228,7 @@ const Action = require('../models/Action');
 //       console.log(`Error updating entreprises from API: ${error}`);
 //     }
 //   };
-exports.getOneEntreprise = (req, res) => {
+exports.recupererEntrepriseParNom = (req, res) => {
     //console.log('nom',encodeURI(req.params.nom).replace(/%/g, '%25'))
     const searchQuery = decodeURIComponent(req.params.nom);
 
@@ -247,7 +247,7 @@ exports.getOneEntreprise = (req, res) => {
     );
 };
 
-exports.getOneEntrepriseById = async (req, res) => {
+exports.recupererEntrepriseParId = async (req, res) => {
     Entreprise.findOne({
         _id: req.params.id
     }).then(
@@ -264,7 +264,7 @@ exports.getOneEntrepriseById = async (req, res) => {
 
 };
 
-exports.getAllEntreprises = (req, res) => {
+exports.recupererEntreprises = (req, res) => {
     Entreprise.find({ nom: { $exists: true } }).select('symbol').then(
         (entreprises) => {
             res.status(200).json(entreprises);
@@ -279,7 +279,7 @@ exports.getAllEntreprises = (req, res) => {
         }
     );
 };
-exports.getAllSecteur = async (req, res) => {
+exports.recupererSecteurs = async (req, res) => {
     Entreprise.distinct('secteur').then((secteurs) => {
       // Filtrer les chaînes vides et les valeurs nulles du tableau secteurs
       const filteredSecteurs = secteurs.filter((secteur) => secteur && secteur.trim() !== '');
@@ -287,25 +287,7 @@ exports.getAllSecteur = async (req, res) => {
       res.status(200).json(filteredSecteurs);
     });
   };
-  
-  /*exports.getActionByBourseAndSecteur = async (req, res) => {
-    Entreprise.find({
-        bourse: req.body.bourse,
-        secteur:req.body.secteur
-    }).then(
-        (action) => {
-            res.status(200).json(action);
-        }
-    ).catch(
-        (error) => {
-            res.status(404).json({
-                error: error
-            });
-        }
-    );
-  
-  };*/
-  exports.getActionByBourseAndSecteur = async (req, res) => {
+exports.recupererEntrepriseParBourseEtSecteur = async (req, res) => {
     try {
       const { bourse, secteur } = req.body;
   

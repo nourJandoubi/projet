@@ -91,7 +91,7 @@
                       </table>
               </td>
               <td>
-                <h4>Rendement Portefeuille <strong class="text-success">{{rendementPortefeuille}} %</strong></h4>
+                <h4>Rendement Portefeuille <strong [innerHTML]="rendementPortefeuille | highlightSign"> </strong> %</h4>
                 <table class="table bg-light table-bordered"*ngIf="portefeuille">
                   <tr>
                       <th >Titres</th>

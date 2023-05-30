@@ -15,28 +15,28 @@ export class PortefeuilleService {
 
   }
   supprimerPortefeuille(id:any):Observable<any>
-  {return this.http.delete(`${this.baseUrl}/${id}`)}
+  {return this.http.delete(`${this.baseUrl}${id}`)}
 
   modifierPortefeuille(id:any,data:FormData):Observable<any>
   {
-    return this.http.put(`${this.baseUrl}/${id}`,data)
+    return this.http.put(`${this.baseUrl}${id}`,data)
   }
 
   getPortefeuilleById(id:any):Observable<any>
   {
-    return this.http.get(`${this.baseUrl}/${id}`)
+    return this.http.get(`${this.baseUrl}${id}`)
   }
   getPortefuilleByInvestor(id:any):Observable<any>
   {
-    return this.http.get(`${this.baseUrl}/investisseur/${id}`)
+    return this.http.get(`${this.baseUrl}investisseur/${id}`)
   }
-  getActionById(id:any):Observable<any>
+  /*getActionById(id:any):Observable<any>
   {
-    return this.http.get(`${this.baseUrl}/${id}`)
-  }
+    return this.http.get(`${this.baseUrl}${id}`)
+  }*/
   supprimerIndice(id:any,indice:any):Observable<any>
    {
-    return this.http.delete(`${this.baseUrl}/${id}/${indice}`)
+    return this.http.delete(`${this.baseUrl}${id}/${indice}`)
    } 
    ajouterIndice(id:any,indice:FormData):Observable<any>
    {

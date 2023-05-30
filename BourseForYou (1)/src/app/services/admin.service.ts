@@ -7,7 +7,7 @@ import { Injectable } from '@angular/core';
 })
 export class AdminService {
 
-  private baseUrl = 'http://localhost:3000/api/user/';
+  private baseUrl = 'http://localhost:3000/api/admin/';
   constructor(private http: HttpClient) { }
 
   getUsersByDay(day:any): Observable<any> {

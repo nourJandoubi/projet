@@ -34,7 +34,6 @@ exports.createActualite = async () => {
         // Translate the news titles to French
         const translatedData = await Promise.all(
             actualiteData.map(async (newsItem) => {
-                console.log(newsItem)
                 const translatedTitle = await translateText(newsItem.newsTitle || 'no des', 'fr');
                 const translatedContent = await translateText(newsItem.shotDesc || 'no des', 'fr');
                 return {

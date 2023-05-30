@@ -5,7 +5,7 @@ const Action =require('../models/Action')
 
 
 
-exports.createBourse = async () => {
+exports.creerBourse = async () => {
     try {
       // Récupérer tous les noms de bourse distincts de la collection "Entreprise"
       const nomsBourse = await Entreprise.distinct('bourse');
@@ -51,7 +51,7 @@ exports.createBourse = async () => {
     }
   };
   
-  exports.getAllBourses = (req, res) => {
+  exports.recupererBourses = (req, res) => {
     Bourse.distinct('nom').then(
         (bourses) => {
           console.log('nom bourse',bourses)
@@ -68,7 +68,7 @@ exports.createBourse = async () => {
     );
 };
   
-exports.getBourseByName = async (req, res) => {
+exports.recupererBourseParNom = async (req, res) => {
   const { nomBourse } = req.params;
   try {
     const bourse = await Bourse.findOne({ nom: nomBourse });

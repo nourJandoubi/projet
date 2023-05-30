@@ -25,31 +25,18 @@ export class ActualitesComponent {
   faClockRotateLeft=faClockRotateLeft;
 //-----------------------------
 selectedActualite:any={};
-lienActualite:string;
-titre:string;
-description:string;
-resume:string;
+
 detailsExists:boolean=false;
 loading:boolean=true;
 
 selecterActualite(actualite:any)
-  { 
-    this.titre="";
-    this.resume=""
-    this.description="";
+  {
+
     this.selectedActualite={};
-    this.lienActualite="";
-    this.loading=true;
     this.selectedActualite=actualite
-    this.lienActualite=actualite.link;
-    this.actualiteService.postScrapedData(this.lienActualite).subscribe(data=>
-      {
-        this.titre=data.titre;
-        this.description=data.description;
-        this.resume=data.resume;
-        this.detailsExists=true;
-        this.loading=false;   
-     })
+  
+     this.detailsExists=true;
+
 }
   onPageChange(event) {
       this.first = event.first;
@@ -61,12 +48,17 @@ selecterActualite(actualite:any)
     let term = this.searchTermNews ? this.searchTermNews.toLowerCase() : '';
     if (term.trim() !== '') {
       this.filteredItemsNews = this.actualites.filter(item => {
-        if (typeof item.title === 'string') {
+        if (typeof item.newsTitle === 'string') {
+         
           this.pageSliceNews = this.filteredItemsNews.slice(0, 5);
-          return item.title.toLowerCase().includes(term);
+          return item.newsTitle.toLowerCase().includes(term);
         }
         return false;
       });
+    }
+    else
+    {
+      this.filteredItemsNews=this.actualites;
     }
     this.pageSliceNews = this.filteredItemsNews;
     this.pageSliceNews = this.pageSliceNews.slice(0, 5);

@@ -13,6 +13,8 @@ const bourseRoutes = require('./routes/bourse');
 const actualiteRoutes = require('./routes/actualite');
 const actualiteController = require('./controllers/actualite');
 const userController = require('./controllers/user');
+const adminRoutes = require('./routes/admin');
+
 const visitorsMiddleware = require('./middleware/visitorsMiddleware');
 const bourseController = require('./controllers/bourse');
 const deviseRoutes = require('./routes/devise');
@@ -116,7 +118,7 @@ app.use('/api/indice', indiceRoutes);
 app.use('/api/historique',historiqueRoutes);
 app.use('/api/password',passwordRoutes);
 app.use('/api/portefeuilles',portefeuilleRoutes);
-/*app.use('/api/historique',historiquePortefeuilleRoutes);*/
-app.use('/api/entreprise', entrepriseRoutes)
-app.use('/api/bourse', bourseRoutes)
+app.use('/api/entreprise', entrepriseRoutes);
+app.use('/api/bourse', bourseRoutes);
+app.use('/api/admin',adminRoutes);
 module.exports = app;

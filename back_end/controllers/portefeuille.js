@@ -121,7 +121,7 @@ exports.supprimerPortefeuille = async (req, res) => {
       res.status(500).send('Erreur serveur');
     }
   }
-  exports.recupererActionParId = async (req, res) => {
+  /*exports.recupererActionParId = async (req, res) => {
     try {
       const action = await Action.findById(req.params.id);
       if (!action) {
@@ -132,7 +132,7 @@ exports.supprimerPortefeuille = async (req, res) => {
       console.error(err.message);
       res.status(500).send('Erreur serveur');
     }
-  }
+  }*/
   exports.chercherPortefeuilleParInvestisseur = async (req, res) => {
     const idUser = req.params.id;
   

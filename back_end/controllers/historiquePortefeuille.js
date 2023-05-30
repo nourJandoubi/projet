@@ -2,8 +2,7 @@ const HistoriquePortefeuille = require("../models/HistoriquePortefeuille");
 const Portefeuille = require("../models/Portefeuille");
 
 
-//acheter action (ajouter historique et modifier portefeuille)
-exports.acheterAction = async (req, res) => {
+  exports.acheterAction = async (req, res) => {
   const historiquePortefeuille = new HistoriquePortefeuille({
     dateOperation: new Date(),
     typeInvestissement: 'achat',
@@ -39,9 +38,8 @@ exports.acheterAction = async (req, res) => {
       error,
     });
   }
-};
-//vendre action(ajouter historique et modifier portefeuille)
-exports.vendreAction = async (req, res) => {
+  };
+  exports.vendreAction = async (req, res) => {
     const historiquePortefeuille = new HistoriquePortefeuille({
       dateOperation: new Date(),
       typeInvestissement: 'vente',
@@ -80,27 +78,6 @@ exports.vendreAction = async (req, res) => {
       });
     }
   };
-
-  exports.supprimerHistorique = async (req, res) => {
-    try {
-      const historiquePortefeuille = await HistoriquePortefeuille.findByIdAndDelete(req.params.id);
-      if (!historiquePortefeuille) {
-        return res.status(404).json({
-             message: "L'entrée d'historique de portefeuille n'a pas été trouvée"
-             });
-      }
-      res.status(200).json({
-         message: "L'entrée d'historique de portefeuille a été supprimée avec succès"
-         });
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({
-        message: "Erreur lors de la suppression de l'entrée d'historique de portefeuille",
-        error,
-      });
-    }
-  };
-
   exports.recupererActionsAchetees = async (req, res) => {
     try {
       const idPortefeuille = req.params.id;
@@ -129,7 +106,6 @@ exports.vendreAction = async (req, res) => {
       });
     }
   };
-
   exports.recupererActionsParPortefeuille = async (req, res) => {
     try {
       const idPortefeuille = req.params.id;
@@ -149,7 +125,7 @@ exports.vendreAction = async (req, res) => {
       });
     }
   };
-async function calculerValeurTotalAction(idPortefeuille) {
+  async function calculerValeurTotalAction(idPortefeuille) {
     try {
       // Récupérer les actions du portefeuille
       const actions = await HistoriquePortefeuille.find({ idPortefeuille: idPortefeuille }).populate('idEntreprise');
@@ -164,7 +140,6 @@ async function calculerValeurTotalAction(idPortefeuille) {
       console.log(error);
     }
   }
-
   exports.calculerPourcentageParAction = async (req, res) => {
     try {
       const { idPortefeuille, liquidites, nombreAction, prixInvestissement } = req.body;
@@ -181,40 +156,6 @@ async function calculerValeurTotalAction(idPortefeuille) {
       });
     }
   };
-
-  exports.calculerPourcentageLiquidite = async (req, res) => {
-    try {
-      const { liquidites, soldeTotal } = req.body;
-      const pourcentage = ((liquidites / soldeTotal) * 100).toFixed(2);
-      res.status(200).json({ pourcentage });
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({
-        message: "Erreur lors du calcul du pourcentage de liquidité.",
-        error,
-      });
-    }
-  };
-/**async function calculerPerformance(idEntreprise, idPortefeuille, prixVente) {
-  // Trouver l'historique des opérations d'achat/vente pour cette action
-  const historique = await HistoriquePortefeuille.find({
-    idEntreprise: idEntreprise,
-    idPortefeuille: idPortefeuille,
-    typeInvestissement: { $in: ['A', 'V'] } // A pour achat, V pour vente
-  }).sort({ dateOperation: 'asc' });
-
-  // Calculer la performance avant la vente
-  const dernierAchat = historique.filter(op => op.typeInvestissement === 'A').pop();
-  const performanceAvantVente = dernierAchat ? ((prixActuel - dernierAchat.prixInvestissement) * 10) : 0;
-
-  // Calculer la performance après la vente
-  const performanceApresVente = ((prixVente - dernierAchat.prixInvestissement) * 100);
-
-  return { performanceAvantVente, performanceApresVente };
-}
- */  
-  
-
 exports.calculerGainPerte = async (req, res) => {
     try {
       const { prixAchat, prixActuel, nombreActions } = req.body;

@@ -22,10 +22,10 @@ export class HistoriquePortefeuilleService {
   { 
     return this.http.get(`${this.baseUrl}/actionsVendues/${id}`);
   }
-  supprimerHistorique(id:any):Observable<any>
+  /*supprimerHistorique(id:any):Observable<any>
   {
     return this.http.delete(`${this.baseUrl}/${id}`);
-  }
+  }*/
 
   calculerGainPerte(data:FormData):Observable<any>
   {
@@ -39,10 +39,10 @@ export class HistoriquePortefeuilleService {
   {
     return this.http.post(`${this.baseUrl}/pourcentageParAction`,data);
   }
-  poucentageLiquidites(data:FormData):Observable<any>
+  /*poucentageLiquidites(data:FormData):Observable<any>
   { console.log('service data',data)
     return this.http.post(`${this.baseUrl}/pourcentageLiquidite`,data);
-  }
+  }*/
   acheterAction(data:FormData):Observable<any>
   {
     return this.http.post(`${this.baseUrl}/acheter`,data);

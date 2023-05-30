@@ -20,7 +20,6 @@ export class PortefeuilleComponent {
    private activatedRoute:ActivatedRoute,
    private portefeuilleService:PortefeuilleService,
    private formBuilder:FormBuilder,
-   private entrepriseService:EntrepriseService,
    private actionService:ActionService,
    private convertisseurService:ConvertisseurService,
    private indiceService:IndiceService
@@ -277,12 +276,9 @@ convertir(from:string,to:string)
                                 newAction['prixActuel']=result.convertedAmount;
                                 this.valeurPortefeuilleActuel+=parseFloat((result.convertedAmount*this.actionsDistinct[i].nombreAction).toFixed(2));
                                 console.log('valeur A',this.valeurPortefeuilleActuel)
-                                if(i==(this.actionsDistinct.length-1))
-                                { console.log('i',i)
-                                  console.log('valeur initial',this.valeurPortefeuilleInitial)
-                                 console.log('valeaur actuel',this.valeurPortefeuilleActuel)
-                                  this.rendementPortefeuille=(((this.valeurPortefeuilleActuel-this.valeurPortefeuilleInitial)/this.valeurPortefeuilleInitial)*100).toFixed(2);
-                                }
+                                this.rendementPortefeuille=(((this.valeurPortefeuilleActuel-this.valeurPortefeuilleInitial)/this.valeurPortefeuilleInitial)*100).toFixed(2);
+
+                               
                               
                                 this.gainPerte=new FormGroup({
                                   prixAchat:new FormControl(newAction['prixInvestissement']),
