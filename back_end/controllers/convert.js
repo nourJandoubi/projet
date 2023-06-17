@@ -1,4 +1,5 @@
-
+// Utilisez une importation dynamique (import()) pour importer node-fetch
+//const fetch = require('node-fetch');
 let apiKeys = [
     'aa20ce0acfmsh820fa73966e1f49p104bc3jsnad947b7a8b4a',
     'bf45f459fdmshbf4fb978769e251p1f6e9cjsn46f3034e1063',
@@ -21,6 +22,7 @@ let apiKeys = [
   exports.getCurrencies = async (req, res) => {
     const url = 'https://currency-converter18.p.rapidapi.com/api/v1/supportedCurrencies';
     let apiKey = getCurrentApiKey(); // Utilisez let pour permettre la réassignation de la clé API actuelle
+  
     const options = {
       method: 'GET',
       headers: {
@@ -37,6 +39,7 @@ let apiKeys = [
       if (resultJson && resultJson.message) {
         switchToNextApiKey();
   
+        // Retry the request with the next API key
         apiKey = getCurrentApiKey();
         options.headers['X-RapidAPI-Key'] = apiKey;
         try {
@@ -61,6 +64,33 @@ let apiKeys = [
       res.status(500).json({ error: 'Une erreur s\'est produite lors de la récupération des devises.' });
     }
   };
+  
+  
+/*exports.convertir=async (req,res)=>{
+    const { default: fetch } = await import('node-fetch');
+
+    const { amount, from, to } = req.body;
+    console.log('convert body',req.body)
+    const options = {
+        method: 'GET',
+        headers: {
+          'X-RapidAPI-Key': 'fa055f58ebmshac1e8ef01cb63ebp151717jsn7315f36c98a6',
+          'X-RapidAPI-Host': 'currency-converter18.p.rapidapi.com'
+        }};
+    const url = `https://currency-converter18.p.rapidapi.com/api/v1/convert?from=${from}&to=${to}&amount=${amount}`;
+    try {
+        const response = await fetch(url, options);
+        const data = await response.json();
+        console.log('data',data)
+        const convertedAmount = data.result.convertedAmount.toFixed(2);
+        console.log('resultat',convertedAmount)
+        res.json({ convertedAmount });
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Une erreur s\'est produite lors de la conversion.' });
+      }
+}*/
+
   
   exports.convertir = async (req, res) => {
     const { default: fetch } = await import('node-fetch');
@@ -87,6 +117,7 @@ let apiKeys = [
       } else {
         switchToNextApiKey();
   
+        // Retry the request with the next API key
         apiKey = getCurrentApiKey();
         options.headers['X-RapidAPI-Key'] = apiKey;
     
@@ -109,7 +140,9 @@ let apiKeys = [
       
     } catch (error) {
       console.error(error);
-      res.status(500).json({ error: 'Une erreur s\'est produite lors de la conversion.' });   
+      res.status(500).json({ error: 'Une erreur s\'est produite lors de la conversion.' });
+  
+      
     }
   };
   
