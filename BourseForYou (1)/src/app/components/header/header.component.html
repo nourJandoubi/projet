@@ -1,0 +1,87 @@
+<!-- ======= Header ======= -->
+<header id="header" class="fixed-top">
+  <div class="d-flex align-items-center justify-content-lg-between">
+    <!-- Uncomment below if you prefer to use an image logo -->
+    <!-- <a href="index.html" class="logo me-auto me-lg-0"><img src="../../../assets/img/logo.png" alt="" class="img-fluid"></a>-->
+
+    <nav id="navbar" class="navbar order-last order-lg-0">
+      <ul *ngIf="!admin">
+        <li><a class="nav-link scrollto " routerLinkActive="active" routerLink="/accueil">Accueil</a></li>
+        <li><a class="nav-link scrollto "routerLinkActive="active" routerLink="/home">Action</a></li>
+        <li><a class="nav-link scrollto"routerLinkActive="active" routerLink="/devise">Devise</a></li>
+        <li><a class="nav-link scrollto" routerLinkActive="active" routerLink="/actualite">Actualités</a></li>
+        <li><a class="nav-link scrollto" routerLinkActive="active" routerLink="/indice">Indice</a></li>
+
+        <li class="dropdown " *ngIf="!admin">
+          <a routerLinkActive="active"  class="nav-link scrollto">
+            <span>Portefeuille virtuel</span> 
+            <i class="bi bi-chevron-down"></i>
+          </a>
+          <ul>
+            <li><a class="nav-link scrollto" routerLink="/listePortefeuille">Liste Portefeuilles</a></li>
+            <li><a class="nav-link scrollto" routerLink="/ajouterPortefeuille">Ajouter Portefeuille</a></li>
+          </ul>
+        </li>
+      </ul>
+      <ul *ngIf="admin">
+        <li><a class="nav-link scrollto " routerLinkActive="active" routerLink="/admin">Accueil</a></li>    
+      </ul>
+      <ul class="me-3">
+        <!--<li><a class="nav-link scrollto active"  routerLink="/home">Home</a></li>-->
+        <li><a class="nav-link scrollto" routerLinkActive="active" routerLink="/aide">Aide</a></li>
+
+        <li class="dropdown " *ngIf="!admin">
+          <a routerLink="" class="nav-link scrollto">
+            <span>A propos</span> 
+            <i class="bi bi-chevron-down"></i>
+          </a>
+          <ul>
+            <li><a class="nav-link scrollto" href="#about">A propos de nous</a></li>
+            <li><a class="nav-link scrollto" href="#services">Services</a></li>
+            <li><a class="nav-link scrollto" href="#team">Équipe</a></li>
+            <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
+          </ul>
+          </li>          
+          <li class="dropdown ">
+          <a routerLink="" class="nav-link scrollto">
+            <span>Compte</span> 
+            <i class="bi bi-chevron-down"></i>
+          </a>
+          <ul *ngIf="!admin">
+            <li><a routerLink="/signUp" class="nav-link scrollto">Inscription</a></li>
+            <li><a routerLink="/signIn" class="nav-link scrollto">Connexion</a></li>
+          </ul>
+          <ul *ngIf="admin">
+            <li><a (click)="deconnexion()" routerLink="" class="nav-link scrollto">Déconnexion</a></li>
+
+          </ul>
+          <ul *ngIf="investor">
+            <li><a routerLink="/profile" class="nav-link scrollto">Profil</a></li>
+
+            <li><a (click)="deconnexion()" routerLink="" class="nav-link scrollto">Déconnexion</a></li>
+
+          </ul>
+        </li>
+      </ul>
+    </nav>
+    <!-- .navbar -->
+  </div>
+</header>
+<!-- End Header -->
+
+<!-- ======= Hero Section ======= -->
+<section *ngIf="admin"  id="hero" class="d-flex align-items-center justify-content-center">
+  <div class="container" data-aos="fade-up">
+    <div class="row justify-content-center" data-aos="fade-up" data-aos-delay="150">
+      <div class="col-xl-6 col-lg-8">
+        <h1>Bourse Pour Toi <span>.</span></h1>
+        <h2>Le succès en investissement ne vient pas de la chance, mais de la perspicacité, du travail acharné et de la pensée claire</h2>
+      </div>
+    </div>
+    <h2 class="mt-5"><strong>Administarteur</strong></h2>
+
+   
+  </div>
+</section>
+<!-- End Hero -->
+

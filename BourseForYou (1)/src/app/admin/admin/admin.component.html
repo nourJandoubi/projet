@@ -1,0 +1,143 @@
+<app-header></app-header>
+  <main class="main-content  mt-0">
+<div class="row">
+    <div class="col-1" >      
+    </div>
+    <div class="col-10">
+        <div class="row mt-4 ">
+            <div class="col-lg-4 col-6">
+                <div class="small-box " style="background-color: #5499C7  ;">
+                    <div class="row">
+                        <div class="  col-8 inner pt-3 ps-3 ms-3">
+                            <h2>{{totalVisitors}}</h2>
+                            <p>Visiteurs</p>
+                        </div>
+                        <div class="  col-3 icons">
+                           <i class="pi pi-users icon-center"></i>
+                        </div>
+                      </div>                      
+                      <a class="small-box-footer" routerLink="/visitor" icon="pi pi-external-link" >
+                        Plus d'information <fa-icon [icon]="faDirections"></fa-icon>
+                      </a>                      
+                       <!--<span class="small-box-footer" (click)="showDialog('visiteur')" icon="pi pi-external-link" >Plus d'information <fa-icon [icon]="faDirections"></fa-icon></span>
+                       <p-dialog header="Header" [style]="{width:'80vw',height:'500px'}" [(visible)]="visibleV" >
+                              <select pInputText name="type" id="type"  [(ngModel)]="selectedOption" (ngModelChange)="onOptionSelected()">
+                                <option value="jour">jour</option>
+                                <option value="mois">Mois</option>
+                                <option value="annee">Annee</option>
+                              </select>
+                               <div *ngIf="showChartDay" class="mt-2">
+                                <input type="date" pInputText name="date" max="{{ today | date: 'yyyy-MM-dd' }}" [(ngModel)]="day" (change)="changeDate('visitor')">
+                                <h3 *ngIf="totalTextDayV"class="mt-2">Total Visiteurs : {{totalDayV}}</h3>
+                               </div>
+                               <div *ngIf="showChartMonth" class="mt-2">
+                                <select name="year"pInputText [(ngModel)]="selectedYearVM" (ngModelChange)="updateDays('visitor')">
+                                    <option *ngFor="let year of years" [value]="year">{{year}}</option>
+                                </select>
+                                  <select name="month"pInputText [(ngModel)]="selectedMonthVM" (ngModelChange)="updateDays('visitor')" class="ms-2">
+                                    <option *ngFor="let month of months" [value]="month.value">{{month.name}}</option>
+                                  </select>
+                                  <h3 *ngIf="totalTextMonthV"class="mt-2">Total Visiteurs : {{totalMonthV}}</h3>                             
+                               </div>
+                               <div *ngIf="showChartYear" class="mt-2">
+                                <select name="year"pInputText [(ngModel)]="selectedYearVY" (ngModelChange)="updateYear('visitor')">
+                                    <option *ngFor="let year of years" [value]="year">{{year}}</option>
+                                </select>                               
+                                <h3 *ngIf="totalTextYearV"class="mt-2">Total Visiteurs : {{totalYearV}}</h3>
+                            </div>
+                       </p-dialog>-->
+                </div>
+            </div>
+            <div class="col-lg-4 col-6">
+                <div class="small-box  " style="background-color: #F5CBA7;">
+                   <div class="row">
+                     <div class="  col-8 inner pt-3 ps-3 ms-3">
+                         <h2>{{totalUsers}}</h2>
+                         <p>Investisseurs</p>
+                     </div>
+                     <div class="  col-3 icons">
+                        <i class="fas fa-user-check icon-center"></i>
+                     </div>
+                   </div>
+                   <a class="small-box-footer" routerLink="/investor" icon="pi pi-external-link" >
+                    Plus d'information <fa-icon [icon]="faDirections"></fa-icon>
+                   </a>
+                   <!--<span class="small-box-footer" (click)="showDialog('investisseur')" icon="pi pi-external-link" >Plus d'information <fa-icon [icon]="faDirections"></fa-icon></span>
+                   <p-dialog header="Header" [style]="{width:'50vw',height:'300px'}" [(visible)]="visibleU" [style]="{width: '50vw'}">
+                    <select pInputText name="type" id="type"  [(ngModel)]="selectedOption" (ngModelChange)="onOptionSelected()">
+                            <option value="jour">jour</option>
+                            <option value="mois">Mois</option>
+                            <option value="annee">Annee</option>
+                          </select>
+                           <div *ngIf="showChartDay" class="mt-2">
+                            <input type="date" pInputText name="date" max="{{ today | date: 'yyyy-MM-dd' }}" [(ngModel)]="day" (change)="changeDate('user')">
+                            <h3 *ngIf="totalTextDayU"class="mt-2">Total Investisseurs : {{totalDayU}}</h3>
+                           </div>
+                           <div *ngIf="showChartMonth" class="mt-2">
+                            <select name="year"pInputText [(ngModel)]="selectedYearUM" (ngModelChange)="updateDays('user')">
+                                <option *ngFor="let year of years" [value]="year">{{year}}</option>
+                            </select>
+                              <select name="month"pInputText [(ngModel)]="selectedMonthUM" (ngModelChange)="updateDays('user')" class="ms-2">
+                                <option *ngFor="let month of months" [value]="month.value">{{month.name}}</option>
+                              </select>
+                              <h3 *ngIf="totalTextMonthU"class="mt-2">Total Investisseurs : {{totalMonthU}}</h3>
+                            <p-chart  type="bar" [data]="basicData" [options]="basicOptions"></p-chart>
+                           </div>
+                           <div *ngIf="showChartYear" class="mt-2">
+                            <select name="year"pInputText [(ngModel)]="selectedYearUY" (ngModelChange)="updateYear('user')">
+                                <option *ngFor="let year of years" [value]="year">{{year}}</option>
+                            </select>                               
+                            <h3 *ngIf="totalTextYearU"class="mt-2">Total Investisseurs : {{totalYearU}}</h3>
+                        </div>
+                   </p-dialog>-->
+                </div>
+            </div>
+            <div class="col-lg-4 col-6">
+                <div class="small-box " style="background-color: #A3E4D7;">
+                    <div class="row">
+                        <div class="  col-8 inner pt-3 ps-3 ms-3">
+                            <h2>{{totalCountries}}</h2>
+                            <p>Pays</p>
+                        </div>
+                        <div class="  col-3 icons">
+                            <i class="pi pi-map-marker icon-center"></i>                        
+                        </div>       
+                        </div>
+                        <a class="small-box-footer" routerLink="/country" icon="pi pi-external-link" >
+                            Plus d'information <fa-icon [icon]="faDirections"></fa-icon>
+                        </a>
+                </div>
+            </div>
+            <!--<div class=" flex justify-content-center col-lg-3 mb-lg-0 mb-4 ms-2"  >
+                <p-card header="Title" style="background-color: aquamarine;" >
+                    <p class="m-0" style="background-color: aqua;">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate neque
+                        quas!
+                    </p>
+                </p-card>
+            </div>
+            <div class="col-1" ></div>
+
+            <div class=" flex justify-content-center col-lg-3 mb-lg-0 mb-4 ms-2 " >
+                <p-card header="Title">
+                    <p class="m-0">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate neque
+                        quas!
+                    </p>
+                </p-card>
+            </div>
+            <div class="col-1" ></div>
+
+            <div class="flex justify-content-center col-lg-3 mb-lg-0 mb-4 ms-2">
+                <p-card header="Title">
+                    <p class="m-0">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate neque
+                        quas!
+                    </p>
+                </p-card>
+            </div>-->
+        </div>
+    </div>
+    <div class="col-1" ></div>
+</div>
+</main>

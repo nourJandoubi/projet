@@ -1,0 +1,102 @@
+<app-header></app-header>
+<main class="main-content  mt-4" *ngIf="listeVide">
+    
+    <section id="cta" class="cta">
+        <div class="container" data-aos="zoom-in">
+  
+          <div class="text-center">
+            <h3>Vous n'avez actuellement aucun portefeuille</h3>
+            <p>
+                Un portefeuille virtuel est un excellent outil pour les investisseurs qui cherchent à s'entraîner à investir sans risquer de perdre de l'argent réel. Vous pouvez utiliser un portefeuille virtuel pour tester différentes stratégies d'investissement, explorer différents marchés et titres, et apprendre les tenants et aboutissants de l'investissement en bourse.
+                
+            </p>
+            <p>Si vous êtes nouveau dans le monde de l'investissement, un portefeuille virtuel vous aidera à vous familiariser avec les termes et les concepts financiers, ainsi qu'à vous apprendre à prendre des décisions d'investissement éclairées. De plus, en utilisant un portefeuille virtuel, vous pouvez vous entraîner à gérer les risques et à équilibrer votre portefeuille pour maximiser votre retour sur investissement.
+                
+                Si vous voulez créer un portefeuille virtuel, vous pouvez cliquer sur le bouton "Ajouter portefeuille" et remplir les informations requises.</p>
+            <a class="cta-btn" routerLink="/ajouterPortefeuille">Ajouter Portefeuille</a>
+          </div>
+  
+        </div>
+      </section>
+</main>
+<div *ngIf="loading && isLogedIn && !listeVide" class="d-flex justify-content-between loader">
+  <app-loader></app-loader>
+</div>
+<main class="main-content  mt-4" *ngIf="!isLogedIn ">
+    
+
+<section id="cta" class="cta" >
+  <div class="container" data-aos="zoom-in">
+
+    <div class="text-center">
+
+      <h3> Bienvenue sur notre plateforme !</h3>
+      <p>
+        En vous inscrivant en tant qu'investisseur, vous aurez accès à des outils puissants vous permettant de suivre et d'analyser vos investissements, ainsi que de gérer votre portefeuille de manière éclairée.           
+      </p>
+      <p>      
+        L'inscription est simple et gratuite, ne manquez pas cette opportunité et inscrivez-vous dès maintenant pour profiter de tous ces avantages.
+      </p>
+      <a class="cta-btn" routerLink="/signUp">Inscription</a>
+    </div>
+
+  </div>
+</section>
+</main>
+
+
+<main class="main-content  mt-5  ms-5 me-5" *ngIf="!listeVide && isLogedIn" >
+    <div class="mt-5 "  data-aos="zoom-in" *ngIf="!loading">
+      <br>
+      <div>
+         <table class="table">
+             <thead>
+               <tr>
+                 <th scope="col">#</th>
+                 <th scope="col">Portefuille</th>
+                 <th scope="col">Création</th>
+                 <th scope="col">Liquidites</th>
+                 <th scope="col">Prix Actions Achetées</th>
+                 <th></th>
+        
+               </tr>
+             </thead>
+             <tbody>
+               <tr *ngFor="let p of listePortfeuille; index as index">
+                 <th scope="row">{{index+1}}</th>
+                 <td><a [routerLink]="['/portefeuille',p._id]">{{p.nomPortefeuille}}</a></td>
+                 <td>{{p.dateCreation | date:'dd/MM/yyyy'}}</td>
+                 <td>{{p.liquidites}}</td>
+                 <td>{{p.prixTitres}}</td>
+                 <td>
+                     <button class="btn btn-danger btn-sm" (click)="showDialog(p._id)"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                     <button [routerLink]="['/modifierPortefeuille',p._id]" class="btn btn-success btn-sm ms-2" ><i class="fa fa-pen" aria-hidden="true"></i></button>
+        
+                 </td>
+        
+               </tr>
+             
+             </tbody>
+             </table>
+       </div>
+            
+<div class="dialog justify-content-center">
+    <p-dialog header="Supprimer Portefuille" [(visible)]="visible" [style]="{width: '50vw'}">
+      <div class="card border-0 justify-content-center">
+        <div class="card-header pb-0 bg-white border-0 ">
+           <p class="font-weight-bold mb-2"> Êtes-vous sûr de vouloir supprimer ceci ?</p>
+        </div>
+        <div class="card-body px-sm-4 mb-2 pt-1 pb-0"> 
+            <div class="row justify-content-end no-gutters">
+
+              <div class="col-auto">
+                <button type="button" class="btn btn-danger px-4" (click)="supprimerPortefeuille(idP)">Supprimer</button>
+              </div>
+            </div>
+        </div>
+    </div>  
+    </p-dialog>
+</div>
+            
+    </div>
+</main>

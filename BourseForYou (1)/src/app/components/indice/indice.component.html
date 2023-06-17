@@ -1,0 +1,142 @@
+<app-header ></app-header>
+
+<div class="row mt-5 me-0">
+    <div class="col-md-10 offset-md-1 mt-5 ">
+      <div class="mt-3">
+        <div *ngIf="loading" class="d-flex justify-content-between loader">
+          <app-loader></app-loader>
+        </div> 
+        <div *ngIf="!loading" class="card ms-2  mt-2"  data-aos="zoom-in">
+        
+          <!-- abcd partie -->
+          <div class="pb-0 p-3 d-flex justify-content-between ">
+            <button class="btnAlpha" (click)="All()">
+              <strong>Tous</strong>
+            </button>
+            <button *ngFor="let i of alpha" class="btnAlpha" (click)="filterIndiceByLetter(i)">
+              {{ i }}
+            </button>
+          </div> 
+          <!-- fin abcd partie -->
+        
+        <div class="tab-content" >
+            <div class="tab-pane fade show active">
+              <div class="table-responsive mt-2">
+                <table class="table align-items-center align-middle table-hover">
+                  <thead>
+                    <tr>
+                      
+                      <th scope="col">Indice</th>
+                      <th scope="col">Variation</th>
+                      <th scope="col">Variation en Pourcentage</th>
+                      <th scope="col">Dernier prix </th>
+                      <th scope="col">
+                        Haut
+                        <i class="fa fa-angle-up text-success"></i>
+                      </th>
+                      <th scope="col">
+                        Bas
+                        <i class="fa fa-angle-down text-danger"></i>
+                      </th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let t of indicesFiltred" >
+                     <ng-container >
+                        <td class="w-30">
+                          <div class="d-flex px-2 py-1 align-items-center">
+                            {{t.name}}
+                          </div>
+                        </td>
+                        <td class="w-30">
+                          <div class="align-items-center" [innerHTML]="t.change | highlightSign" >
+                          </div>
+                        </td>
+                        <td class="w-30">
+                          <div class="align-items-center" [innerHTML]="t.changePercentage | highlightSign" >
+                          </div>
+                        </td>
+                        <td class="w-30">
+                          <div class="align-items-center">
+                            {{ t.last }}
+                          </div>
+                        </td> 
+                        <td class="w-30">
+                          <div class="align-items-center">
+                            {{ t.high }}
+                          </div>
+                        </td>
+                        <td class="w-30">
+                          <div class="align-items-center">
+                            {{ t.low }}
+                          </div>
+                        </td>
+                        <td>
+                          <button class="btn btn-danger btn-sm" (click)="modal(t.name)">
+                            <i class="fa fa-plus" aria-hidden="true"></i>
+                          </button>
+
+                        </td>
+                      </ng-container>
+                    </tr>
+                  </tbody>
+                </table>
+            <mat-paginator
+              [pageSize]="pageSize"
+              [pageIndex]="pageIndex"
+              [length]="length"
+              (page)="onPageChange($event)">
+            </mat-paginator>   
+            </div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+  <p-dialog header=" Choisir Portefeuille" [(visible)]="visible">
+    <div>
+     
+      <div *ngIf="isLogedIn">
+        <div class="text-center"*ngIf="listeVide">
+          <h3>Vous n'avez actuellement aucun portefeuille</h3>
+          <p>
+              Un portefeuille virtuel est un excellent outil pour les investisseurs qui cherchent à s'entraîner à investir sans risquer de perdre de l'argent réel. Vous pouvez utiliser un portefeuille virtuel pour tester différentes stratégies d'investissement, explorer différents marchés et titres, et apprendre les tenants et aboutissants de l'investissement en bourse.
+              
+          </p>
+          <p>Si vous êtes nouveau dans le monde de l'investissement, un portefeuille virtuel vous aidera à vous familiariser avec les termes et les concepts financiers, ainsi qu'à vous apprendre à prendre des décisions d'investissement éclairées. De plus, en utilisant un portefeuille virtuel, vous pouvez vous entraîner à gérer les risques et à équilibrer votre portefeuille pour maximiser votre retour sur investissement.
+              
+              Si vous voulez créer un portefeuille virtuel, vous pouvez cliquer sur le bouton "Ajouter portefeuille" et remplir les informations requises.</p>
+          <a class="cta-btn" routerLink="/ajouterPortefeuille">Ajouter Portefeuille</a>
+        </div>
+        <div *ngIf="!listeVide && isLogedIn">
+          Choisir dans la liste ci-dessous sur quel portfeuille vous souhaiter ajouter cette valeur
+  
+           <ul>
+            <li *ngFor="let portefeuille of listePortfeuille">
+                   <a href="javascript:void(0)" style="cursor: pointer; text-decoration: underline;" (click)="selectionnerIndice(portefeuille._id)"  >
+                    {{portefeuille.nomPortefeuille}}
+                   </a>
+  
+            </li>
+           </ul>
+        </div>
+      </div>
+      <div class="" *ngIf="!isLogedIn">
+        <div class="text-center">
+  
+          <h3> Bienvenue sur notre plateforme !</h3>
+          <p>
+            En vous inscrivant en tant qu'investisseur, vous aurez accès à des outils puissants vous permettant de suivre et d'analyser vos investissements, ainsi que de gérer votre portefeuille de manière éclairée.           
+          </p>
+          <p>      
+            L'inscription est simple et gratuite, ne manquez pas cette opportunité et inscrivez-vous dès maintenant pour profiter de tous ces avantages.
+          </p>
+          <a class="cta-btn" routerLink="/signUp">Inscription</a>
+        </div>          
+      </div>
+      
+    </div>
+  </p-dialog>

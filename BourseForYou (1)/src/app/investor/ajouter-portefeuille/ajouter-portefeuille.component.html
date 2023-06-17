@@ -1,0 +1,99 @@
+<app-header></app-header>
+<main class="main-content  mt-5" *ngIf="!isLogedIn">
+    
+  <!-- ======= Cta Section ======= -->
+<section id="cta" class="cta mt-2">
+  <div class="container" data-aos="zoom-in">
+
+    <div class="text-center">
+
+      <h3> Bienvenue sur notre plateforme !</h3>
+      <p>
+        En vous inscrivant en tant qu'investisseur, vous aurez accès à des outils puissants vous permettant de suivre et d'analyser vos investissements, ainsi que de gérer votre portefeuille de manière éclairée.           
+      </p>
+      <p>      
+        L'inscription est simple et gratuite, ne manquez pas cette opportunité et inscrivez-vous dès maintenant pour profiter de tous ces avantages.
+      </p>
+      <a class="cta-btn" routerLink="/signUp">Inscription</a>
+    </div>
+
+  </div>
+</section><!-- End Cta Section -->
+</main>
+<main class="main-content mt-5" *ngIf="isLogedIn">
+  <div  data-aos="zoom-in" class="mt-5">
+    <div class="row mt-5 mt-lg-n11 mt-md-n12 mt-n12 justify-content-center">
+      <div class="col-xl-9 mt-5 col-lg-9 col-md-11 mx-auto">
+        <div class="card z-index-0">
+              <div class=" card-header text-center p-3">
+                <div class="h-100">
+                  <h5 class="mb-1">
+                    Créer un portefeuille virtuel
+                  </h5>
+                  <p class="mb-0 font-weight-bold text-sm">
+                    Indiquez les valeurs de base de votre portefeuille             
+                     </p>
+                </div>
+              </div>
+              <div class="row mt-1 pt-1">
+                <div class="col-md-3"></div>
+              <div class="col-md-6">
+                <form [formGroup]="portefeuilleForm">
+                <div class="form-group">
+                  <label for="example-text-input" class="form-control-label">Nom Portefeuille<span class="text-danger">*</span></label>
+                  <input class="form-control" type="text"  formControlName="nomPortefeuille" name="nomPortefeuille">
+                  <div *ngIf="nomPortefeuille.invalid  && nomPortefeuille.touched"   
+                            class="mb-3 alert alert-danger alert-dismissible fade show" 
+                            role="alert">
+                          <div >Le nom potefeuille est obligatoire.</div>
+                          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                          </button>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="example-text-input" class="form-control-label">Montant du portefeuille €<span class="text-danger">*</span></label>
+                  <input class="form-control" type="number"  formControlName="soldeTotal"name="soldeTotal">
+                  <div *ngIf="soldeTotal.invalid  && soldeTotal.touched"   
+                  class="mb-3 alert alert-danger alert-dismissible fade show" 
+                  role="alert">
+                <div >Le montant est obligatoire.</div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                </button>
+               </div>
+                </div>
+                <div class="form-group">
+                  <label for="example-text-input" class="form-control-label">Indice de référence<span class="text-danger">*</span></label>
+                  <select class="form-select" aria-label="Default select example" formControlName="indices"  [(ngModel)]="selectedIndice" name="indices" >
+                    
+                    <option *ngFor="let option of listeIndices" [value]="option.name">{{ option.name }}</option>
+
+                  </select>
+                  <div *ngIf="indices.invalid  && indices.touched"   
+                            class="mb-3 alert alert-danger alert-dismissible fade show" 
+                            role="alert">
+                          <div >L'indice est obligatoire.</div>
+                          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                          </button>
+                  </div>
+                </div>
+                <button type="button" [disabled]="portefeuilleForm.invalid" class="btn bg-primary mb-3 mt-2 " (click)="ajouterPortefeuille()">Ajouter Portefeuille</button>
+                <div *ngIf="errorAjout"   
+                class="mb-3 alert alert-danger alert-dismissible fade show" 
+                role="alert">               
+              <div >Le nom de portfeuille exsite déja !.</div>                        
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+              </button>
+            </div>
+                
+              </form>
+              </div>              
+            </div>
+            </div>
+        
+      </div>
+    </div>
+  </div>
+</main>
+
+
+

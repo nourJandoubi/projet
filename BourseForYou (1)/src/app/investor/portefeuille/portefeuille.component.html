@@ -1,0 +1,172 @@
+<app-header class="mb-5"></app-header>
+<br>
+<header id="header" class="mt-5">
+  <div class=" d-flex align-items-center justify-content-lg-center  ">
+    <nav id="navbar" class="navbar justify-content-lg-center order-last order-lg-0 ">
+      <ul class="justify-content-lg-center">
+        <li><a class="nav-link scrollto " routerLinkActive="active" [routerLink]="['/portefeuille',idPortefeuille]">Portefeuille</a></li>
+        <li><a class="nav-link scrollto "routerLinkActive="active" [routerLink]="['/historique',idPortefeuille]">Historique</a></li>       
+      </ul>
+    </nav>
+  </div>
+</header>
+<div *ngIf="loading" class="d-flex justify-content-between loader">
+  <app-loader></app-loader>
+</div>
+<main class="mt-4" *ngIf="!loading && portefeuilleVide">  
+    <section id="cta" class="cta">
+      <div class="container" data-aos="zoom-in">
+        <div class="text-center">
+          <h3>Aucune opération n'a été effectuée pour ce portefeuille.</h3>
+          <p>
+              Pour améliorer votre portefeuille, vous pouvez consulter la liste des actions disponibles sur le marché et investir dans celles qui correspondent à vos objectifs de placement.            
+          </p>      
+          <a class="cta-btn" routerLink="/home">Consulter Liste Actions</a>
+        </div>
+      </div>
+    </section>
+</main>
+<main class="main-content ms-4 me-4  mt-4 mb-5 " *ngIf="!loading && !portefeuilleVide">
+    <div  data-aos="zoom-in">
+      <div>
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a routerLink="/listePortefeuille">Liste Portefeuilles</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{portefeuille.nomPortefeuille}}</li>
+          </ol>
+        </nav>
+        <table class="table table-striped ">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Entreprise</th>
+              <th scope="col">Bourse</th>
+              <th scope="col">Secteur</th>
+              <th scope="col">Quantité</th>
+              <th scope="col">Prix Achat</th>
+              <th scope="col">Prix Actuel</th>
+              <th scope="col">Valeur Total</th>
+              <th scope="col">Gain/Perte</th>
+              <th scope="col">Gain/Perte (%)</th>
+              <th>
+                <select class="form-select" [(ngModel)]="selectedOption" (change)="convertir('EUR',selectedOption)">
+                  <option *ngFor="let option of currencies" [value]="option.symbol">{{ option.symbol }}</option>
+                </select>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let a of actions2; index as index">
+              <th scope="row">{{index+1}}</th>
+              <td><a [routerLink]="['/entreprise',a.idEntreprise]">{{a.nomEntreprise}}</a></td>
+              <td>{{a.bourse}}</td>
+              <td>{{a.secteur}}</td>
+              <td>{{a.nombreAction}}</td>
+              <td>{{a.prixInvestissement}}</td>
+              <td>{{a.prixActuel}}</td>
+              <td>{{a.capital}}</td>
+              <td [innerHTML]="a.gain | highlightSign"></td>
+              <td [innerHTML]="a.gainP | highlightSign"></td>
+              <td><button class="btn btn-danger btn-sm"(click)="showDialog(a)"  label="Show" >Vendre</button></td>
+            </tr>
+          </tbody>
+        </table>
+        <div></div>
+        <br>
+        <table>
+          <tbody>
+            <tr>
+              <td>
+                      <table>
+                        <tr>
+                          <th>Indice</th>
+                          <th>Prix</th>
+                          <th>Variation</th>
+                          <th>Variation %</th>
+                          <th></th>
+                        </tr>
+                        <tr *ngFor="let indice of listeindices">
+                          <td>{{indice.name}}</td>
+                          <td>{{indice.last}}</td>
+                          <td [innerHTML]="indice.change | highlightSign"></td>
+                          <td [innerHTML]="indice.changePercentage | highlightSign">{{indice.changePercentage}}</td>
+                          <td>
+                            <button class="btn btn-danger btn-sm" (click)="supprimerIndice(idPortefeuille,indice.name)"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                          </td>
+                        </tr>
+                      </table>
+              </td>
+              <td>
+                <h4>Rendement Portefeuille <strong [innerHTML]="rendementPortefeuille | highlightSign"> </strong> %</h4>
+                <table class="table bg-light table-bordered"*ngIf="portefeuille">
+                  <tr>
+                      <th >Titres</th>
+                      <td>{{portefeuille.prixTitres}}</td>
+                  </tr>
+                  <tr>
+                      <th>Liquidités</th>
+                      <td>{{portefeuille.liquidites}}</td>
+                  </tr>           
+              </table>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <table>
+          <tbody>
+            <tr>
+              <td>
+                <div class="port_c1">
+                </div>
+              </td>
+              <td>
+                <div class="port_c2 me-2">
+                  <h4>Contenu du portefeuille</h4>
+                  <div class="chatpie ">
+                    <canvas id="myChart1" ></canvas>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>        
+      </div>     
+      <p-dialog header="Vendre" [(visible)]="visible" [style]="{width: '50vw'}" *ngIf="portefeuille">   
+          <form  [formGroup]="venteForm">
+            <div class="form-group row">
+            <div class="col-6">
+                <div>
+                    <label for="example-text-input" class="form-control-label">Quantité<span class="text-danger">*</span></label>
+                    <input class="form-control mt-1" type="number"  formControlName="nombreAction" name="nombreAction" (input)="calculerTotalVente()">
+                    <div *ngIf="quantityFilled" class="mt-1">Total: {{totalVente}} €</div>
+                    <label class="text-danger" *ngIf="quantiteErreur" >Qunatité d'action insuffisante *</label>
+                    <label class="text-danger" *ngIf="liquiditeInsuffisante" >Solde disponible insuffisant *</label>
+                    <label class="mt-1"> <strong>Solde disponible : </strong> {{portefeuille.liquidites}} € </label>           
+                </div>
+                <button type="button" class="btn bg-success mb-3 mt-2 " (click)="vendreAction()" [disabled]="formInvalid">Valider</button>
+              </div>
+          <div class="col-6">
+            <table class="table tableAction table-bordered table-striped">
+                <tr>
+                  <th>Prix Actuel</th>
+                  <td>{{prixVente}}</td>
+                </tr>
+                <tr>
+                  <th>Variation</th>
+                  <td [innerHTML]="variation | highlightSign"></td>
+                </tr>
+                <tr>
+                  <th>Plus haut</th>
+                  <td>{{haut}}</td>
+                </tr>
+                <tr>
+                  <th>Plus bas</th>
+                  <td>{{bas}}</td>
+                </tr>
+              </table>
+            </div>
+          </div>  
+        </form>                     
+      </p-dialog>
+    </div>
+</main>

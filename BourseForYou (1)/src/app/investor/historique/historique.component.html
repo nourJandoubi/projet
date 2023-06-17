@@ -1,0 +1,71 @@
+<app-header class="mb-5"></app-header>
+<br>
+<header id="header" class="mt-5">
+  <div class=" d-flex align-items-center justify-content-lg-center  ">
+    <nav id="navbar" class="navbar justify-content-lg-center order-last order-lg-0 ">
+      <ul class="justify-content-lg-center">
+        <li><a class="nav-link scrollto " routerLinkActive="active" [routerLink]="['/portefeuille',idPortefeuille]">Portefeuille</a></li>
+        <li><a class="nav-link scrollto "routerLinkActive="active" [routerLink]="['/historique',idPortefeuille]">Historique</a></li>       
+      </ul>
+    </nav>
+  </div>
+</header>
+<main class="main-content  mt-4" *ngIf="historique.length == 0">
+  <div *ngIf="loading" class="d-flex justify-content-between loader">
+    <app-loader></app-loader>
+  </div>
+    
+<section id="cta" class="cta" *ngIf="!loading">
+    <div class="container" data-aos="zoom-in">
+
+      <div class="text-center">
+        <h3>Aucune opération n'a été effectuée pour ce portefeuille.</h3>
+        <p>
+            Pour améliorer votre portefeuille, vous pouvez consulter la liste des actions disponibles sur le marché et investir dans celles qui correspondent à vos objectifs de placement.            
+        </p>
+            
+        <a class="cta-btn" routerLink="/home">Consulter Liste Actions</a>
+      </div>
+
+    </div>
+  </section>
+</main>
+
+<main   class=" main-content  mt-4" *ngIf="historique.length!=0 && !loading" data-aos="zoom-in">
+    <div #content class="content"  >
+     
+        <h1 class="ms-5">Opérations exécutées</h1>
+
+        <table class="table" >
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Opération</th>
+                <th scope="col">Entreprise</th>
+                <th scope="col">Prix </th>
+                <th scope="col">Quantité</th>
+                <th scope="col">Date Opération </th>
+                <th scope="col">Heure Opération</th>
+
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let h of pageSlice ; index as index">
+                <th scope="row">{{index+1}}</th>
+                <td>{{h.typeInvestissement}}</td>
+                <td><a [routerLink]="['/entreprise',h.idEntreprise]">{{h.nomEntreprise}}</a> </td>
+                <td>{{h.prixInvestissement}}</td>
+                <td>{{h.nombreAction}}</td>
+                <td>{{h.dateOperation | date:'dd/MM/yyyy'}}</td>
+                <td>{{ h.dateOperation | date:'HH:mm' }}</td>
+              </tr>
+            
+            </tbody>
+          </table>
+          <div class="d-flex align-items-center justify-content-center">
+            <p-paginator  [first]="first" [rows]="rows" [totalRecords]="historique.length" (onPageChange)="onPageChangeHistorique($event)" [showJumpToPageDropdown]="true" [showPageLinks]="false"></p-paginator>
+  
+          </div>
+    </div>
+
+</main>

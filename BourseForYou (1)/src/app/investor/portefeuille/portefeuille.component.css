@@ -1,0 +1,43 @@
+table {
+    width: 100%;
+    text-align: center; /* centre le texte horizontalement */
+    vertical-align: middle; /* centre le texte verticalement */
+  }
+  
+  table tbody tr th, table tbody tr td {
+    /*padding: 5px;*/
+       text-align: center; /* centre le texte horizontalement */
+    vertical-align: middle; /* centre le texte verticalement */
+  
+  }
+  .tableAction{
+    vertical-align:auto; /* centre le texte verticalement */
+  }
+  .port_c1{
+    float: left;
+    height: 150px;
+  }
+  .port_c2{
+    float: right;
+    height: 220px;
+    width: 650px;
+
+  }
+  .chartpie{
+    height: 180px;
+    width: 550px;
+  }
+  #myChart1{
+    margin-top: 0px;
+    height: 180px;
+
+  }
+  .loader{
+    margin-top: 5%;
+    padding-left: 48%;
+    margin-bottom: 10%;
+  }
+  .main-content {
+    margin-bottom: 20%;
+    min-height: 700px;
+  }

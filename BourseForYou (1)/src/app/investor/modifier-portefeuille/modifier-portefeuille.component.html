@@ -1,0 +1,69 @@
+<app-header></app-header>
+<main class="main-content  mt-4">
+
+<div  class="container" data-aos="zoom-in">
+<div  class="row mt-lg-n11 mt-md-n12 mt-n12 justify-content-center">
+   <div class="col-xl-9 col-lg-9 col-md-11 mx-auto">
+    <div class="card z-index-0">
+      <div class=" card-header text-center p-3">
+        <div class="h-100">
+          <h5 class="mb-1">
+            Modifier votre portefeuille virtuel
+          </h5>
+          <p class="mb-0 font-weight-bold text-sm">
+            Modifier les valeurs de base de votre portefeuille             
+             </p>
+        </div>
+      </div>
+      <div class="row mt-1 pt-1">
+          <div class="col-md-3"></div>
+        <div class="col-md-6">
+          <form [formGroup]="portefeuilleForm">
+          <div class="form-group">
+            <label for="example-text-input" class="form-control-label">Nom Portefeuille<span class="text-danger">*</span></label>
+            <input class="form-control" type="text" [value]="nomportefeuille" formControlName="nomPortefeuille" name="nomPortefeuille">
+            <div *ngIf="nomPortefeuille.invalid  && nomPortefeuille.touched"   
+            class="mb-3 alert alert-danger alert-dismissible fade show" 
+            role="alert">
+          <div >Le nom potefeuille est obligatoire.</div>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+          </button>
+      </div>
+          </div>
+          <div class="form-group">
+            <label for="example-text-input" class="form-control-label">Montant €<span class="text-danger">*</span></label>
+            <input class="form-control" type="number"  formControlName="soldeTotal" name="soldeTotal">
+            <span class="ms-2 text-sm text-success">Solde disponible {{solde}}€</span>
+          </div>
+          <div class="form-group">
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="selected" id="ajouter" formControlName="selected" [value]="true"  >
+                <label class="form-check-label" for="ajouter">Ajouter</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="selected" id="retirer" formControlName="selected"  [value]="false">
+                <label class="form-check-label" for="retirer">Retirer</label>  
+              </div>
+            </div>
+          <div class="form-group">
+            <label for="example-text-input" class="form-control-label">Indice de référence<span class="text-danger">*</span></label>
+            <select class="form-select" aria-label="Default select example" formControlName="indice"  [(ngModel)]="selectedIndice" name="indice" >
+              <option *ngFor="let option of indices" [value]="option.name">{{ option.name }}</option>
+            </select> 
+          </div>
+          <button type="button" class="btn bg-primary mb-3 mt-2" (click)="modifierPortefeuille()" [disabled]="portefeuilleForm.invalid">Modifier Portefeuille</button>
+          <div *ngIf="errorModif"   
+          class="mb-3 alert alert-danger alert-dismissible fade show" 
+          role="alert">               
+        <div >Le nom du portefeuille exsite déja !.</div>                        
+        <button type="button" class="btn-close " data-bs-dismiss="alert" aria-label="Close">
+        </button>
+      </div> 
+        </form> 
+        </div>   
+    </div>              
+     </div>
+   </div>
+  </div>
+</div>
+</main>

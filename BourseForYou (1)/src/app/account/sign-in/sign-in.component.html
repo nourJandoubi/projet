@@ -1,0 +1,90 @@
+  <app-header></app-header>
+  <main class="main-content mt-5">
+    <section>
+        <div class="container">
+          <div class="row mt-lg-n10 mt-md-n11 mt-n10 justify-content-center">
+            <div class="col-xl-8 col-lg-5 col-md-7 d-flex flex-column mx-lg-2 mx-auto">
+              <div class="card card-plain">
+                <div class="card-header pb-1 text-center">
+                  <h4 class="font-weight-bolder">S'identifier</h4>
+                  <p class="mb-0">Entrez votre email et votre mot de passe pour vous connecter
+                  </p>
+                </div>
+                <div class="card-body">
+                  <form [formGroup]="userFormGroup">
+                    <div class="mb-3 pt-3">
+                      <span class="p-float-label">
+                        <input type="email" id="float-input" pInputText class="form-control form-control"  aria-label="Email" formControlName="email" name="email">
+                        <label for="float-input">Email *</label>
+                      </span>
+                        <div *ngIf="email.invalid  && email.touched"class="mb-3 alert alert-danger alert-dismissible fade show" role="alert">
+                            <div *ngIf="email.errors?.['required']">Le champ email est obligatoire.</div>
+                            <div *ngIf="email.errors?.['pattern']">L'adresse email n'est pas valide.</div>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        <div *ngIf="emailVide" class="mb-3 alert alert-danger alert-dismissible fade show" role="alert">
+                            Le champ email est obligatoire.
+                          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    </div>                
+                    <div class="mb-3 pt-3">
+                      <div class="password-wrapper">
+                        <span class="p-float-label">
+                          <input [type]=motdepasse id="float" pInputText class="form-control "  aria-label="Password" formControlName="password" name="password">
+                          <label for="float-input">Mot de passe *</label>
+                          </span>          
+                        <span [hidden]="eye" (click)="eyes()">
+                          <i class="fa fa-eye password-toggle-icon" aria-hidden="true" ></i>
+                        </span>
+                        <span [hidden]="!eye" (click)="eyes()">
+                          <i class="fa fa-eye-slash password-toggle-icon" aria-hidden="true"></i>
+                        </span>
+                      </div>
+                      <div *ngIf="password.invalid  && password.dirty"   
+                            class="mb-3 alert alert-danger alert-dismissible fade show" 
+                            role="alert">
+                            <div *ngIf="password.errors?.['required']">Le mot de passe est obligatoire.</div>
+                            <div *ngIf="password.errors?.['minlength'] || password.errors?.['pattern']">Le mot de passe doit comporter au moins 6 caractères et au moins une lettre et un chiffre.</div> 
+                          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                          </button>
+                      </div>
+                    </div>
+                    <div>
+
+                      <a class="small font-weight-bolder text-primary" (click)="forgotPassword()" style="cursor: pointer;">Mot de passe oublié</a>
+                    </div>
+                    <div *ngIf="emailEnvoyer"   
+                    class="mb-3 alert alert-success alert-dismissible fade show" 
+                    role="alert">
+                  <div >Un e-mail de réinitialisation de mot de passe a été envoyé à votre adresse e-mail. Veuillez vérifier votre boîte de réception.</div>
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                  </button>
+              </div>
+                    <div class="text-center">
+                      <button type="button" class="btn btn-lg btn-primary w-100 mt-4 mb-0" (click)="login()" [disabled]="userFormGroup.invalid">
+                        Connecter
+                      </button>
+                    </div>    
+                    <div *ngIf="error"   
+                    class="mb-3 alert alert-danger alert-dismissible fade show" 
+                    role="alert">               
+                  <div>Mot de passe ou email incorrect !</div>
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                  </button>
+                </div>          
+                  </form>
+                </div>     
+                <div class="card-footer text-center pt-1 px-lg-2 px-1">
+                  <p class="mb-1 text-sm mx-auto">
+                    Vous n'avez pas de compte ?
+                    <a routerLink="/signUp"class=" font-weight-bolder text-primary" style="text-decoration: none;"> S'inscrire</a>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </section>
+  </main>
+  
+  

@@ -1,0 +1,300 @@
+    <app-header ></app-header>
+    <div *ngIf="loading" class="d-flex justify-content-between loader">
+      <app-loader></app-loader>
+    </div>
+<main>
+  <div class="row mt-5" data-aos="zoom-in"*ngIf="!loading">
+    <div class="col-1"></div>
+    <div class="col-7">
+      <div class="container ms-2" >
+          <div class="card shadow">
+            <div class=" row">
+              <div class="col-2 ">
+                <img *ngIf="entreprise && entreprise.image" class="ms-3" [src]="entreprise.image" style="size:5px  ;height: 150px;">
+                
+              </div>
+            <div class="col-9 mt-5 ">
+                      <h2 class="align-middle align-items-center ms-4 text-primary"> {{nom}}</h2>
+              
+            </div>        
+             <hr class="ms-5 ">   
+            </div>
+            <div class="card-body">
+              <table class="table table-striped  ">
+                  <tbody>
+                    <tr>
+                          <th scope="row">Capitalisation</th>
+                          <td *ngIf="entreprise.capitalisation === null || entreprise.capitalisation =='0'">
+                              Capitalisation n'est pas mentionné.
+                          </td>
+                          <td *ngIf="entreprise.capitalisation !='0'">
+                            {{entreprise.capitalisation}}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Industrie</th>
+                      <td *ngIf="entreprise.industrie === null || entreprise.industrie === ''">
+                          Industrie n'est pas mentionnée.
+                      </td>
+                      <td>{{entreprise.industrie}}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Pays</th>
+                      <td *ngIf="entreprise.pays === null || entreprise.pays === '' ">
+                          Pays n'est pas mentionné.
+                      </td>
+                      <td>{{entreprise.pays}}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Ville</th>
+                      <td *ngIf="entreprise.ville === null ||entreprise.ville === '' ">
+                          Ville n'est pas mentionnée.
+                      </td>
+                      <td>{{entreprise.ville}}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Date introduction à la bourse</th>
+                      <td *ngIf="entreprise.dateIntroductionBourse === null || entreprise.dateIntroductionBourse === ''">
+                          La date introduction à la bourse n'est pas mentionnée.
+                      </td>
+                      <td>{{entreprise.dateIntroductionBourse }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Clé d'Index Central</th>
+                      <td *ngIf="entreprise.cik === null || entreprise.cik=== '' ">
+                          Clé d'Index Central n'est pas mentionné.
+                      </td>
+                      <td>{{entreprise.cik}}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Lien Site Web</th>
+                      <td *ngIf="entreprise.siteWeb === null || entreprise.siteWeb=== '' ">
+                          Le lien n'est pas mentionné.
+                      </td>
+                      <td> <a href="{{entreprise.siteWeb}}" target="_blank">{{entreprise.siteWeb}}</a> </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Secteur</th>
+                      <td *ngIf="entreprise.secteur === null || entreprise.secteur==='' ">
+                         Le secteur n'est pas mentionné.
+                      </td>
+                      <td>{{entreprise.secteur}}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Bourse</th>
+                      <td *ngIf="entreprise.bourse === null || entreprise.bourse==='' ">
+                         Le bourse n'est pas mentionné.
+                      </td>
+                      <td>{{entreprise.bourse}}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Symbole</th>
+                      <td *ngIf="entreprise.symbol === null || entreprise.symbol==='' ">
+                         Le symbol n'est pas mentionné.
+                      </td>
+                      <td>{{entreprise.symbol}}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Devise</th>
+                      <td *ngIf="entreprise.devise === null || entreprise.devise=== '' ">
+                          La devise n'est pas mentionné.
+                       </td>
+                      <td>{{entreprise.devise}}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Nombre d'employeurs </th>
+                      <td *ngIf="entreprise.nbEmployes === null || entreprise.nbEmployes=== 0">
+                          Le nombre d'employeurs n'est pas mentionné.
+                       </td>
+                      <td>{{entreprise.nbEmployes}}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row"> Président-directeur général </th>
+                      <td *ngIf="entreprise.pdg === null ||entreprise.pdg===''">
+                          Le président-directeur général n'est pas mentionné.
+                       </td>
+                      <td>{{entreprise.pdg}}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row"> Téléphone </th>
+                      <td *ngIf="entreprise.telephone === null ||entreprise.telephone===''">
+                          Le numero de téléphone n'est pas mentionné.
+                       </td>
+                      <td>{{entreprise.telephone}}</td>
+                    </tr>
+                  </tbody>
+              </table>
+            </div>  
+          </div>
+      </div>
+    </div>
+    <div class="col-3">
+      <!--<div class="">
+        <div class="card ">
+          <table class="table caption-top">
+            <tbody>
+              <tr>
+                <th>Cours</th>
+                <td>{{action.cours}}</td>
+              </tr>
+              <tr>
+                <th>Variation</th>
+                <td>{{action.variation}}</td>
+              </tr>
+              <tr>
+                <th>Ouv.</th>
+                <td>{{action.ouverture}}</td>
+              </tr>
+              <tr>
+                <th>Haut</th>
+                <td>{{action.haut}}</td>
+              </tr>
+              <tr>
+                <th>Bas</th>
+                <td>{{action.bas}}</td>
+              </tr>
+              <tr>
+                <th>Cloture</th>
+                <td>{{action.cloture}}</td>
+              </tr>
+  
+            </tbody>
+          </table>
+          <button class="btn btn-primary"(click)="modal1(action)" >
+            Acheter                
+          </button>
+        </div>
+      </div>-->
+      <div class="container">
+        <div class="cardEntreprise">
+          <div class="content">
+            <div class="title">Prix Actuel</div>
+            <div class="price">{{action.cours}}</div>
+            <div class="description">
+              <table class="table ">
+                <tbody>
+                  
+                  <tr>
+                    <th>Variation</th>
+                    <td>{{action.variation}}</td>
+                  </tr>
+                  <tr>
+                    <th>Ouv.</th>
+                    <td>{{action.ouverture}}</td>
+                  </tr>
+                  <tr>
+                    <th>Haut</th>
+                    <td>{{action.haut}}</td>
+                  </tr>
+                  <tr>
+                    <th>Bas</th>
+                    <td>{{action.bas}}</td>
+                  </tr>
+                  <tr>
+                    <th>Cloture</th>
+                    <td>{{action.cloture}}</td>
+                  </tr>
+        
+                </tbody>
+              </table>
+            </div>
+            <button class="btn btn-primary"(click)="modal1(action)" >
+              Acheter                
+            </button>
+        <div>
+        <div>
+      </div>
+      
+        </div>
+      </div>
+    </div>
+      </div>
+    </div>
+  </div>
+ 
+  
+  <p-dialog  [(visible)]="visible2" class="ms-4 me-4">
+    <div class="modal-content">
+     
+      <div class="modal-body" *ngIf="isLogedIn">
+        <div class="text-center"*ngIf="listeVide">
+          <h3>Vous n'avez actuellement aucun portefeuille</h3>
+          <p>
+              Un portefeuille virtuel est un excellent outil pour les investisseurs qui cherchent à s'entraîner à investir sans risquer de perdre de l'argent réel. Vous pouvez utiliser un portefeuille virtuel pour tester différentes stratégies d'investissement, explorer différents marchés et titres, et apprendre les tenants et aboutissants de l'investissement en bourse.
+              
+          </p>
+          <p>Si vous êtes nouveau dans le monde de l'investissement, un portefeuille virtuel vous aidera à vous familiariser avec les termes et les concepts financiers, ainsi qu'à vous apprendre à prendre des décisions d'investissement éclairées. De plus, en utilisant un portefeuille virtuel, vous pouvez vous entraîner à gérer les risques et à équilibrer votre portefeuille pour maximiser votre retour sur investissement.
+              
+              Si vous voulez créer un portefeuille virtuel, vous pouvez cliquer sur le bouton "Ajouter portefeuille" et remplir les informations requises.</p>
+          <a class="cta-btn" routerLink="/ajouterPortefeuille">Ajouter Portefeuille</a>
+        </div>
+        <div *ngIf="!listeVide && isLogedIn">
+          Choisir dans la liste ci-dessous sur quel portfeuille vous souhaiter ajouter cette valeur
+  
+           <ul>
+            <li *ngFor="let portefeuille of listePortfeuille">
+                   <a data-bs-dismiss="modal" href="" (click)="modal2(portefeuille._id)"  >
+                    {{portefeuille.nomPortefeuille}}
+                   </a>
+  
+            </li>
+           </ul>
+        </div>
+      </div>
+      <div class="modal-body" *ngIf="!isLogedIn">
+        <div class="text-center">
+  
+          <h3> Bienvenue sur notre plateforme !</h3>
+          <p>
+            En vous inscrivant en tant qu'investisseur, vous aurez accès à des outils puissants vous permettant de suivre et d'analyser vos investissements, ainsi que de gérer votre portefeuille de manière éclairée.           
+          </p>
+          <p>      
+            L'inscription est simple et gratuite, ne manquez pas cette opportunité et inscrivez-vous dès maintenant pour profiter de tous ces avantages.
+          </p>
+          <a class="cta-btn" routerLink="/signUp">Inscription</a>
+        </div>          
+      </div>
+      
+    </div>
+  </p-dialog>
+  <p-dialog header="Acheter {{entreprise.nom}}" [(visible)]="visible" [style]="{width: '50vw'}" >
+        <form  [formGroup]="achatForm">
+          <div class="form-group row">
+          <div class="col-6">
+              <div>
+                <label for="example-text-input" class="form-control-label">Quantité<span class="text-danger">*</span></label>
+                <input class="form-control mt-1" type="number"  formControlName="nombreAction" name="nombreAction" (input)="calculerTotalAchat()">
+                <div *ngIf="quantityFilled" class="mt-1">Total: {{totalAchat}} €</div>
+                <label class="text-danger" *ngIf="liquiditeInsuffisante" >Solde disponible insuffisant *</label>
+
+                <label class="mt-1"> <strong>Solde disponible : </strong> {{soldeDispo}} € </label>
+                
+              </div>
+              <button type="button" class="btn bg-success mb-3 mt-2 " (click)="acheterAction()"[disabled]="formInvalid">Acheter</button>
+  
+          </div>
+  
+          <div class="col-6">
+            <table class="table tableAction table-bordered table-striped">
+                <tr>
+                  <th>Prix Actuel</th>
+                  <td>{{prixAchat}}</td>
+                </tr>
+             <tr>
+              <th>Variation</th>
+              <td>{{variation}}</td>
+             </tr>
+             <tr>
+              <th>Plus haut</th>
+              <td>{{haut}}</td>
+             </tr>
+            <tr>
+              <th>Plus bas</th>
+              <td>{{bas}}</td>
+            </tr>
+            </table>
+          </div>
+          </div>
+         
+        </form>    
+  </p-dialog>
+</main>

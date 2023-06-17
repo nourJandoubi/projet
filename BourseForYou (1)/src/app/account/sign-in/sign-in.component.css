@@ -1,0 +1,32 @@
+.notif-success {
+    background-color: green;
+    color: white;
+  }
+  
+  .notif-error {
+    background-color: red;
+    color: white;
+  }
+
+  .password-wrapper {
+    position: relative;
+  }
+  
+  .password-toggle-icon {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    cursor: pointer;
+  }
+  
+  .password-wrapper input[type="password"] {
+    padding-right: 40px;
+  }
+  
+  
+  
+  
+  
+  
+  
