@@ -1,0 +1,70 @@
+<app-header></app-header>
+<div *ngIf="loading" class="d-flex justify-content-between loader">
+  <app-loader></app-loader>
+</div>
+<div class="row ms-2 me-2" *ngIf="!loading">
+  <div class="col-6">
+    <div class="main-content position-relative border-radius-lg container-fluid py-4 mt-4">
+      <div class="card ">
+        <div class=" pb-0 p-3">
+        <div style="text-align: center;">
+            <h5>
+              Actualites   
+              <fa-icon [icon]="faClockRotateLeft"></fa-icon>
+              <span class=" ms-3 p-input-icon-left">
+                <i class="pi pi-search"></i>
+                <input type="text" pInputText [(ngModel)]="searchTermNews" placeholder="Rechercher..." (input)="onsearchTermNewsChange($event)"  />
+            </span>
+            </h5>
+         
+        </div>
+        </div>
+        <div class="card-body p-3">
+          <ul class="list-group">
+            <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg"
+              *ngFor="let actualite of pageSliceNews">
+              <div class="d-flex align-items-center" *ngIf="filteredItemsNews.length !== 0">
+                <div class="d-flex flex-column">
+                  <span class="text-xs">
+                    {{ actualite.postedOn }}
+                  </span>
+                  <h5 class="mb-1 " style="color: rgb(0,38,65);">{{ actualite.newsTitle }}</h5>
+                  <p class="text-xs" style="height: 30px; overflow: hidden" type="text" pTooltip="{{ actualite.content }}" class="text-xs" >
+                    {{ actualite.shotDesc }}
+                  </p>   
+                </div>
+                <div class="d-flex">
+                  <button  class="btn btn-link btn-icon-only btn-rounded btn-sm text-dark icon-move-right my-auto" (click)="selecterActualite(actualite)">
+                    <i  id="a" class="fas fa-angle-right"></i>
+                  </button>
+                </div>
+              </div>
+            </li>
+            <div class="d-flex align-items-center" *ngIf="filteredItemsNews.length == 0">
+              <h5>Pas de resultat</h5>
+            </div>
+          </ul>
+          <div class="d-flex align-items-center ">
+            <p-paginator class="ms-5" [first]="first" [rows]="rows" [totalRecords]="filteredItemsNews.length" (onPageChange)="onPageChangeNews($event)" [showJumpToPageDropdown]="true" [showPageLinks]="false"></p-paginator>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-6 mt-5" *ngIf="detailsExists">
+    <div class="main-content position-relative border-radius-lg container-fluid py-4 " >
+          <div class="card cardEntreprise text-center">
+            <div class="card-header ">
+              <h2 > {{selectedActualite.newsTitle}}</h2>
+            </div>
+            <div class="card-body">
+              <p class="card-text" >{{selectedActualite.shotDesc}}</p>
+              <p class="card-text me-0">{{selectedActualite.postedBy}}</p>
+              <p class="card-text me-0">
+                <a href="{{selectedActualite.newsUrl}}" class="facebook">Lien Actualité</a>
+              </p>
+            </div>
+          </div> 
+    </div>
+  </div>
+</div>

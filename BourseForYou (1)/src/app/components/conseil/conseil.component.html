@@ -1,0 +1,37 @@
+<app-header></app-header>
+<div class="container mb-3" style="margin-top: 20px" data-aos="zoom-in">
+ 
+  <h5>Choisir la date de début et de fin pour obtenir les informations historiques qui correspondent à cette période.  </h5>
+ 
+  <div class="d-flex align-items-center">
+    <p-calendar [(ngModel)]="start_date" [showIcon]="true" placeholder="date de début" dateFormat="yy.mm.dd" class="mx-2"></p-calendar>
+
+    <p-calendar [(ngModel)]="end_date" [showIcon]="true" placeholder="date de fin" dateFormat="yy.mm.dd" [maxDate]="yesterday" class="mx-2"></p-calendar>
+
+    <button class="btn btn-primary ml-2" (click)="afficher()" >Afficher</button>
+    <p-toast></p-toast>
+
+  </div>
+
+  <div class="card-body mb-3" style="width: 1000px; height: 500px; border-color: black;">
+    <canvas #myChart style="width: 100%; height: 100%;"></canvas>
+  </div>
+  
+
+  <div class="card" *ngIf="showCard">
+    <div class="card-body">
+      <h5 class="card-title">Conseil</h5>
+      <p class="card-text">{{comparisonResult}}</p>
+      <i class="fas fa-circle-exclamation"></i>
+      <p>Veuillez noter que les prédictions fournies sont basées sur des modèles 
+        et des données historiques. Bien que nous nous efforcions de fournir 
+        des estimations précises, il est important de comprendre qu'il existe 
+        toujours une part d'incertitude dans les prévisions financières. 
+        Les conditions du marché peuvent évoluer rapidement et être influencées par de nombreux 
+        facteurs imprévisibles. Soyez conscient des 
+        risques associés aux investissements et prenez
+         des décisions éclairées en fonction de votre 
+        situation financière et de vos objectifs.</p>
+    </div>
+  </div>
+</div>

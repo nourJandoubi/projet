@@ -1,0 +1,42 @@
+.small-box {
+    border-radius: 0.25rem;
+    box-shadow: 0 0 1px rgba(0,0,0,.125), 0 1px 3px rgba(0,0,0,.2);
+    margin-bottom: 20px;
+    position: relative;
+}
+.small-box .icon {
+    color: rgba(0,0,0,.15);
+    z-index: 0;
+    
+}
+
+.small-box>.small-box-footer {
+    background-color: rgba(0,0,0,.1);
+    color: rgba(255,255,255,.8);
+    display: block;
+    padding: 3px 0;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    z-index: 10;
+}
+.icons {
+    position: relative;
+  }
+  
+  .icon-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-size: 200%;
+    opacity: 0.2;
+    transform: translate(-50%, -50%);
+  }
+  .icon-center:hover{
+    font-size: 300%;
+    opacity: 0.5;
+  }
+  .small-box-footer:hover{
+  font-size: 110%;
+  }
+ 

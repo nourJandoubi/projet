@@ -1,0 +1,322 @@
+
+
+<div class="row">
+  <div class="col-md-10 offset-md-1">
+    <div>
+      <div *ngIf="loading" class="d-flex justify-content-between loader">
+        <app-loader></app-loader>
+      </div>
+      <div class="card ms-2 me-2 mt-2" *ngIf="!loading" data-aos="zoom-in">
+        <div class="row me-2 ms-2 mt-3">
+          <div class="col-6">
+            <div class="d-flex align-items-center">
+              <p class="me-3 mt-3">Bourse</p>
+              <select class="form-select" [(ngModel)]="selectedOption" (change)="onSelectedOptionChange()">
+                <option *ngFor="let option of bourseOptions" [value]="option">{{ option }}</option>
+              </select>
+            </div>
+            
+          </div>
+          <!--Select Secteur-->
+          <div class="col-6">
+            <div class="d-flex align-items-center">
+              <p class="me-3 mt-3">Secteur</p>
+              <select class="form-select" [(ngModel)]="secteurOption" (change)="onSelectedOptionChange()">
+                <option *ngFor="let option of listeSecteurs" [value]="option">{{option}}</option>
+              </select>
+            </div>
+            
+          </div>
+        </div>
+        <!-- abcd partie -->
+        <div class="pb-0 p-3 d-flex justify-content-between mt-2">
+          <button class="btnAlpha" (click)="All()">
+            <strong>Tous</strong>
+          </button>
+          <button *ngFor="let i of alpha" class="btnAlpha" (click)="filterActionByLetter(i)">
+            {{ i }}
+          </button>
+        </div>
+        <!-- fin abcd partie -->
+      
+      <div class="tab-content" >
+          <div class="tab-pane fade show active">
+            <div class="table-responsive mt-2">
+              <table class="table align-items-center align-middle table-hover">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th scope="col">Entreprise</th>
+                    <th scope="col">Cours</th>
+                    <th scope="col">Variation</th>
+                    <th scope="col">Ouverture</th>
+                    <th scope="col">
+                      Haut
+                      <i class="fa fa-angle-up text-success"></i>
+                    </th>
+                    <th scope="col">
+                      Bas
+                      <i class="fa fa-angle-down text-danger"></i>
+
+                    </th>
+                    <th scope="col">Cloture</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let t of actionsFiltreParBourse" >
+                   
+                <ng-container *ngIf="t.entreprise !== null">
+                      <td>
+                        <button (click)="modal1(t)" >
+                            Acheter                
+                        </button>
+                      </td>
+                    <td class="w-30">
+                      <div class="d-flex px-2 py-1 align-items-center"  [routerLink]="['/entreprise',t.nomEntreprise._id]">
+                        <p>
+                          {{ t.nomEntreprise.nom }}
+                          <strong class="text-success"> {{t.nomEntreprise.symbol}} </strong>
+                        </p>
+                      </div>
+                    </td>
+                    <td class="w-30">
+                      <div class="align-items-center">
+                        {{ t.cours }}
+                      </div>
+                    </td>
+                    <td class="w-30">
+                      <div class="align-items-center" [innerHTML]="t.variation | highlightSign" >
+                      </div>
+                    </td>
+                    <td class="w-30">
+                      <div class="align-items-center">
+                        {{ t.ouverture }}
+                      </div>
+                    </td>
+                    <td class="w-30">
+                      <div class="align-items-center">
+                        {{ t.haut }}
+                      </div>
+                    </td>
+                    <td class="w-30">
+                      <div class="align-items-center">
+                        {{ t.bas }}
+                      </div>
+                    </td>
+                    <td class="w-30">
+                      <div class="align-items-center">
+                        {{ t.cloture }}
+                      </div>
+                    </td> 
+                    <td>
+                      <button class="ms-5" [routerLink]="['/conseil',t.nomEntreprise.symbol]">
+                        Conseil
+                        <div class="arrow-wrapper">
+                            <div class="arrow"></div>
+                        </div>
+                    </button>
+                    </td>
+                </ng-container>
+                  </tr>
+                  </tbody>
+                  </table>
+                  <mat-paginator [pageSize]="pageSize"
+                  [pageIndex]="pageIndex"
+                  [length]="length"
+                  (page)="onPageChange($event)">
+                  </mat-paginator>
+            <!--<div class="d-flex align-items-center ">
+              <p-paginator class="ms-5" [first]="pageIndex" [rows]="pageSize" [totalRecords]="listeAction.length" (onPageChange)="onPageChange($event)" [showJumpToPageDropdown]="true" [showPageLinks]="false"></p-paginator>
+        
+            </div>-->
+           
+            <!--<div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Ajouter la valeur en portefeuille</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body" *ngIf="isLogedIn">
+                    Choisir dans la liste ci-dessous sur quel portfeuille vous souhaiter ajouter cette valeur
+                    <div class="text-center"*ngIf="listeVide">
+                      <h3>Vous n'avez actuellement aucun portefeuille</h3>
+                      <p>
+                          Un portefeuille virtuel est un excellent outil pour les investisseurs qui cherchent à s'entraîner à investir sans risquer de perdre de l'argent réel. Vous pouvez utiliser un portefeuille virtuel pour tester différentes stratégies d'investissement, explorer différents marchés et titres, et apprendre les tenants et aboutissants de l'investissement en bourse.
+                          
+                      </p>
+                      <p>Si vous êtes nouveau dans le monde de l'investissement, un portefeuille virtuel vous aidera à vous familiariser avec les termes et les concepts financiers, ainsi qu'à vous apprendre à prendre des décisions d'investissement éclairées. De plus, en utilisant un portefeuille virtuel, vous pouvez vous entraîner à gérer les risques et à équilibrer votre portefeuille pour maximiser votre retour sur investissement.
+                          
+                          Si vous voulez créer un portefeuille virtuel, vous pouvez cliquer sur le bouton "Ajouter portefeuille" et remplir les informations requises.</p>
+                      <a class="cta-btn" routerLink="/ajouterPortefeuille">Ajouter Portefeuille</a>
+                    </div>
+                    <div *ngIf="!listeVide && isLogedIn">
+                       <ul>
+                        <li *ngFor="let portefeuille of listePortfeuille">
+                               <a data-bs-dismiss="modal" href="" (click)="modal2(portefeuille._id)"  >
+                                {{portefeuille.nomPortefeuille}}
+                               </a>
+        
+                        </li>
+                       </ul>
+                    </div>
+                  </div>
+                  <div class="modal-body" *ngIf="!isLogedIn">
+                    <div class="text-center">
+        
+                      <h3> Bienvenue sur notre plateforme !</h3>
+                      <p>
+                        En vous inscrivant en tant qu'investisseur, vous aurez accès à des outils puissants vous permettant de suivre et d'analyser vos investissements, ainsi que de gérer votre portefeuille de manière éclairée.           
+                      </p>
+                      <p>      
+                        L'inscription est simple et gratuite, ne manquez pas cette opportunité et inscrivez-vous dès maintenant pour profiter de tous ces avantages.
+                      </p>
+                      <a class="cta-btn" routerLink="/signUp">Inscription</a>
+                    </div>          
+                  </div>
+                  
+                </div>
+              </div>
+            </div>-->
+            <!--<div class="modal fade modal-xl" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">Passer un ordre sur <strong class="text-primary">{{nomEntreprise}}</strong></h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <form  [formGroup]="achatForm">
+                      <div class="form-group row">
+                      <div class="col-6">
+                          <div>
+                            <label for="example-text-input" class="form-control-label">Quantité<span class="text-danger">*</span></label>
+                            <input class="form-control mt-1" type="number"  formControlName="nombreAction" name="nombreAction" (input)="calculerTotalAchat()">
+                            <div *ngIf="quantityFilled" class="mt-1">Total: {{totalAchat}} €</div>
+                            <label class="mt-1"> <strong>Solde disponible : </strong> {{soldeDispo}} € </label>
+                            
+                          </div>
+                          <button type="button" class="btn bg-success mb-3 mt-2 " (click)="acheterAction()">Acheter</button>
+        
+                      </div>
+        
+                      <div class="col-6">
+                        <table class="table tableAction table-bordered table-striped">
+                            <tr>
+                              <th>Prix Actuel</th>
+                              <td>{{prixAchat}}</td>
+                            </tr>
+                         <tr>
+                          <th>Variation</th>
+                          <td [innerHTML]="variation | highlightSign"></td>
+                        </tr>
+                         <tr>
+                          <th>Plus haut</th>
+                          <td>{{haut}}</td>
+                         </tr>
+                        <tr>
+                          <th>Plus bas</th>
+                          <td>{{bas}}</td>
+                        </tr>
+                        </table>
+                      </div>
+                      </div>
+                     
+                    </form>          
+                  </div>
+                 
+                </div>
+              </div>-->
+            </div>
+          </div>
+      </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<p-dialog header=" Choisir Portefeuille" [(visible)]="visible2">
+  <div class="modal-content">
+   
+    <div class="modal-body" *ngIf="isLogedIn">
+      <div class="text-center"*ngIf="listeVide">
+        <h3>Vous n'avez actuellement aucun portefeuille</h3>
+        <p>
+            Un portefeuille virtuel est un excellent outil pour les investisseurs qui cherchent à s'entraîner à investir sans risquer de perdre de l'argent réel. Vous pouvez utiliser un portefeuille virtuel pour tester différentes stratégies d'investissement, explorer différents marchés et titres, et apprendre les tenants et aboutissants de l'investissement en bourse.
+            
+        </p>
+        <p>Si vous êtes nouveau dans le monde de l'investissement, un portefeuille virtuel vous aidera à vous familiariser avec les termes et les concepts financiers, ainsi qu'à vous apprendre à prendre des décisions d'investissement éclairées. De plus, en utilisant un portefeuille virtuel, vous pouvez vous entraîner à gérer les risques et à équilibrer votre portefeuille pour maximiser votre retour sur investissement.
+            
+            Si vous voulez créer un portefeuille virtuel, vous pouvez cliquer sur le bouton "Ajouter portefeuille" et remplir les informations requises.</p>
+        <a class="cta-btn" routerLink="/ajouterPortefeuille">Ajouter Portefeuille</a>
+      </div>
+      <div *ngIf="!listeVide && isLogedIn">
+        Choisir dans la liste ci-dessous sur quel portfeuille vous souhaiter ajouter cette valeur
+
+         <ul>
+          <li *ngFor="let portefeuille of listePortfeuille">
+                 <a data-bs-dismiss="modal" href="" (click)="modal2(portefeuille._id)"  >
+                  {{portefeuille.nomPortefeuille}}
+                 </a>
+
+          </li>
+         </ul>
+      </div>
+    </div>
+    <div class="modal-body" *ngIf="!isLogedIn">
+      <div class="text-center">
+
+        <h3> Bienvenue sur notre plateforme !</h3>
+        <p>
+          En vous inscrivant en tant qu'investisseur, vous aurez accès à des outils puissants vous permettant de suivre et d'analyser vos investissements, ainsi que de gérer votre portefeuille de manière éclairée.           
+        </p>
+        <p>      
+          L'inscription est simple et gratuite, ne manquez pas cette opportunité et inscrivez-vous dès maintenant pour profiter de tous ces avantages.
+        </p>
+        <a class="cta-btn" routerLink="/signUp">Inscription</a>
+      </div>          
+    </div>
+    
+  </div>
+</p-dialog>
+    <p-dialog header="Acheter {{nomEntreprise}}" [(visible)]="visible" [style]="{width: '50vw'}" >
+      <form  [formGroup]="achatForm">
+        <div class="form-group row">
+        <div class="col-6">
+            <div>
+              <label for="example-text-input" class="form-control-label">Quantité<span class="text-danger">*</span></label>
+              <input class="form-control mt-1" type="number"  formControlName="nombreAction" name="nombreAction" (input)="calculerTotalAchat()">
+              <div *ngIf="quantityFilled" class="mt-1">Total: {{totalAchat}} €</div>
+              <label class="mt-1"> <strong>Solde disponible : </strong> {{soldeDispo}} € </label>
+              
+            </div>
+            <button type="button" class="btn bg-success mb-3 mt-2 " (click)="acheterAction()">Acheter</button>
+
+        </div>
+
+        <div class="col-6">
+          <table class="table tableAction table-bordered table-striped">
+              <tr>
+                <th>Prix Actuel</th>
+                <td>{{prixAchat}}</td>
+              </tr>
+           <tr>
+            <th>Variation</th>
+            <td>{{variation}}</td>
+           </tr>
+           <tr>
+            <th>Plus haut</th>
+            <td>{{haut}}</td>
+           </tr>
+          <tr>
+            <th>Plus bas</th>
+            <td>{{bas}}</td>
+          </tr>
+          </table>
+        </div>
+        </div>
+       
+      </form>    
+    </p-dialog>
